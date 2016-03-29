@@ -1,5 +1,6 @@
 package com.qtd.muabannhadat;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
@@ -66,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    if (!etConfirmPassword.getText().toString().equals(etPassword.getText().toString())){
+                    if (!etConfirmPassword.getText().toString().equals(etPassword.getText().toString())) {
                         validateConfirmPassword = false;
                         Toast.makeText(RegisterActivity.this, "Mật khẩu xác nhận không trùng khớp", Toast.LENGTH_SHORT).show();
                     } else {
@@ -80,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    if (!Patterns.PHONE.matcher(etTelephone.getText().toString()).matches()){
+                    if (!Patterns.PHONE.matcher(etTelephone.getText().toString()).matches()) {
                         validateTelephone = false;
                         Toast.makeText(RegisterActivity.this, "Hãy nhập số", Toast.LENGTH_SHORT).show();
                     } else {
@@ -110,34 +111,52 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnRegister:
-                btnRegisterOnClick();
+                new ReceiveResponseAsyncTask().execute(etAccount.getText().toString(), etPassword.getText().toString(),
+                        etEmail.getText().toString(), etTelephone.getText().toString());
                 break;
         }
     }
 
-    private void btnRegisterOnClick(){
-        try {
-            if (etAccount.getText().toString().equals("") | etPassword.getText().toString().equals("") | etConfirmPassword.getText().toString().equals("")
-                    | etEmail.getText().toString().equals("") | etTelephone.getText().toString().equals("") | !validatePassword |
-                    !validateConfirmPassword | !validateEmail | !validateTelephone) {
-                Toast.makeText(RegisterActivity.this, "Hãy nhập đầy đủ và chính xác thông tin", Toast.LENGTH_SHORT).show();
-            } else {
-                String MethodName = "InsertMember";
-                SoapObject request = new SoapObject(NAMESPACE, MethodName);
-                request.addProperty("info", toJson(new String[]{etAccount.getText().toString(), etPassword.getText().toString(),
-                        etEmail.getText().toString(), etTelephone.getText().toString()}));
-                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-                envelope.dotNet = true;
-                envelope.setOutputSoapObject(request);
-                HttpTransportSE transportSE = new HttpTransportSE(URL);
-                transportSE.call(NAMESPACE + MethodName, envelope);
-                SoapPrimitive result = (SoapPrimitive) envelope.getResponse();
-                Toast.makeText(RegisterActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
+    class ReceiveResponseAsyncTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... param) {
+            try {
+                if (areEmpty() | !validateAll()) {
+                    Toast.makeText(RegisterActivity.this, "Hãy nhập đầy đủ và chính xác thông tin", Toast.LENGTH_SHORT).show();
+                } else {
+                    String MethodName = "InsertMember";
+                    SoapObject request = new SoapObject(NAMESPACE, MethodName);
+
+                    request.addProperty("info", toJson(new String[]{param[0], param[1], param[2], param[3]}));
+                    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                    envelope.dotNet = true;
+                    envelope.setOutputSoapObject(request);
+                    HttpTransportSE transportSE = new HttpTransportSE(URL);
+                    transportSE.call(NAMESPACE + MethodName, envelope);
+                    SoapPrimitive result = (SoapPrimitive) envelope.getResponse();
+                    return result.toString();
+                }
+            } catch (Exception ex) {
+                //Toast.makeText(RegisterActivity.this, "failed", Toast.LENGTH_SHORT).show();
+                ex.printStackTrace();
             }
-        } catch (Exception ex){
-            Toast.makeText(RegisterActivity.this, "failed", Toast.LENGTH_SHORT).show();
-            ex.printStackTrace();
+            return null;
         }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            Toast.makeText(RegisterActivity.this, result, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private Boolean areEmpty() {
+        if (etAccount.getText().toString().equals("") | etPassword.getText().toString().equals("")
+                | etConfirmPassword.getText().toString().equals("")| etEmail.getText().toString().equals("")
+                | etTelephone.getText().toString().equals("")) {
+            return true;
+        }
+        return false;
     }
 
     private String toJson(String[] params) {
@@ -152,5 +171,20 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             ex.printStackTrace();
             return "";
         }
+    }
+
+    public Boolean validateAll() {
+        if (etPassword.length() >= 6) validatePassword = true;
+        else return false;
+        if (Patterns.EMAIL_ADDRESS.matcher(etEmail.getText().toString()).matches())
+            validateEmail = true;
+        else return false;
+        if (etConfirmPassword.getText().toString().equals(etPassword.getText().toString()))
+            validateConfirmPassword = true;
+        else return false;
+        if (Patterns.PHONE.matcher(etTelephone.getText().toString()).matches())
+            validateTelephone = true;
+        else return false;
+        return true;
     }
 }
