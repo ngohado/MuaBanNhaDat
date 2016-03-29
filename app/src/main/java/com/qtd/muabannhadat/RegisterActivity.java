@@ -28,7 +28,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private Button btnRegister;
     final String NAMESPACE = "http://tempuri.org/";
-    final String URL = "http://www.nckhbds.somee.com/NCKH_WebService.asmx?WSDL";
+    final String URL = "http://nckhqtdh.somee.com/WebServiceNCKH.asmx?WSDL";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,12 +41,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     if (etPassword.length() < 6) {
+                        validatePassword = false;
                         Toast.makeText(RegisterActivity.this, "Mật khẩu phải dài tối thiểu 6 ký tự", Toast.LENGTH_SHORT).show();
                     } else {
                         validatePassword = true;
                     }
-                } else {
-                    validatePassword = false;
                 }
             }
         });
@@ -56,10 +55,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     if (!Patterns.EMAIL_ADDRESS.matcher(etEmail.getText().toString()).matches()) {
+                        validateEmail = false;
                         Toast.makeText(RegisterActivity.this, "Hãy nhập chính xác email của bạn", Toast.LENGTH_SHORT).show();
                     } else validateEmail = true;
-                }else {
-                    validateEmail = false;
                 }
             }
         });
@@ -69,12 +67,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     if (!etConfirmPassword.getText().toString().equals(etPassword.getText().toString())){
+                        validateConfirmPassword = false;
                         Toast.makeText(RegisterActivity.this, "Mật khẩu xác nhận không trùng khớp", Toast.LENGTH_SHORT).show();
                     } else {
                         validateConfirmPassword = true;
                     }
-                } else {
-                    validateConfirmPassword = false;
                 }
             }
         });
@@ -84,23 +81,28 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     if (!Patterns.PHONE.matcher(etTelephone.getText().toString()).matches()){
+                        validateTelephone = false;
                         Toast.makeText(RegisterActivity.this, "Hãy nhập số", Toast.LENGTH_SHORT).show();
                     } else {
                         validateTelephone = true;
                     }
-                } else {
-                    validateTelephone = false;
                 }
             }
         });
+
+
     }
 
     private void initView() {
         etAccount = (EditText) findViewById(R.id.etAccount);
         etPassword = (EditText) findViewById(R.id.etPassword);
+        validatePassword = false;
         etConfirmPassword = (EditText) findViewById(R.id.etConfirmPassword);
+        validateConfirmPassword = false;
         etEmail = (EditText) findViewById(R.id.etEmail);
+        validateEmail = false;
         etTelephone = (EditText) findViewById(R.id.etTelephone);
+        validateTelephone = false;
         btnRegister = (Button) findViewById(R.id.btnRegister);
     }
 
@@ -119,10 +121,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     | etEmail.getText().toString().equals("") | etTelephone.getText().toString().equals("") | !validatePassword |
                     !validateConfirmPassword | !validateEmail | !validateTelephone) {
                 Toast.makeText(RegisterActivity.this, "Hãy nhập đầy đủ và chính xác thông tin", Toast.LENGTH_SHORT).show();
-            }else {
-                Toast.makeText(RegisterActivity.this, "hello", Toast.LENGTH_SHORT).show();
+            } else {
                 String MethodName = "InsertMember";
-                SoapObject request = new SoapObject(NAMESPACE,MethodName);
+                SoapObject request = new SoapObject(NAMESPACE, MethodName);
                 request.addProperty("info", toJson(new String[]{etAccount.getText().toString(), etPassword.getText().toString(),
                         etEmail.getText().toString(), etTelephone.getText().toString()}));
                 SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
