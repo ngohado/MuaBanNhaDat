@@ -111,9 +111,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnRegister:
-                new ReceiveResponseAsyncTask().execute(etAccount.getText().toString(), etPassword.getText().toString(),
-                        etEmail.getText().toString(), etTelephone.getText().toString());
+                btnRegisterOnClick();
                 break;
+        }
+    }
+
+    private void btnRegisterOnClick() {
+        if (areEmpty() | !validateAll()) {
+            Toast.makeText(RegisterActivity.this, "Hãy nhập đầy đủ và chính xác thông tin", Toast.LENGTH_SHORT).show();
+        } else {
+            new ReceiveResponseAsyncTask().execute(etAccount.getText().toString(), etPassword.getText().toString(),
+                    etEmail.getText().toString(), etTelephone.getText().toString());
         }
     }
 
@@ -121,26 +129,25 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         @Override
         protected String doInBackground(String... param) {
             try {
-                if (areEmpty() | !validateAll()) {
-                    Toast.makeText(RegisterActivity.this, "Hãy nhập đầy đủ và chính xác thông tin", Toast.LENGTH_SHORT).show();
-                } else {
-                    String MethodName = "InsertMember";
-                    SoapObject request = new SoapObject(NAMESPACE, MethodName);
-
-                    request.addProperty("info", toJson(new String[]{param[0], param[1], param[2], param[3]}));
-                    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-                    envelope.dotNet = true;
-                    envelope.setOutputSoapObject(request);
-                    HttpTransportSE transportSE = new HttpTransportSE(URL);
-                    transportSE.call(NAMESPACE + MethodName, envelope);
-                    SoapPrimitive result = (SoapPrimitive) envelope.getResponse();
-                    return result.toString();
-                }
-            } catch (Exception ex) {
-                //Toast.makeText(RegisterActivity.this, "failed", Toast.LENGTH_SHORT).show();
+                String MethodName = "InsertMember";
+                SoapObject request = new SoapObject(NAMESPACE, MethodName);
+                request.addProperty("info", toJson(new String[]{param[0], param[1], param[2], param[3]}));
+                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                envelope.dotNet = true;
+                envelope.setOutputSoapObject(request);
+                HttpTransportSE transportSE = new HttpTransportSE(URL);
+                transportSE.call(NAMESPACE + MethodName, envelope);
+                SoapPrimitive result = (SoapPrimitive) envelope.getResponse();
+                return result.toString();
+            } catch (Exception ex){
                 ex.printStackTrace();
+                return "";
             }
-            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
         }
 
         @Override
@@ -148,15 +155,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             super.onPostExecute(result);
             Toast.makeText(RegisterActivity.this, result, Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private Boolean areEmpty() {
-        if (etAccount.getText().toString().equals("") | etPassword.getText().toString().equals("")
-                | etConfirmPassword.getText().toString().equals("")| etEmail.getText().toString().equals("")
-                | etTelephone.getText().toString().equals("")) {
-            return true;
-        }
-        return false;
     }
 
     private String toJson(String[] params) {
@@ -171,6 +169,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             ex.printStackTrace();
             return "";
         }
+    }
+
+    private Boolean areEmpty() {
+        if (etAccount.getText().toString().equals("") | etPassword.getText().toString().equals("")
+                | etConfirmPassword.getText().toString().equals("")| etEmail.getText().toString().equals("")
+                | etTelephone.getText().toString().equals("")) {
+            return true;
+        }
+        return false;
     }
 
     public Boolean validateAll() {
