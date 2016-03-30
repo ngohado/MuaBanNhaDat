@@ -1,5 +1,10 @@
 package com.qtd.muabannhadat;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,8 +21,7 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-import java.util.ArrayList;
-import java.util.Objects;
+import java.net.UnknownHostException;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText etAccount;
@@ -34,6 +38,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     final String NAMESPACE = "http://tranhongquan.com/";
     final String URL = "http://nckhqtdh.somee.com/WebServiceNCKH.asmx";
 
+    private ProgressDialog loading;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
@@ -46,7 +52,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 if (!hasFocus) {
                     if (etPassword.length() < 6) {
                         validatePassword = false;
-                        Toast.makeText(RegisterActivity.this, "Mật khẩu phải dài tối thiểu 6 ký tự", Toast.LENGTH_SHORT).show();
+                        etPassword.setError("Mật khẩu phải dài tối thiểu 6 ký tự");
                     } else {
                         validatePassword = true;
                     }
@@ -60,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 if (!hasFocus) {
                     if (!Patterns.EMAIL_ADDRESS.matcher(etEmail.getText().toString()).matches()) {
                         validateEmail = false;
-                        Toast.makeText(RegisterActivity.this, "Hãy nhập chính xác email của bạn", Toast.LENGTH_SHORT).show();
+                        etEmail.setError("Hãy nhập chính xác email của bạn");
                     } else validateEmail = true;
                 }
             }
@@ -72,7 +78,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 if (!hasFocus) {
                     if (!etConfirmPassword.getText().toString().equals(etPassword.getText().toString())) {
                         validateConfirmPassword = false;
-                        Toast.makeText(RegisterActivity.this, "Mật khẩu xác nhận không trùng khớp", Toast.LENGTH_SHORT).show();
+                        etConfirmPassword.setError("Mật khẩu xác nhận không trùng khớp");
                     } else {
                         validateConfirmPassword = true;
                     }
@@ -86,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 if (!hasFocus) {
                     if (!Patterns.PHONE.matcher(etTelephone.getText().toString()).matches()) {
                         validateTelephone = false;
-                        Toast.makeText(RegisterActivity.this, "Hãy nhập số", Toast.LENGTH_SHORT).show();
+                        etTelephone.setError("Hãy nhập số");
                     } else {
                         validateTelephone = true;
                     }
@@ -108,32 +114,47 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         etTelephone = (EditText) findViewById(R.id.etTelephone);
         validateTelephone = false;
         btnRegister = (Button) findViewById(R.id.btnRegister);
+        loading = new ProgressDialog(this);
+        loading.setIndeterminate(true);
+        loading.setTitle("Đang xử lý...");
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnRegister:
-                btnRegisterOnClick();
+                if (!isNetworkAvailable())
+                    Toast.makeText(RegisterActivity.this, "Hãy kiểm tra lại kết nối mạng", Toast.LENGTH_SHORT).show();
+                else
+                    btnRegisterOnClick();
                 break;
         }
     }
 
+
+
     private void btnRegisterOnClick() {
         if (areEmpty() | !validateAll()) {
             Toast.makeText(RegisterActivity.this, "Hãy nhập đầy đủ và chính xác thông tin", Toast.LENGTH_SHORT).show();
+
         } else {
+            btnRegister.setEnabled(false);
             new ReceiveResponseAsyncTask().execute(etAccount.getText().toString(), etPassword.getText().toString(),
                     etEmail.getText().toString(), etTelephone.getText().toString());
         }
     }
 
-    class ReceiveResponseAsyncTask extends AsyncTask<String, Void, String> {
+    class ReceiveResponseAsyncTask extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            loading.show();
+        }
+
         @Override
         protected String doInBackground(String... param) {
             try {
                 String methodName = "InsertMember";
-                final String SOAP_ACTION=NAMESPACE+methodName;
+                final String SOAP_ACTION = NAMESPACE + methodName;
                 SoapObject request = new SoapObject(NAMESPACE, methodName);
                 request.addProperty("info", toJson(new String[]{param[0], param[1], param[2], param[3]}));
                 SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -143,21 +164,23 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 transportSE.call(SOAP_ACTION, envelope);
                 SoapPrimitive result = (SoapPrimitive) envelope.getResponse();
                 return result.toString();
-            } catch (Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
                 return ex.toString();
             }
         }
 
         @Override
-        protected void onProgressUpdate(Void... values) {
+        protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
+            Toast.makeText(RegisterActivity.this, values[0], Toast.LENGTH_SHORT).show();
         }
 
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            Toast.makeText(RegisterActivity.this, result, Toast.LENGTH_SHORT).show();
+            btnRegister.setEnabled(true);
+            loading.dismiss();
         }
     }
 
@@ -177,7 +200,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private Boolean areEmpty() {
         if (etAccount.getText().toString().equals("") | etPassword.getText().toString().equals("")
-                | etConfirmPassword.getText().toString().equals("")| etEmail.getText().toString().equals("")
+                | etConfirmPassword.getText().toString().equals("") | etEmail.getText().toString().equals("")
                 | etTelephone.getText().toString().equals("")) {
             return true;
         }
@@ -198,4 +221,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         else return false;
         return true;
     }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
 }
