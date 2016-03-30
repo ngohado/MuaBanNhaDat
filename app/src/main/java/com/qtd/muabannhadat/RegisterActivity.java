@@ -28,7 +28,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private Boolean validateTelephone;
 
     private Button btnRegister;
-    final String NAMESPACE = "http://tempuri.org/";
+    final String NAMESPACE = "http://tranhongquan.com/";
     final String URL = "http://nckhqtdh.somee.com/WebServiceNCKH.asmx?WSDL";
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,14 +129,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         @Override
         protected String doInBackground(String... param) {
             try {
-                String MethodName = "InsertMember";
-                SoapObject request = new SoapObject(NAMESPACE, MethodName);
+                String methodName = "InsertMember";
+                final String SOAP_ACTION=NAMESPACE+methodName;
+                SoapObject request = new SoapObject(NAMESPACE, methodName);
                 request.addProperty("info", toJson(new String[]{param[0], param[1], param[2], param[3]}));
                 SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 envelope.dotNet = true;
                 envelope.setOutputSoapObject(request);
                 HttpTransportSE transportSE = new HttpTransportSE(URL);
-                transportSE.call(NAMESPACE + MethodName, envelope);
+                transportSE.call(SOAP_ACTION, envelope);
                 SoapPrimitive result = (SoapPrimitive) envelope.getResponse();
                 return result.toString();
             } catch (Exception ex){

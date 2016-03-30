@@ -7,7 +7,8 @@
         android:layout_width="330dp"
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
-        android:hint="Tên tài khoản"/>
+        android:hint="Tên tài khoản"
+        android:text="tu"/>
     <EditText
         android:layout_width="330dp"
         android:layout_height="50dp"
@@ -16,6 +17,7 @@
         android:id="@+id/etPassword"
         android:layout_below="@id/etAccount"
         android:hint="Mật khẩu"
+        android:text="123456"
         />
     <EditText
         android:layout_width="330dp"
@@ -25,6 +27,7 @@
         android:id="@+id/etConfirmPassword"
         android:layout_below="@id/etPassword"
         android:hint="Xác nhận mật khẩu"
+        android:text="123456"
         />
     <EditText
         android:layout_width="330dp"
@@ -33,6 +36,7 @@
         android:id="@+id/etEmail"
         android:layout_below="@id/etConfirmPassword"
         android:hint="Email"
+        android:text="srinnix13@gmail.com"
         />
     <EditText
         android:layout_width="330dp"
@@ -41,6 +45,7 @@
         android:id="@+id/etTelephone"
         android:layout_below="@id/etEmail"
         android:hint="Điện thoại di động"
+        android:text="01234567890"
         />
     <Button
         android:layout_width="145dp"
