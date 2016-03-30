@@ -16,6 +16,9 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText etAccount;
     private EditText etPassword;
@@ -29,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private Button btnRegister;
     final String NAMESPACE = "http://tranhongquan.com/";
-    final String URL = "http://nckhqtdh.somee.com/WebServiceNCKH.asmx?WSDL";
+    final String URL = "http://nckhqtdh.somee.com/WebServiceNCKH.asmx";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,7 +145,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 return result.toString();
             } catch (Exception ex){
                 ex.printStackTrace();
-                return "";
+                return ex.toString();
             }
         }
 
