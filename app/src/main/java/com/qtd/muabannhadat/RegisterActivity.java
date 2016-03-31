@@ -53,6 +53,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         initView();
+        btnRegister.setOnClickListener(this);
     }
 
     private void initView() {
@@ -63,7 +64,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         etTelephone = (EditText) findViewById(R.id.etTelephone);
         etCode = (EditText) findViewById(R.id.etCode);
         btnRegister = (Button) findViewById(R.id.btnRegister);
-        btnRegister.setOnClickListener(this);
         loading = new ProgressDialog(this);
         loading.setIndeterminate(true);
         loading.setTitle("Đang xử lý...");
