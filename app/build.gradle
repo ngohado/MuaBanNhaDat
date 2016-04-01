@@ -23,6 +23,11 @@ android {
     }
 }
 
+repositories {
+    // ...
+    maven { url "https://jitpack.io" }
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
