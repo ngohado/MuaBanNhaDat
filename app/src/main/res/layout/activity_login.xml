@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.qtd.muabannhadat.LoginActivity">
+    tools:context=".activity.LoginActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -30,7 +30,7 @@
             android:src="@mipmap/batdongsan" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/edtUsername"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginBottom="8dp"
@@ -40,17 +40,17 @@
             android:hint="Username" />
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/edtPassword"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:layout_weight="0.13"
             android:hint="Password"
-            android:password="true" />
+            android:inputType="textPassword"/>
 
         <Button
-            android:id="@+id/buttonLogin"
+            android:id="@+id/btnLogin"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -58,7 +58,7 @@
             android:textSize="20dp" />
 
         <Button
-            android:id="@+id/buttonDangky"
+            android:id="@+id/btnRegister"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
