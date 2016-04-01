@@ -24,7 +24,7 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.net.UnknownHostException;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
-    private EditText edtUser;
+    private EditText edtEmail;
     private EditText edtPass;
     private Button btnLogin;
     private Button btnRegister;
@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initView() {
-        edtUser = (EditText) findViewById(R.id.edtUsername);
+        edtEmail = (EditText) findViewById(R.id.edtEmail);
         edtPass = (EditText) findViewById(R.id.edtPassword);
         btnLogin = (Button) findViewById(R.id.btnLogin);
         btnRegister = (Button) findViewById(R.id.btnRegister);
@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (json.equals("None")) {
                     onSigninFail();
                 } else {
-                    onSigninsuccess();
+                    onSigninSuccess();
                 }
 
             } catch (Exception e) {
@@ -97,10 +97,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void requestLogin() {
-        if (!validate()) {
-            onSigninFail();
-        } else {
-            new MyAsyncTack().execute(edtUser.getText().toString(), edtPass.getText().toString());
+        if (validate()) {
+            new MyAsyncTack().execute(edtEmail.getText().toString(), edtPass.getText().toString());
         }
     }
 
@@ -116,7 +114,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    public void onSigninsuccess() {
+    public void onSigninSuccess() {
         Toast.makeText(getBaseContext(), "Đăng nhập  thành công!", Toast.LENGTH_LONG).show();
         btnLogin.setEnabled(true);
     }
@@ -128,15 +126,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public boolean validate() {
         boolean valid = true;
-        String user = edtUser.getText().toString();
+        String email = edtEmail.getText().toString();
         String pass = edtPass.getText().toString();
-        if (user.isEmpty()) {
-            edtUser.setError("Không được để trống");
+        if (email.isEmpty()||!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            edtEmail.setError("Định dạng email không đúng!");
             valid = false;
         } else {
-            edtUser.setError(null);
+            edtEmail.setError(null);
         }
-        if (pass.isEmpty() || pass.length() < 1) {
+        if (pass.isEmpty() || pass.length() < 6) {
             edtPass.setError("Mật khẩu lớn hơn 6 ký tự");
             valid = false;
         } else {
