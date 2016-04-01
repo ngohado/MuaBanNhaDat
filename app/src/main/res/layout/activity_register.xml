@@ -1,60 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <EditText
         android:id="@+id/etAccount"
         android:layout_width="330dp"
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
-        android:hint="Tên tài khoản"/>
+        android:hint="Tên tài khoản" />
+
     <EditText
-        android:layout_width="330dp"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:password="true"
         android:id="@+id/etPassword"
+        android:layout_width="330dp"
+        android:layout_height="50dp"
         android:layout_below="@id/etAccount"
+        android:layout_centerHorizontal="true"
         android:hint="Mật khẩu"
-        />
+        android:inputType="textPassword" />
+
     <EditText
-        android:layout_width="330dp"
-        android:layout_height="50dp"
-        android:password="true"
-        android:layout_centerHorizontal="true"
         android:id="@+id/etConfirmPassword"
+        android:layout_width="330dp"
+        android:layout_height="50dp"
         android:layout_below="@id/etPassword"
+        android:layout_centerHorizontal="true"
         android:hint="Xác nhận mật khẩu"
-        />
+        android:inputType="textPassword" />
+
     <EditText
-        android:layout_width="330dp"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
         android:id="@+id/etEmail"
+        android:layout_width="330dp"
+        android:layout_height="50dp"
         android:layout_below="@id/etConfirmPassword"
-        android:hint="Email"
-        />
-    <EditText
-        android:layout_width="330dp"
-        android:layout_height="50dp"
         android:layout_centerHorizontal="true"
+        android:hint="Email" />
+
+    <EditText
         android:id="@+id/etTelephone"
-        android:layout_below="@id/etEmail"
-        android:hint="Điện thoại di động"
-        />
-    <EditText
         android:layout_width="330dp"
         android:layout_height="50dp"
+        android:layout_below="@id/etEmail"
         android:layout_centerHorizontal="true"
+        android:hint="Điện thoại di động" />
+
+    <EditText
         android:id="@+id/etCode"
+        android:layout_width="330dp"
+        android:layout_height="50dp"
         android:layout_below="@id/etTelephone"
+        android:layout_centerHorizontal="true"
         android:hint="Mã xác nhận"
-        android:visibility="gone"/>
+        android:visibility="gone" />
+
     <Button
+        android:id="@+id/btnRegister"
         android:layout_width="145dp"
         android:layout_height="45dp"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/btnRegister"
         android:layout_below="@id/etCode"
-        android:text="Đăng ký"/>
+        android:layout_centerHorizontal="true"
+        android:text="Đăng ký" />
 </RelativeLayout>

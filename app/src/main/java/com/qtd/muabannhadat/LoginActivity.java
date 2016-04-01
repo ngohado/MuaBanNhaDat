@@ -25,6 +25,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     final String NAMESPACE = "http://tranhongquan.com/";
     public final static String URL = "http://nckhbds.somee.com/WebServiceNCKH.asmx?WSDL";
     private ProgressDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +38,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         edtUser = (EditText) findViewById(R.id.editText);
         edtPass = (EditText) findViewById(R.id.editText1);
         btnLogin = (Button) findViewById(R.id.buttonLogin);
-        dialog  = new ProgressDialog(this);
+        dialog = new ProgressDialog(this);
         dialog.setIndeterminate(true);
         dialog.setMessage("Hãy đợi chút...");
     }
@@ -73,19 +74,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         @Override
-        protected void onPostExecute(String response ) {
+        protected void onPostExecute(String response) {
             dialog.dismiss();
             try {
                 JSONObject obj = new JSONObject(response);
                 String json = obj.getString("Res");
-                if(json.equals("None")){
+                if (json.equals("None")) {
                     onSigninFail();
-                }
-                else {
+                } else {
                     onSigninsuccess();
                 }
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -110,7 +110,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return "";
         }
     }
-    public void onSigninsuccess(){
+
+    public void onSigninsuccess() {
         Toast.makeText(getBaseContext(), "Đăng nhập  thành công!", Toast.LENGTH_LONG).show();
         btnLogin.setEnabled(true);
     }

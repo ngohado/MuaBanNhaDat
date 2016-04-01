@@ -11,10 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.method.KeyListener;
-import android.util.Log;
 import android.util.Patterns;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -30,7 +27,6 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-import java.net.UnknownHostException;
 import java.util.Random;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
@@ -165,7 +161,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 etCode.setVisibility(View.VISIBLE);
                 btnRegister.setEnabled(false);
                 sendConfirmEmail(etEmail.getText().toString(), etAccount.getText().toString(), etAccount.getText().toString());
-                if (this.getCurrentFocus() != null){
+                if (this.getCurrentFocus() != null) {
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
                 }
