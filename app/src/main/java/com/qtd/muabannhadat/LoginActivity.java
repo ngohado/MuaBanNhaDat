@@ -30,7 +30,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initView();
-        assert btnLogin != null;
         btnLogin.setOnClickListener(this);
     }
 
@@ -53,15 +52,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         @Override
         protected String doInBackground(String... params) {
             try {
-                String METHOD_NAME = "GetMemberinfobyIDnPassWord";
-                String SOAP_ACTION = NAMESPACE + METHOD_NAME;
-                SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
+                String methodName = "GetMemberinfobyIDnPassWord";
+                String soapAction = NAMESPACE + methodName;
+                SoapObject request = new SoapObject(NAMESPACE, methodName);
                 request.addProperty("json", toJson(new String[]{params[0], params[1]}));
                 SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 envelope.dotNet = true;
                 envelope.setOutputSoapObject(request);
                 HttpTransportSE transport = new HttpTransportSE(URL);
-                transport.call(SOAP_ACTION, envelope);
+                transport.call(soapAction, envelope);
                 SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
                 return response.toString();
 
