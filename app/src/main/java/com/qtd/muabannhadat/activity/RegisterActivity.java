@@ -1,4 +1,4 @@
-package com.qtd.muabannhadat;
+package com.qtd.muabannhadat.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
+import com.qtd.muabannhadat.R;
+import com.qtd.muabannhadat.constant.ApiConstant;
 
 import org.json.JSONObject;
 import org.ksoap2.SoapEnvelope;
@@ -39,8 +41,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText etCode;
 
     private Button btnRegister;
-    final String NAMESPACE = "http://tranhongquan.com/";
-    final String URL = "http://nckhqtdh.somee.com/WebServiceNCKH.asmx";
 
     private ProgressDialog loading;
     Boolean hasSentEmail;
@@ -183,16 +183,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
                     @Override
                     public void onSuccess() {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(getApplicationContext());
-                        alert.setTitle("Thông báo");
-                        alert.setMessage("Hãy kiểm tra hòm thư để xác nhận tài khoản");
-                        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                        alert.create().show();
+
                     }
                 })
                 .withOnFailCallback(new BackgroundMail.OnFailCallback() {
@@ -212,6 +203,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     }
                 })
                 .send();
+        AlertDialog.Builder alert = new AlertDialog.Builder(getApplicationContext());
+        alert.setTitle("Thông báo");
+        alert.setMessage("Hãy kiểm tra hòm thư để xác nhận tài khoản");
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        alert.create().show();
         hasSentEmail = true;
     }
 
@@ -266,14 +267,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         @Override
         protected String doInBackground(String... params) {
             try {
-                String methodName = "InsertMember";
-                final String SOAP_ACTION = NAMESPACE + methodName;
-                SoapObject request = new SoapObject(NAMESPACE, methodName);
+                final String SOAP_ACTION = ApiConstant.NAME_SPACE + ApiConstant.METHOD_REGISTER;
+                SoapObject request = new SoapObject(ApiConstant.NAME_SPACE, ApiConstant.METHOD_REGISTER);
                 request.addProperty("info", toJson(new String[]{params[0], params[1], params[2], params[3]}));
                 SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 envelope.dotNet = true;
                 envelope.setOutputSoapObject(request);
-                HttpTransportSE transportSE = new HttpTransportSE(URL);
+                HttpTransportSE transportSE = new HttpTransportSE(ApiConstant.MAIN_URL);
                 transportSE.call(SOAP_ACTION, envelope);
                 SoapPrimitive result = (SoapPrimitive) envelope.getResponse();
                 return result.toString();
@@ -286,22 +286,28 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+            successLogin(result);
             loading.dismiss();
         }
+    }
+
+    private void successLogin(String result) {
+        //TODO: check if result is successful
+
+        finish();
     }
 
     class CheckHasUsernameAsyncTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
             try {
-                String methodName = "ChecHaskUsername";
-                SoapObject request = new SoapObject(NAMESPACE, methodName);
+                SoapObject request = new SoapObject(ApiConstant.NAME_SPACE, ApiConstant.METHOD_CHECK_USER);
                 request.addProperty("JsonUsername", toJson(params[0]));
                 SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 envelope.dotNet = true;
                 envelope.setOutputSoapObject(request);
-                HttpTransportSE transportSE = new HttpTransportSE(URL);
-                transportSE.call(NAMESPACE + methodName, envelope);
+                HttpTransportSE transportSE = new HttpTransportSE(ApiConstant.MAIN_URL);
+                transportSE.call(ApiConstant.NAME_SPACE + ApiConstant.METHOD_CHECK_USER, envelope);
                 SoapPrimitive result = (SoapPrimitive) envelope.getResponse();
                 return result.toString();
             } catch (Exception ex) {
