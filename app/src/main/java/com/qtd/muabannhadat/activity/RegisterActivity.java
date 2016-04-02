@@ -303,10 +303,21 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         try {
             JSONObject obj = new JSONObject(result);
             if (obj.getString("Res").equals("Success")) {
-                Intent intentResult = new Intent();
-                intentResult.putExtra(EMAIL, etEmail.getText().toString().trim());
-                setResult(REGISTER_RESULT_CODE, intentResult);
-                finish();
+                new AlertDialog.Builder(this)
+                        .setTitle("Đăng ký")
+                        .setMessage("Đăng ký thành công")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                Intent intentResult = new Intent();
+                                intentResult.putExtra(EMAIL, etEmail.getText().toString().trim());
+                                setResult(REGISTER_RESULT_CODE, intentResult);
+                                finish();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .create().show();
+
             } else {
                 new AlertDialog.Builder(this)
                         .setTitle("Đăng ký")
