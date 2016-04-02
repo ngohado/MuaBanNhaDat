@@ -287,7 +287,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 SoapPrimitive result = (SoapPrimitive) envelope.getResponse();
                 JSONObject jsonObject = new JSONObject(result.toString());
                 a= jsonObject.getString("Res");
-                Log.i("a", a);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

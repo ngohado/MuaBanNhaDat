@@ -45,7 +45,6 @@
         android:layout_centerHorizontal="true"
         android:hint="Mã xác nhận"
         android:visibility="gone" />
-
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="145dp"
