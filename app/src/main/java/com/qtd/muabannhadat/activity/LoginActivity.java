@@ -128,7 +128,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         boolean valid = true;
         String email = edtEmail.getText().toString();
         String pass = edtPass.getText().toString();
-        if (email.isEmpty()||!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             edtEmail.setError("Định dạng email không đúng!");
             valid = false;
         } else {
@@ -150,9 +150,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 requestLogin();
                 break;
             case R.id.btnRegister:
-                Intent openRegister = new Intent(this, RegisterActivity.class);
-                startActivity(openRegister);
+                Intent intentRegister = new Intent(this, RegisterActivity.class);
+                startActivityForResult(intentRegister, 1);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1 & resultCode == RegisterActivity.REGISTER_RESULT_CODE) {
+            edtEmail.setText(data.getStringExtra(RegisterActivity.EMAIL));
         }
     }
 }
