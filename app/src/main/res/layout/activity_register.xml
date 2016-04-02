@@ -8,6 +8,7 @@
         android:layout_width="330dp"
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
+        android:inputType="textEmailAddress"
         android:hint="Email"
         />
     <EditText
@@ -44,6 +45,7 @@
         android:layout_below="@id/etTelephone"
         android:layout_centerHorizontal="true"
         android:hint="Mã xác nhận"
+        android:inputType="number"
         android:visibility="gone" />
     <Button
         android:id="@+id/btnRegister"

@@ -3,6 +3,7 @@ package com.qtd.muabannhadat.activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -11,7 +12,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.constant.ApiConstant;
+import com.qtd.muabannhadat.util.DebugLog;
 
 import org.json.JSONObject;
 import org.ksoap2.SoapEnvelope;
@@ -33,6 +34,9 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.util.Random;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+    public static final String EMAIL = "email";
+    public static final int REGISTER_RESULT_CODE = 1;
+
     private EditText etPassword;
     private EditText etConfirmPassword;
     private EditText etEmail;
@@ -43,6 +47,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private ProgressDialog loading;
     Boolean hasSentEmail;
+    private int confirmCode = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +71,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    if (!Patterns.EMAIL_ADDRESS.matcher(etEmail.getText().toString()).matches()) {
+                    if (!isNetworkAvailable()){
+                        Toast.makeText(RegisterActivity.this, "Hãy kiểm tra lại kết nối mạng", Toast.LENGTH_LONG).show();
+                    }else if (!Patterns.EMAIL_ADDRESS.matcher(etEmail.getText().toString()).matches()) {
                         etEmail.setError("Email không hợp lệ");
                     } else {
                         new CheckHasEmailAsyncTask().execute(etEmail.getText().toString());
@@ -96,7 +103,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 }
             }
         });
-
 
         etTelephone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -141,6 +147,26 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Đăng ký")
+                .setMessage("Mọi thông tin đăng ký sẽ bị hủy. Bạn có muốn quay lại?")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .create().show();
+    }
+
     private void btnRegisterOnClick() {
         if (areEmpty() | !validateAll()) {
             Toast.makeText(RegisterActivity.this, "Hãy nhập đầy đủ và chính xác thông tin", Toast.LENGTH_LONG).show();
@@ -153,21 +179,27 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
                 }
-            } else
-                new SubmitRegisterAsyncTask().execute(etEmail.getText().toString(), etPassword.getText().toString(),
-                         etTelephone.getText().toString());
+            } else {
+                if (etCode.getText().toString().equals(String.valueOf(confirmCode))) {
+                    new SubmitRegisterAsyncTask().execute(etEmail.getText().toString(), etPassword.getText().toString(),
+                            etTelephone.getText().toString());
+                } else {
+                    Toast.makeText(RegisterActivity.this, "Mã xác nhận không đúng", Toast.LENGTH_SHORT).show();
+                }
+            }
         }
     }
 
-
     private void sendConfirmEmail(String param) {
+        confirmCode = (100000 + new Random().nextInt(899999));
+        DebugLog.i(String.valueOf(confirmCode));
         BackgroundMail.newBuilder(this)
                 .withUsername("ngodoan.utc@gmail.com")
                 .withPassword("031889778")
                 .withMailto(param)
                 .withSubject("EMAIL XÁC NHẬN ĐĂNG KÝ TÀI KHOẢN")
-                .withBody("Xin chào,\n\nThông tin tài khoản:\n   - Email đăng ký: " + param + "\n   - Mã xác nhận: " + (100000 + new Random().nextInt(899999)) +
-                        "\n\nXin cám ơn!")
+                .withBody("Xin chào,\n\nThông tin tài khoản:\n   - Email đăng ký: " + param + "\n   - Mã xác nhận: " + confirmCode
+                        + "\n\nXin cám ơn!")
                 .send();
         new AlertDialog.Builder(this)
                 .setTitle("Đăng ký")
@@ -175,11 +207,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                        RegisterActivity.this.getCurrentFocus().clearFocus();
+                        etCode.requestFocus();
                     }
                 })
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .create().show();
-
         hasSentEmail = true;
     }
 
@@ -196,12 +229,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    private String toJson(String param){
-        try{
+    private String toJson(String param) {
+        try {
             JSONObject object = new JSONObject();
             object.put("Email", param);
             return object.toString();
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             return "";
         }
@@ -262,14 +295,33 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             loading.dismiss();
-            successLogin(result);
+            processResult(result);
         }
     }
 
-    private void successLogin(String result) {
-        //TODO: check if result is successful
-
-        finish();
+    private void processResult(String result) {
+        try {
+            JSONObject obj = new JSONObject(result);
+            if (obj.getString("Res").equals("Success")) {
+                Intent intentResult = new Intent();
+                intentResult.putExtra(EMAIL, etEmail.getText().toString().trim());
+                setResult(REGISTER_RESULT_CODE, intentResult);
+                finish();
+            } else {
+                new AlertDialog.Builder(this)
+                        .setTitle("Đăng ký")
+                        .setMessage("Đã có lỗi trong quá trình xử lý, xin thử lại")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .create().show();
+            }
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 
     class CheckHasEmailAsyncTask extends AsyncTask<String, Void, String> {
@@ -286,7 +338,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 transportSE.call(ApiConstant.NAME_SPACE + ApiConstant.METHOD_CHECK_USER, envelope);
                 SoapPrimitive result = (SoapPrimitive) envelope.getResponse();
                 JSONObject jsonObject = new JSONObject(result.toString());
-                a= jsonObject.getString("Res");
+                a = jsonObject.getString("Res");
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
