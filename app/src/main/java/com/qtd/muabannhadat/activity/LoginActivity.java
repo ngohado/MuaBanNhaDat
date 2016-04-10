@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qtd.muabannhadat.R;
@@ -23,17 +24,21 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.net.UnknownHostException;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText edtEmail;
     private EditText edtPass;
     private Button btnLogin;
-    private Button btnRegister;
+    private TextView btnRegister;
     private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
         initView();
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
@@ -43,7 +48,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         edtEmail = (EditText) findViewById(R.id.edtEmail);
         edtPass = (EditText) findViewById(R.id.edtPassword);
         btnLogin = (Button) findViewById(R.id.btnLogin);
-        btnRegister = (Button) findViewById(R.id.btnRegister);
+        btnRegister = (TextView) findViewById(R.id.tv_register);
         dialog = new ProgressDialog(this);
         dialog.setIndeterminate(true);
         dialog.setMessage("Hãy đợi chút...");
@@ -143,13 +148,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return valid;
     }
 
+    @OnClick(R.id.tv_close)
+    public void onClickExit() {
+        finish();
+    }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnLogin:
                 requestLogin();
                 break;
-            case R.id.btnRegister:
+            case R.id.tv_register:
                 Intent intentRegister = new Intent(this, RegisterActivity.class);
                 startActivityForResult(intentRegister, 1);
                 break;
