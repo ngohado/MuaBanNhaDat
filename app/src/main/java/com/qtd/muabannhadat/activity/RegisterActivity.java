@@ -33,6 +33,9 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.util.Random;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String EMAIL = "email";
     public static final int REGISTER_RESULT_CODE = 1;
@@ -52,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        ButterKnife.bind(this);
         initView();
         btnRegister.setOnClickListener(this);
     }
@@ -333,6 +337,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         } catch (Exception ex){
             ex.printStackTrace();
         }
+    }
+
+    @OnClick(R.id.tv_close)
+    public void onClickExit() {
+        finish();
     }
 
     class CheckHasEmailAsyncTask extends AsyncTask<String, Void, String> {
