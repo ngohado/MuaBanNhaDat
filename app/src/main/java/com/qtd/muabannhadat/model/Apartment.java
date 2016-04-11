@@ -3,29 +3,35 @@ package com.qtd.muabannhadat.model;
 /**
  * Created by Dell on 4/9/2016.
  */
-public class Home {
+public class Apartment {
     private String id;
     private String status;
     private String kind;
     private float area;
     private String city;
     private String district;
-    private String ward;
     private String street;
     private String address;
     private int price;
+    private String describe;
+    private int numberOfRoom;
+    private float latitude;
+    private float longitude;
 
-    public Home(String id, String status, String kind, float area, String city, String district, String ward, String street, String address, int price) {
+    public Apartment(String id, String status, String kind, float area, String city, String district, String street, String address, int price, String describe, int numberOfRoom, float latitude, float longitude) {
         this.id = id;
         this.status = status;
         this.kind = kind;
         this.area = area;
         this.city = city;
         this.district = district;
-        this.ward = ward;
         this.street = street;
         this.address = address;
         this.price = price;
+        this.describe = describe;
+        this.numberOfRoom = numberOfRoom;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getId() {
@@ -76,14 +82,6 @@ public class Home {
         this.district = district;
     }
 
-    public String getWard() {
-        return ward;
-    }
-
-    public void setWard(String ward) {
-        this.ward = ward;
-    }
-
     public String getStreet() {
         return street;
     }
@@ -106,5 +104,37 @@ public class Home {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public String getDescribe() {
+        return describe;
+    }
+
+    public void setDescribe(String describe) {
+        this.describe = describe;
+    }
+
+    public int getNumberOfRoom() {
+        return numberOfRoom;
+    }
+
+    public void setNumberOfRoom(int numberOfRoom) {
+        this.numberOfRoom = numberOfRoom;
+    }
+
+    public float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
     }
 }

@@ -10,15 +10,15 @@ import android.view.ViewGroup;
 
 import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.adapter.ItemHomeAdapter;
-import com.qtd.muabannhadat.model.Home;
-import com.qtd.muabannhadat.model.HomeCategory;
+import com.qtd.muabannhadat.model.Apartment;
+import com.qtd.muabannhadat.model.ApartmentCategory;
 
 import java.util.ArrayList;
 
 public class BlockNewsFragment extends Fragment {
     private RecyclerView recyclerView;
     private ItemHomeAdapter itemHomeAdapter;
-    private ArrayList<HomeCategory> listHomeCategory = new ArrayList<>();
+    private ArrayList<ApartmentCategory> listApartmentCategory = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -30,17 +30,17 @@ public class BlockNewsFragment extends Fragment {
     private void initView(View view) {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
 
-        itemHomeAdapter = new ItemHomeAdapter(listHomeCategory);
+        itemHomeAdapter = new ItemHomeAdapter(listApartmentCategory);
         recyclerView.setAdapter(itemHomeAdapter);
 
-        ArrayList<Home> homes = new ArrayList<>();
-        homes.add(new Home("12","12","12",12f,"12","12","12","12","12",1000));
-        homes.add(new Home("12","12","12",12f,"12","12","12","12","12",1000));
-        homes.add(new Home("12","12","12",12f,"12","12","12","12","12",1000));
-        homes.add(new Home("12","12","12",12f,"12","12","12","12","12",1000));
-        homes.add(new Home("12","12","12",12f,"12","12","12","12","12",1000));
-        HomeCategory demo = new HomeCategory("demo", homes);
-        itemHomeAdapter.addItem(listHomeCategory.size(), demo);
+        ArrayList<Apartment> apartments = new ArrayList<>();
+        apartments.add(new Apartment("12","12","12",12f,"12","12","12","12","12",1000));
+        apartments.add(new Apartment("12","12","12",12f,"12","12","12","12","12",1000));
+        apartments.add(new Apartment("12","12","12",12f,"12","12","12","12","12",1000));
+        apartments.add(new Apartment("12","12","12",12f,"12","12","12","12","12",1000));
+        apartments.add(new Apartment("12","12","12",12f,"12","12","12","12","12",1000));
+        ApartmentCategory demo = new ApartmentCategory("demo", apartments);
+        itemHomeAdapter.addItem(listApartmentCategory.size(), demo);
     }
 
     @Override

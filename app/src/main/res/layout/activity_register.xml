@@ -33,7 +33,7 @@
             android:textColor="@android:color/white"
             android:theme="@style/EditTextStyle"
             android:drawableLeft="@drawable/ic_account_box_white_36dp"
-            android:drawablePadding="7dp"/>
+            android:drawablePadding="8dp"/>
 
         <EditText
             android:id="@+id/etPassword"
@@ -45,7 +45,7 @@
             android:textColor="@android:color/white"
             android:theme="@style/EditTextStyle"
             android:drawableLeft="@drawable/ic_lock_outline_white_36dp"
-            android:drawablePadding="7dp"/>
+            android:drawablePadding="8dp"/>
 
         <EditText
             android:id="@+id/etConfirmPassword"
@@ -57,7 +57,7 @@
             android:textColor="@android:color/white"
             android:theme="@style/EditTextStyle"
             android:drawableLeft="@drawable/ic_lock_outline_white_36dp"
-            android:drawablePadding="7dp"/>
+            android:drawablePadding="8dp"/>
 
         <EditText
             android:id="@+id/etTelephone"
@@ -69,7 +69,7 @@
             android:textColor="@android:color/white"
             android:theme="@style/EditTextStyle"
             android:drawableLeft="@drawable/ic_local_phone_white_36dp"
-            android:drawablePadding="7dp"
+            android:drawablePadding="8dp"
             />
 
         <EditText
@@ -88,14 +88,12 @@
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/border_login"
         android:text="Đăng ký"
-        android:textColor="@color/colorAccent"
-        android:textSize="20sp"
+        style="@style/ButtonStyle"
         android:layout_below="@+id/linearLayout_Register"/>
 
     <TextView
@@ -104,8 +102,8 @@
         android:layout_height="wrap_content"
         android:text="Đăng nhập ngay"
         android:textColor="@android:color/white"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:layout_below="@id/btnRegister"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="10dp"/>
 </RelativeLayout>
