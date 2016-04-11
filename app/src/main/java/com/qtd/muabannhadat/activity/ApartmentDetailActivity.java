@@ -3,9 +3,12 @@ package com.qtd.muabannhadat.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qtd.muabannhadat.R;
+import com.qtd.muabannhadat.subview.DescriptionView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -36,12 +39,50 @@ public class ApartmentDetailActivity extends AppCompatActivity {
     @Bind(R.id.tv_intro)
     TextView tvIntro;
 
+    @Bind(R.id.layout_more)
+    LinearLayout layoutMore;
+
+    DescriptionView descriptionView;
+
+    int idApartment;
+
+    boolean isShowDescriptionView = false;
+
+    public static final String DATA = "DATA";
+
+    public static final String ID_APARTMENT = "DATA";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apartment_detail);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        getBundleData();
+        initData();
+    }
+
+    private void getBundleData() {
+        idApartment = getIntent().getBundleExtra(DATA).getInt(ID_APARTMENT, -1);
+    }
+
+    private void initData() {
+        if (idApartment != -1) {
+            descriptionView = new DescriptionView(this);
+            descriptionView.setupWith(null);
+        }
+    }
+
+    @OnClick(R.id.tv_description_title)
+    public void onTextViewDescriptionClicked() {
+        if (descriptionView == null)
+            return;
+
+        if (isShowDescriptionView) {
+            descriptionView.setVisibility(View.VISIBLE);
+        } else {
+            descriptionView.setVisibility(View.GONE);
+        }
     }
 
     @OnClick(R.id.btn_loadmore)

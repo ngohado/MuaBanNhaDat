@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qtd.muabannhadat.R;
-import com.qtd.muabannhadat.model.Home;
+import com.qtd.muabannhadat.model.Apartment;
 import com.qtd.muabannhadat.util.StringUtil;
 
 import butterknife.Bind;
@@ -38,6 +38,9 @@ public class DescriptionView extends LinearLayout{
     @Bind(R.id.tv_status)
     TextView tvAddress;
 
+    @Bind(R.id.tv_rooms)
+    TextView tvRooms;
+
     public DescriptionView(Context context) {
         super(context);
         this.context = context;
@@ -46,15 +49,16 @@ public class DescriptionView extends LinearLayout{
         ButterKnife.bind(view);
     }
 
-    public void setupWith(Home home) {
+    public void setupWith(Apartment home) {
         if (home == null)
             return;
         StringUtil.displayText(home.getStatus(), tvStatus);
         StringUtil.displayText(home.getKind(), tvKind);
-        StringUtil.displayText(home.getStatus(), tvSize);
-        StringUtil.displayText(home.getStatus(), tvStreet);
-        StringUtil.displayText(home.getStatus(), tvDistrict);
-        StringUtil.displayText(home.getStatus(), tvAddress);
+        StringUtil.displayText(home.getArea(), tvSize);
+        StringUtil.displayText(home.getNumberOfRoom(), tvRooms);
+        StringUtil.displayText(home.getStreet(), tvStreet);
+        StringUtil.displayText(home.getDistrict(), tvDistrict);
+        StringUtil.displayText(home.getAddress(), tvAddress);
     }
 
 }
