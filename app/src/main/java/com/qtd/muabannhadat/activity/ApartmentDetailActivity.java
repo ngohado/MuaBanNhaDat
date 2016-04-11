@@ -3,22 +3,79 @@ package com.qtd.muabannhadat.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import com.qtd.muabannhadat.R;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ApartmentDetailActivity extends AppCompatActivity {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
+    @Bind(R.id.tv_kind)
+    TextView tvKind;
+
+    @Bind(R.id.tv_status)
+    TextView tvStatus;
+
+    @Bind(R.id.tv_price)
+    TextView tvPrice;
+
+    @Bind(R.id.tv_size)
+    TextView tvSize;
+
+    @Bind(R.id.tv_address)
+    TextView tvAddress;
+
+    @Bind(R.id.tv_city)
+    TextView tvCity;
+
+    @Bind(R.id.tv_intro)
+    TextView tvIntro;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apartment_detail);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    @OnClick(R.id.btn_loadmore)
+    public void onButtonLoadMoreClicked() {
+
+    }
+
+    @OnClick(R.id.tv_direction)
+    public void onButtonDirectionClicked() {
+
+    }
+
+    @OnClick(R.id.tv_mapview)
+    public void onButtonMapViewClicked() {
+
+    }
+
+    @OnClick(R.id.tv_earthview)
+    public void onButtonEarthViewClicked() {
+
+    }
+
+    @OnClick(R.id.iv_love)
+    public void onButtonFavoriteClicked() {
+
+    }
+
+    @OnClick(R.id.iv_share)
+    public void onButtonShareClicked() {
+
+    }
+
+    @OnClick(R.id.iv_back)
+    public void onButtonBackClicked() {
+        finish();
     }
 }
