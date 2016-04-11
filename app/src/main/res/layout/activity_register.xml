@@ -2,19 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent">
-
-    <TextView
-        android:id="@+id/tv_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
-        android:padding="10dp"
-        android:text="Thoát"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+    android:background="@color/colorPrimary">
 
     <TextView
         android:id="@+id/tv_register"
@@ -32,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_register"
+        android:id="@+id/linearLayout_Register"
         android:orientation="vertical"
         android:padding="10dp">
 
@@ -39,51 +28,55 @@
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_centerHorizontal="true"
             android:hint="Email"
             android:inputType="textEmailAddress"
             android:textColor="@android:color/white"
-            android:theme="@style/EditTextStyle" />
+            android:theme="@style/EditTextStyle"
+            android:drawableLeft="@drawable/ic_account_box_white_36dp"
+            android:drawablePadding="7dp"/>
 
         <EditText
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/etEmail"
-            android:layout_centerHorizontal="true"
             android:hint="Mật khẩu"
             android:inputType="textPassword"
             android:textColor="@android:color/white"
-            android:theme="@style/EditTextStyle" />
+            android:theme="@style/EditTextStyle"
+            android:drawableLeft="@drawable/ic_lock_outline_white_36dp"
+            android:drawablePadding="7dp"/>
 
         <EditText
             android:id="@+id/etConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/etPassword"
-            android:layout_centerHorizontal="true"
             android:hint="Xác nhận mật khẩu"
             android:inputType="textPassword"
             android:textColor="@android:color/white"
-            android:theme="@style/EditTextStyle" />
+            android:theme="@style/EditTextStyle"
+            android:drawableLeft="@drawable/ic_lock_outline_white_36dp"
+            android:drawablePadding="7dp"/>
 
         <EditText
             android:id="@+id/etTelephone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/etConfirmPassword"
-            android:layout_centerHorizontal="true"
             android:hint="Điện thoại di động"
             android:inputType="phone"
             android:textColor="@android:color/white"
-            android:theme="@style/EditTextStyle" />
+            android:theme="@style/EditTextStyle"
+            android:drawableLeft="@drawable/ic_local_phone_white_36dp"
+            android:drawablePadding="7dp"
+            />
 
         <EditText
             android:id="@+id/etCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/etTelephone"
-            android:layout_centerHorizontal="true"
             android:hint="Mã xác nhận"
             android:inputType="number"
             android:textColor="@android:color/white"
@@ -93,13 +86,26 @@
 
     <Button
         android:id="@+id/btnRegister"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/border_login"
         android:text="Đăng ký"
         android:textColor="@color/colorAccent"
-        android:textSize="20dp" />
+        android:textSize="20sp"
+        android:layout_below="@+id/linearLayout_Register"/>
+
+    <TextView
+        android:id="@+id/tv_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đăng nhập ngay"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:layout_below="@id/btnRegister"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
 </RelativeLayout>
