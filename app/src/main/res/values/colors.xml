@@ -5,9 +5,10 @@
     <!--<color name="colorAccent">#FF4081</color>-->
     <!--<color name="colorGray">#757575</color>-->
 
-    <color name="colorPrimary">#E43F3F</color>
-    <color name="colorPrimaryDark">#CC1D1D</color>
+    <color name="colorPrimary">#ff6666</color>
+    <color name="colorPrimaryDark">#ff5656</color>
     <color name="colorAccent">#FFF</color>
-    <color name="colorGray">#6C7070</color>
+    <color name="colorGray">#E0E0E0</color>
+    <!--6C7070-->
     <!---->
 </resources>
