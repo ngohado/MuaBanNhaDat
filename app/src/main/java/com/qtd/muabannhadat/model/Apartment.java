@@ -4,7 +4,8 @@ package com.qtd.muabannhadat.model;
  * Created by Dell on 4/9/2016.
  */
 public class Apartment {
-    private String id;
+    private int id;
+    private User user;
     private String status;
     private String kind;
     private float area;
@@ -18,7 +19,8 @@ public class Apartment {
     private float latitude;
     private float longitude;
 
-    public Apartment(String id, String status, String kind, float area, String city, String district, String street, String address, int price, String describe, int numberOfRoom, float latitude, float longitude) {
+
+    public Apartment(int id, String status, String kind, float area, String city, String district, String street, String address, int price, String describe, int numberOfRoom, float latitude, float longitude) {
         this.id = id;
         this.status = status;
         this.kind = kind;
@@ -34,11 +36,19 @@ public class Apartment {
         this.longitude = longitude;
     }
 
-    public String getId() {
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
