@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import com.qtd.muabannhadat.R;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Dell on 4/9/2016.
  */
@@ -19,9 +22,70 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.
     private TileHome tileHome4;
     private Button btnSeeAll;
 
+    @Bind(R.id.imv1)
+    public ImageView ivHome1;
+
+    @Bind(R.id.txtCost1)
+    public TextView tvCost1;
+
+    @Bind(R.id.txtAddress1)
+    public TextView tvAddress1;
+
+    @Bind(R.id.txtCity1)
+    public TextView tvCity1;
+
+    @Bind(R.id.imv2)
+    public ImageView ivHome2;
+
+    @Bind(R.id.txtCost2)
+    public TextView tvCost2;
+
+    @Bind(R.id.txtAddress2)
+    public TextView tvAddress2;
+
+    @Bind(R.id.txtCity2)
+    public TextView tvCity2;
+
+    @Bind(R.id.imv3)
+    public ImageView ivHome3;
+
+    @Bind(R.id.txtCost3)
+    public TextView tvCost3;
+
+    @Bind(R.id.txtAddress3)
+    public TextView tvAddress3;
+
+    @Bind(R.id.txtCity3)
+    public TextView tvCity3;
+
+    @Bind(R.id.imv4)
+    public ImageView ivHome4;
+
+    @Bind(R.id.txtCost4)
+    public TextView tvCost4;
+
+    @Bind(R.id.txtAddress4)
+    public TextView tvAddress4;
+
+    @Bind(R.id.txtCity4)
+    public TextView tvCity4;
+
+    @Bind(R.id.imv5)
+    public ImageView ivHome;
+
+    @Bind(R.id.txtCost5)
+    public TextView tvCost;
+
+    @Bind(R.id.txtAddress5)
+    public TextView tvAddress;
+
+    @Bind(R.id.txtCity5)
+    public TextView tvCity;
+
     public CategoryViewHolder(View itemView) {
         super(itemView);
-        initComponent(itemView);
+//        initComponent(itemView);
+        ButterKnife.bind(this,itemView);
     }
 
     private void initComponent(View itemView) {

@@ -18,6 +18,7 @@ import com.qtd.muabannhadat.adapter.ItemHomeAdapter;
 import com.qtd.muabannhadat.constant.ApiConstant;
 import com.qtd.muabannhadat.model.Apartment;
 import com.qtd.muabannhadat.model.ApartmentCategory;
+import com.qtd.muabannhadat.util.DebugLog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,14 +48,6 @@ public class BlockNewsFragment extends Fragment {
         if (isNetworkAvailable()) {
             new GetHomesAsyncTask().execute();
         }
-//        ArrayList<Apartment> apartments = new ArrayList<>();
-//        apartments.add(new Apartment("12","12","12",12f,"12","12","12","12","12",1000));
-//        apartments.add(new Apartment("12","12","12",12f,"12","12","12","12","12",1000));
-//        apartments.add(new Apartment("12","12","12",12f,"12","12","12","12","12",1000));
-//        apartments.add(new Apartment("12","12","12",12f,"12","12","12","12","12",1000));
-//        apartments.add(new Apartment("12","12","12",12f,"12","12","12","12","12",1000));
-//        ApartmentCategory demo = new ApartmentCategory("demo", apartments);
-//        itemHomeAdapter.addItem(listApartmentCategory.size(), demo);
     }
 
 
@@ -70,7 +63,7 @@ public class BlockNewsFragment extends Fragment {
         @Override
         protected String doInBackground(Void... params) {
             try {
-                final String SOAP_ACTION = ApiConstant.NAME_SPACE + ApiConstant.METHOD_FIRST_VIEW;
+                String SOAP_ACTION = ApiConstant.NAME_SPACE + ApiConstant.METHOD_FIRST_VIEW;
                 SoapObject request = new SoapObject(ApiConstant.NAME_SPACE, ApiConstant.METHOD_FIRST_VIEW);
                 SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 envelope.dotNet = true;
@@ -114,7 +107,10 @@ public class BlockNewsFragment extends Fragment {
 
         }
         ApartmentCategory category = new ApartmentCategory(temp, apartments);
-        itemHomeAdapter.addItem(listApartmentCategory.size(), category);
+        listApartmentCategory.add(category);
+        itemHomeAdapter = new ItemHomeAdapter(listApartmentCategory);
+        recyclerView.setAdapter(itemHomeAdapter);
+        DebugLog.i("hể");
     }
 
     private boolean isNetworkAvailable() {
