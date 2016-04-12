@@ -18,7 +18,6 @@ import com.qtd.muabannhadat.adapter.ItemHomeAdapter;
 import com.qtd.muabannhadat.constant.ApiConstant;
 import com.qtd.muabannhadat.model.Apartment;
 import com.qtd.muabannhadat.model.ApartmentCategory;
-import com.qtd.muabannhadat.util.DebugLog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -99,7 +98,7 @@ public class BlockNewsFragment extends Fragment {
         for (int i = 0; i < 5; i++) {
             try {
                 JSONObject object = list.getJSONObject(i);
-                Apartment apartment = new Apartment(object.getString("id"), " ", " ", (float) object.getDouble("size"), "Ha Noi", "Dong da", "Street", object.getString("address"), object.getInt("price"), "", 2, 103f, 102f);
+                Apartment apartment = new Apartment(object.getString("id"), " ", " ", (float) object.getDouble("size"), "Ha Noi", "Dong da", "Street", object.getString("address"), object.getInt("price"), "", 2, 103f, 102f, object.getString("image"));
                 apartments.add(apartment);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -110,7 +109,6 @@ public class BlockNewsFragment extends Fragment {
         listApartmentCategory.add(category);
         itemHomeAdapter = new ItemHomeAdapter(listApartmentCategory);
         recyclerView.setAdapter(itemHomeAdapter);
-        DebugLog.i("hể");
     }
 
     private boolean isNetworkAvailable() {

@@ -30,13 +30,8 @@ public class ItemHomeAdapter extends RecyclerView.Adapter<CategoryViewHolder>{
 
     @Override
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
-//        holder.getTileHome0().getIvHome().setImageResource(list.get(position));
         ApartmentCategory apartmentCategory = list.get(position);
-        holder.tvCost.setText(apartmentCategory.getApartments().get(0).getPrice() + "");
-        holder.tvCost1.setText(apartmentCategory.getApartments().get(1).getPrice() + "");
-        holder.tvCost2.setText(apartmentCategory.getApartments().get(2).getPrice() + "");
-        holder.tvCost3.setText(apartmentCategory.getApartments().get(3).getPrice() + "");
-        holder.tvCost4.setText(apartmentCategory.getApartments().get(4).getPrice() + "");
+        holder.setupWith(apartmentCategory);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.qtd.muabannhadat.model;
 
+import java.util.List;
+
 /**
  * Created by Dell on 4/9/2016.
  */
@@ -17,8 +19,27 @@ public class Apartment {
     private int numberOfRoom;
     private float latitude;
     private float longitude;
+    private List<String> images;
 
-    public Apartment(String id, String status, String kind, float area, String city, String district, String street, String address, int price, String describe, int numberOfRoom, float latitude, float longitude) {
+    public String getImageFirst() {
+        return imageFirst;
+    }
+
+    public void setImageFirst(String imageFirst) {
+        this.imageFirst = imageFirst;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
+
+    private String imageFirst;
+
+    public Apartment(String id, String status, String kind, float area, String city, String district, String street, String address, int price, String describe, int numberOfRoom, float latitude, float longitude, String imageFirst) {
         this.id = id;
         this.status = status;
         this.kind = kind;
@@ -32,6 +53,7 @@ public class Apartment {
         this.numberOfRoom = numberOfRoom;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.imageFirst = imageFirst;
     }
 
     public String getId() {
