@@ -18,7 +18,7 @@
             android:text="Trạng thái" />
 
         <TextView
-            android:id="@+id/tv_status"
+            android:id="@+id/tv_status_des"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
@@ -37,7 +37,7 @@
             android:text="Loại" />
 
         <TextView
-            android:id="@+id/tv_kind"
+            android:id="@+id/tv_kind_des"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
@@ -56,7 +56,7 @@
             android:text="Diện tích" />
 
         <TextView
-            android:id="@+id/tv_size"
+            android:id="@+id/tv_size_des"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
@@ -75,7 +75,7 @@
             android:text="Số phòng" />
 
         <TextView
-            android:id="@+id/tv_rooms"
+            android:id="@+id/tv_rooms_des"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
@@ -94,7 +94,7 @@
             android:text="Đường" />
 
         <TextView
-            android:id="@+id/tv_street"
+            android:id="@+id/tv_street_des"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
@@ -113,7 +113,7 @@
             android:text="Quận" />
 
         <TextView
-            android:id="@+id/tv_district"
+            android:id="@+id/tv_district_des"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
@@ -131,7 +131,7 @@
             android:text="Địa chỉ" />
 
         <TextView
-            android:id="@+id/tv_address"
+            android:id="@+id/tv_address_des"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" />

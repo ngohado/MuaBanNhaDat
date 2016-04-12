@@ -1,9 +1,6 @@
 package com.qtd.muabannhadat.subview;
 
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,36 +14,35 @@ import butterknife.ButterKnife;
 /**
  * Created by Ngo Hado on 12-Apr-16.
  */
-public class DescriptionView extends LinearLayout{
+public class DescriptionView extends LinearLayout {
     Context context;
 
-    @Bind(R.id.tv_status)
+    @Bind(R.id.tv_status_des)
     TextView tvStatus;
 
-    @Bind(R.id.tv_status)
+    @Bind(R.id.tv_kind_des)
     TextView tvKind;
 
-    @Bind(R.id.tv_status)
+    @Bind(R.id.tv_size_des)
     TextView tvSize;
 
-    @Bind(R.id.tv_status)
+    @Bind(R.id.tv_street_des)
     TextView tvStreet;
 
-    @Bind(R.id.tv_status)
+    @Bind(R.id.tv_district_des)
     TextView tvDistrict;
 
-    @Bind(R.id.tv_status)
+    @Bind(R.id.tv_address_des)
     TextView tvAddress;
 
-    @Bind(R.id.tv_rooms)
+    @Bind(R.id.tv_rooms_des)
     TextView tvRooms;
 
     public DescriptionView(Context context) {
         super(context);
         this.context = context;
-        View view = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                .inflate(R.layout.description_layout, (ViewGroup) getRootView(), false);
-        ButterKnife.bind(view);
+        inflate(context, R.layout.description_layout, this);
+        ButterKnife.bind(this);
     }
 
     public void setupWith(Apartment home) {
@@ -54,8 +50,8 @@ public class DescriptionView extends LinearLayout{
             return;
         StringUtil.displayText(home.getStatus(), tvStatus);
         StringUtil.displayText(home.getKind(), tvKind);
-        StringUtil.displayText(home.getArea(), tvSize);
-        StringUtil.displayText(home.getNumberOfRoom(), tvRooms);
+        StringUtil.displayText(String.valueOf(home.getArea()), tvSize);
+        StringUtil.displayText(String.valueOf(home.getNumberOfRoom()), tvRooms);
         StringUtil.displayText(home.getStreet(), tvStreet);
         StringUtil.displayText(home.getDistrict(), tvDistrict);
         StringUtil.displayText(home.getAddress(), tvAddress);

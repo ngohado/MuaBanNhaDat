@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qtd.muabannhadat.R;
+import com.qtd.muabannhadat.model.Apartment;
 import com.qtd.muabannhadat.subview.DescriptionView;
 
 import butterknife.Bind;
@@ -63,13 +64,19 @@ public class ApartmentDetailActivity extends AppCompatActivity {
     }
 
     private void getBundleData() {
+        Bundle bundle = getIntent().getBundleExtra(DATA);
+        if (bundle == null) {
+            idApartment = -1;
+            return;
+        }
         idApartment = getIntent().getBundleExtra(DATA).getInt(ID_APARTMENT, -1);
     }
 
     private void initData() {
         if (idApartment != -1) {
             descriptionView = new DescriptionView(this);
-            descriptionView.setupWith(null);
+            descriptionView.setupWith(new Apartment(1,"Bán", "Chung cư", 30, "Hà Nội", "Đống Đa", "Thái Hà", "", 200000, "agaga", 2, 36, 14));
+            layoutMore.addView(descriptionView, 2);
         }
     }
 

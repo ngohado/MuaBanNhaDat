@@ -34,11 +34,6 @@ public class BlockNewsFragment extends Fragment {
         recyclerView.setAdapter(itemHomeAdapter);
 
         ArrayList<Apartment> apartments = new ArrayList<>();
-        apartments.add(new Apartment("12","12","12",12f,"12","12","12","12","12",1000));
-        apartments.add(new Apartment("12","12","12",12f,"12","12","12","12","12",1000));
-        apartments.add(new Apartment("12","12","12",12f,"12","12","12","12","12",1000));
-        apartments.add(new Apartment("12","12","12",12f,"12","12","12","12","12",1000));
-        apartments.add(new Apartment("12","12","12",12f,"12","12","12","12","12",1000));
         ApartmentCategory demo = new ApartmentCategory("demo", apartments);
         itemHomeAdapter.addItem(listApartmentCategory.size(), demo);
     }
