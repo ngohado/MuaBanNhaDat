@@ -8,15 +8,19 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.view.View;
 
 import com.qtd.muabannhadat.R;
+import com.qtd.muabannhadat.fragment.BlockNewsFragment;
+import com.qtd.muabannhadat.fragment.FavoriteFragment;
 
 public class HomeActivity extends AppCompatActivity {
     private TabLayout tabLayout;
+
     private PopupMenu popupMenu;
     private Snackbar snackbar;
 
@@ -41,12 +45,18 @@ public class HomeActivity extends AppCompatActivity {
                 switch (tab.getPosition()) {
                     case 0:
                         changeColorTabItem(R.drawable.ic_home_white_36dp, 0);
+                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                        ft.replace(R.id.layout_container_home, new BlockNewsFragment());
+                        ft.commit();
                         break;
                     case 1:
                         changeColorTabItem(R.drawable.ic_search_white_36dp, 1);
                         break;
                     case 2:
                         changeColorTabItem(R.drawable.ic_favorite_white_36dp, 2);
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.layout_container_home, new FavoriteFragment());
+                        transaction.commit();
                         break;
                     case 3:
                         changeColorTabItem(R.drawable.ic_notifications_white_36dp, 3);

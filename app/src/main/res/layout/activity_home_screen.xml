@@ -15,16 +15,10 @@
         app:tabIndicatorColor="@color/colorPrimary">
     </android.support.design.widget.TabLayout>
     <LinearLayout
-        android:id="@+id/layoutContainer"
+        android:id="@+id/layout_container_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/tabLayout"
         android:orientation="horizontal">
-        <!--<fragment android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:name="com.qtd.muabannhadat.fragment.BlockNewsFragment"-->
-            <!--tools:layout="@layout/block_fragment_news">-->
-
-        <!--</fragment>-->
     </LinearLayout>
 </RelativeLayout>
