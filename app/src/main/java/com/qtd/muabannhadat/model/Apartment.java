@@ -40,7 +40,7 @@ public class Apartment {
 
     private String imageFirst;
 
-    public Apartment(String id, String status, String kind, float area, String city, String district, String street, String address, int price, String describe, int numberOfRoom, float latitude, float longitude, String imageFirst) {
+    public Apartment(int id, String status, String kind, float area, String city, String district, String street, String address, int price, String describe, int numberOfRoom, float latitude, float longitude, String imageFirst) {
         this.id = id;
         this.status = status;
         this.kind = kind;

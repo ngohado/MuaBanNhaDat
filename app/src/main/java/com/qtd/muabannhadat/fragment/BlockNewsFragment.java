@@ -115,7 +115,7 @@ public class BlockNewsFragment extends Fragment {
         for (int i = 0; i < 5; i++) {
             try {
                 JSONObject object = list.getJSONObject(i);
-                Apartment apartment = new Apartment(object.getString("id"), " ", " ", (float) object.getDouble("size"), "Ha Noi", "Dong da", "Street", object.getString("address"), object.getInt("price"), "", 2, 103f, 102f, object.getString("image"));
+                Apartment apartment = new Apartment(object.getInt("id"), " ", " ", (float) object.getDouble("size"), "Ha Noi", "Dong da", "Street", object.getString("address"), object.getInt("price"), "", 2, 103f, 102f, object.getString("image"));
                 apartments.add(apartment);
             } catch (JSONException e) {
                 e.printStackTrace();
