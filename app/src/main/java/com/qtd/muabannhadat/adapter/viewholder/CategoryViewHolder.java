@@ -1,8 +1,11 @@
 package com.qtd.muabannhadat.adapter.viewholder;
 
 import android.net.Uri;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,6 +15,7 @@ import com.qtd.muabannhadat.model.ApartmentCategory;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Dell on 4/9/2016.
@@ -81,15 +85,35 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.txtCity5)
     public TextView tvCity;
 
+    @Bind(R.id.imv_favorite1)
+    public ImageView imvFavorite1;
+
+    @Bind(R.id.imv_favorite2)
+    public ImageView imvFavorite2;
+
+    @Bind(R.id.imv_favorite3)
+    public ImageView imvFavorite3;
+
+    @Bind(R.id.imv_favorite4)
+    public ImageView imvFavorite4;
+
+    @Bind(R.id.imv_favorite5)
+    public ImageView imvFavorite5;
+    @Bind(R.id.btnSeeAll)
+    public Button btnSeeAll;
+
+
     View view;
+
     public CategoryViewHolder(View itemView) {
         super(itemView);
         this.view = itemView;
-        ButterKnife.bind(this,itemView);
+        ButterKnife.bind(this, itemView);
     }
 
     public void setupWith(ApartmentCategory a) {
         tvTitle.setText(a.getName());
+        btnSeeAll.setText("Xem tất cả " + a.getName());
 
         tvCost.setText(String.valueOf(a.getApartments().get(0).getPrice()));
         tvCost1.setText(String.valueOf(a.getApartments().get(1).getPrice()));
@@ -116,4 +140,61 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
         Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(4).getImageFirst())).into(ivHome4);
     }
 
+
+    @OnClick(R.id.imv1)
+    public void ImageView1OnClick() {
+        new AlertDialog.Builder(view.getContext())
+                .setTitle("Hello")
+                .setMessage("Can you hear me")
+                .create().show();
+    }
+
+    @OnClick(R.id.imv2)
+    public void ImageView2OnClick() {
+
+    }
+
+    @OnClick(R.id.imv3)
+    public void ImageView3OnClick() {
+
+    }
+
+    @OnClick(R.id.imv4)
+    public void ImageView4OnClick() {
+
+    }
+
+    @OnClick(R.id.imv5)
+    public void ImageView5OnClick() {
+
+    }
+
+    @OnClick(R.id.imv_favorite1)
+    public void ImvFavorite1OnClick(){
+        imvFavorite1.setImageDrawable(ContextCompat.getDrawable(view.getContext(),R.drawable.ic_favorite_white_36dp));
+    }
+
+    @OnClick(R.id.imv_favorite2)
+    public void ImvFavorite2OnClick(){
+
+    }
+
+    @OnClick(R.id.imv_favorite3)
+    public void ImvFavorite3OnClick(){
+
+    }
+
+    @OnClick(R.id.imv_favorite4)
+    public void ImvFavorite4OnClick(){
+
+    }
+
+    @OnClick(R.id.imv_favorite5)
+    public void ImvFavorite5OnClick(){
+
+    }
+    @OnClick(R.id.btnSeeAll)
+    public void BtnSeeAllOnClick() {
+        //do something
+    }
 }

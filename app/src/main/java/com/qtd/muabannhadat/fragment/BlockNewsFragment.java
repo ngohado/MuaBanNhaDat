@@ -1,23 +1,25 @@
 package com.qtd.muabannhadat.fragment;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.adapter.ItemHomeAdapter;
 import com.qtd.muabannhadat.constant.ApiConstant;
 import com.qtd.muabannhadat.model.Apartment;
 import com.qtd.muabannhadat.model.ApartmentCategory;
+import com.qtd.muabannhadat.util.Utility;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,17 +37,30 @@ public class BlockNewsFragment extends Fragment {
     private ItemHomeAdapter itemHomeAdapter;
     private ArrayList<ApartmentCategory> listApartmentCategory = new ArrayList<>();
 
+    ProgressBar progressBar;
+    Snackbar snackbar;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.block_fragment_news, container, false);
         initView(view);
-        initData();
+        initData(view);
         return view;
     }
 
-    private void initData() {
-        if (isNetworkAvailable()) {
+    private void initData(View v) {
+        if (Utility.isNetworkAvailable(getContext())) {
             new GetHomesAsyncTask().execute();
+        } else {
+//            snackbar = Snackbar.make(v.findViewById(R.id.layout_fragment_news),"Không có kết nối Internet - xin thử lại",Snackbar.LENGTH_LONG)
+//                    .setAction("Đóng", new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            snackbar.dismiss();
+//                        }
+//                    });
+//            snackbar.setActionTextColor(ContextCompat.getColor(v.getContext(),R.color.colorPrimary));
+//            snackbar.show();
         }
     }
 
@@ -56,6 +71,10 @@ public class BlockNewsFragment extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(itemHomeAdapter);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressbar_fragmentNews);
+        progressBar.setIndeterminate(true);
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(view.getContext(),R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+        progressBar.setEnabled(true);
     }
 
     class GetHomesAsyncTask extends AsyncTask<Void, String, String> {
@@ -79,9 +98,8 @@ public class BlockNewsFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String result) {
-            JSONArray array = null;
             try {
-                array = new JSONArray(result);
+                JSONArray array = new JSONArray(result);
                 JSONObject obj = array.getJSONObject(0);
                 String temp = obj.getString("title");
                 JSONArray list = obj.getJSONArray("home");
@@ -107,14 +125,9 @@ public class BlockNewsFragment extends Fragment {
         }
         ApartmentCategory category = new ApartmentCategory(temp, apartments);
         listApartmentCategory.add(category);
-        itemHomeAdapter = new ItemHomeAdapter(listApartmentCategory);
-        recyclerView.setAdapter(itemHomeAdapter);
-    }
-
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        itemHomeAdapter.notifyDataSetChanged();
+        progressBar.setEnabled(false);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 }
 

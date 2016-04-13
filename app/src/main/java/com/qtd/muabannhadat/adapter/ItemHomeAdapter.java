@@ -38,14 +38,4 @@ public class ItemHomeAdapter extends RecyclerView.Adapter<CategoryViewHolder>{
     public int getItemCount() {
         return list.size();
     }
-
-    public void addItem(int position, ApartmentCategory apartmentCategory){
-        list.add(position, apartmentCategory);
-        notifyItemInserted(position);
-    }
-
-    public void removeItem(int position) {
-        list.remove(position);
-        notifyItemRemoved(position);
-    }
 }
