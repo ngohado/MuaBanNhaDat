@@ -25,7 +25,6 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.net.UnknownHostException;
 
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText edtEmail;
@@ -39,6 +38,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
         initView();
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
@@ -147,12 +147,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         return valid;
     }
-
-    @OnClick(R.id.tv_close)
-    public void onClickExit() {
-        finish();
-    }
-
 
     @Override
     public void onClick(View v) {
