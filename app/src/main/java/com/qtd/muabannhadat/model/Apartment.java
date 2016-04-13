@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class Apartment {
     private int id;
-    private User user;
+    private User user = new User();
     private String status;
     private String kind;
     private float area;
@@ -22,6 +22,9 @@ public class Apartment {
     private float longitude;
     private List<String> images;
 
+    public Apartment() {
+
+    }
     public String getImageFirst() {
         return imageFirst;
     }
