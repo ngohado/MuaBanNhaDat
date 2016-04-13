@@ -39,33 +39,55 @@
             android:layout_height="40dp"
             android:id="@+id/spStreet">
         </Spinner>
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:hint="Diện tích"
-            android:id="@+id/edtAcrea"/>
+            android:inputType="number"
+            android:id="@+id/edtAcrea"
+            android:drawablePadding="7dp"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:id="@+id/edtCost"
-            android:hint="Tổng tiền"/>
+            android:inputType="number"
+            android:hint="Tổng tiền"
+            android:drawablePadding="7dp"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/edtPhong"
-            android:hint="Số phòng"/>
+            android:id="@+id/edtRoom"
+            android:inputType="number"
+            android:hint="Số phòng"
+            android:drawablePadding="7dp"/>
         <EditText
             android:layout_width="fill_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:hint="Mô tả"
             android:layout_weight="0.13"
-            android:id="@+id/edtMoTa"/>
+            android:id="@+id/edtDescribe"
+            android:drawablePadding="7dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ivImage"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_account_box_white_36dp"/>
         <Button
-            android:layout_width="140dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Chọn ảnh"
+            android:id="@+id/btnSelect"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:id="@+id/btnDangTin"
+            android:id="@+id/btnPost"
             android:text="Đăng tin"/>
+
     </LinearLayout>
 
 </RelativeLayout>
