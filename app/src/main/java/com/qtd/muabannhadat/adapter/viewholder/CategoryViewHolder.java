@@ -1,111 +1,200 @@
 package com.qtd.muabannhadat.adapter.viewholder;
 
+import android.net.Uri;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.qtd.muabannhadat.R;
+import com.qtd.muabannhadat.model.ApartmentCategory;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Dell on 4/9/2016.
  */
-public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-    private TileHome tileHome0;
-    private TileHome tileHome1;
-    private TileHome tileHome2;
-    private TileHome tileHome3;
-    private TileHome tileHome4;
-    private Button btnSeeAll;
+public class CategoryViewHolder extends RecyclerView.ViewHolder {
+
+    @Bind(R.id.tv_title)
+    public TextView tvTitle;
+
+    @Bind(R.id.imv1)
+    public ImageView ivHome1;
+
+    @Bind(R.id.txtCost1)
+    public TextView tvCost1;
+
+    @Bind(R.id.txtAddress1)
+    public TextView tvAddress1;
+
+    @Bind(R.id.txtCity1)
+    public TextView tvCity1;
+
+    @Bind(R.id.imv2)
+    public ImageView ivHome2;
+
+    @Bind(R.id.txtCost2)
+    public TextView tvCost2;
+
+    @Bind(R.id.txtAddress2)
+    public TextView tvAddress2;
+
+    @Bind(R.id.txtCity2)
+    public TextView tvCity2;
+
+    @Bind(R.id.imv3)
+    public ImageView ivHome3;
+
+    @Bind(R.id.txtCost3)
+    public TextView tvCost3;
+
+    @Bind(R.id.txtAddress3)
+    public TextView tvAddress3;
+
+    @Bind(R.id.txtCity3)
+    public TextView tvCity3;
+
+    @Bind(R.id.imv4)
+    public ImageView ivHome4;
+
+    @Bind(R.id.txtCost4)
+    public TextView tvCost4;
+
+    @Bind(R.id.txtAddress4)
+    public TextView tvAddress4;
+
+    @Bind(R.id.txtCity4)
+    public TextView tvCity4;
+
+    @Bind(R.id.imv5)
+    public ImageView ivHome;
+
+    @Bind(R.id.txtCost5)
+    public TextView tvCost;
+
+    @Bind(R.id.txtAddress5)
+    public TextView tvAddress;
+
+    @Bind(R.id.txtCity5)
+    public TextView tvCity;
+
+    @Bind(R.id.imv_favorite1)
+    public ImageView imvFavorite1;
+
+    @Bind(R.id.imv_favorite2)
+    public ImageView imvFavorite2;
+
+    @Bind(R.id.imv_favorite3)
+    public ImageView imvFavorite3;
+
+    @Bind(R.id.imv_favorite4)
+    public ImageView imvFavorite4;
+
+    @Bind(R.id.imv_favorite5)
+    public ImageView imvFavorite5;
+    @Bind(R.id.btnSeeAll)
+    public Button btnSeeAll;
+
+
+    View view;
 
     public CategoryViewHolder(View itemView) {
         super(itemView);
-        initComponent(itemView);
+        this.view = itemView;
+        ButterKnife.bind(this, itemView);
     }
 
-    private void initComponent(View itemView) {
-        tileHome0 = new TileHome(itemView, R.id.imv1, R.id.txtCost1,R.id.txtAddress1, R.id.txtCity1);
-        tileHome0.ivHome.setOnClickListener(this);
-        tileHome1 = new TileHome(itemView, R.id.imv2, R.id.txtCost2,R.id.txtAddress2, R.id.txtCity2);
-        tileHome1.ivHome.setOnClickListener(this);
-        tileHome2 = new TileHome(itemView, R.id.imv3, R.id.txtCost3,R.id.txtAddress3, R.id.txtCity3);
-        tileHome2.ivHome.setOnClickListener(this);
-        tileHome3 = new TileHome(itemView, R.id.imv4, R.id.txtCost4,R.id.txtAddress4, R.id.txtCity4);
-        tileHome3.ivHome.setOnClickListener(this);
-        tileHome4 = new TileHome(itemView, R.id.imv5, R.id.txtCost5,R.id.txtAddress5, R.id.txtCity5);
-        tileHome4.ivHome.setOnClickListener(this);
+    public void setupWith(ApartmentCategory a) {
+        tvTitle.setText(a.getName());
+        btnSeeAll.setText("Xem tất cả " + a.getName());
 
-        btnSeeAll = (Button) this.itemView.findViewById(R.id.btnSeeAll);
-        btnSeeAll.setOnClickListener(this);
+        tvCost.setText(String.valueOf(a.getApartments().get(0).getPrice()));
+        tvCost1.setText(String.valueOf(a.getApartments().get(1).getPrice()));
+        tvCost2.setText(String.valueOf(a.getApartments().get(2).getPrice()));
+        tvCost3.setText(String.valueOf(a.getApartments().get(3).getPrice()));
+        tvCost4.setText(String.valueOf(a.getApartments().get(4).getPrice()));
+
+        tvAddress.setText(a.getApartments().get(0).getAddress());
+        tvAddress1.setText(a.getApartments().get(1).getAddress());
+        tvAddress2.setText(a.getApartments().get(2).getAddress());
+        tvAddress3.setText(a.getApartments().get(3).getAddress());
+        tvAddress4.setText(a.getApartments().get(4).getAddress());
+
+        tvCity.setText(a.getApartments().get(0).getCity());
+        tvCity1.setText(a.getApartments().get(1).getCity());
+        tvCity2.setText(a.getApartments().get(2).getCity());
+        tvCity3.setText(a.getApartments().get(3).getCity());
+        tvCity4.setText(a.getApartments().get(4).getCity());
+
+        Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(0).getImageFirst())).into(ivHome);
+        Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(1).getImageFirst())).into(ivHome1);
+        Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(2).getImageFirst())).into(ivHome2);
+        Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(3).getImageFirst())).into(ivHome3);
+        Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(4).getImageFirst())).into(ivHome4);
     }
 
-    public TileHome getTileHome0() {
-        return tileHome0;
+
+    @OnClick(R.id.imv1)
+    public void ImageView1OnClick() {
+        new AlertDialog.Builder(view.getContext())
+                .setTitle("Hello")
+                .setMessage("Can you hear me")
+                .create().show();
     }
 
-    public TileHome getTileHome1() {
-        return tileHome1;
-    }
-
-    public TileHome getTileHome2() {
-        return tileHome2;
-    }
-
-    public TileHome getTileHome3() {
-        return tileHome3;
-    }
-
-    public TileHome getTileHome4() {
-        return tileHome4;
-    }
-
-    public Button getBtnSeeAll() {
-        return btnSeeAll;
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.imv1:
-                break;
-            case R.id.btnSeeAll:
-                onClickButtonSeeAll();
-                break;
-        }
-    }
-
-    private void onClickButtonSeeAll() {
+    @OnClick(R.id.imv2)
+    public void ImageView2OnClick() {
 
     }
 
-    public class TileHome{
-        private ImageView ivHome;
-        private TextView tvCost;
-        private TextView tvAddress;
-        private TextView tvCity;
+    @OnClick(R.id.imv3)
+    public void ImageView3OnClick() {
 
-        public TileHome(View v, int ivHome, int tvCost, int tvAddress, int tvCity) {
-            this.ivHome = (ImageView) v.findViewById(ivHome);
-            this.tvCost = (TextView) v.findViewById(tvCost);
-            this.tvAddress = (TextView) v.findViewById(tvAddress);
-            this.tvCity = (TextView) v.findViewById(tvCity);
-        }
+    }
 
-        public ImageView getIvHome() {
-            return ivHome;
-        }
+    @OnClick(R.id.imv4)
+    public void ImageView4OnClick() {
 
-        public TextView getTvCost() {
-            return tvCost;
-        }
+    }
 
-        public TextView getTvAddress() {
-            return tvAddress;
-        }
+    @OnClick(R.id.imv5)
+    public void ImageView5OnClick() {
 
-        public TextView getTvCity() {
-            return tvCity;
-        }
+    }
+
+    @OnClick(R.id.imv_favorite1)
+    public void ImvFavorite1OnClick(){
+        imvFavorite1.setImageDrawable(ContextCompat.getDrawable(view.getContext(),R.drawable.ic_favorite_white_36dp));
+    }
+
+    @OnClick(R.id.imv_favorite2)
+    public void ImvFavorite2OnClick(){
+
+    }
+
+    @OnClick(R.id.imv_favorite3)
+    public void ImvFavorite3OnClick(){
+
+    }
+
+    @OnClick(R.id.imv_favorite4)
+    public void ImvFavorite4OnClick(){
+
+    }
+
+    @OnClick(R.id.imv_favorite5)
+    public void ImvFavorite5OnClick(){
+
+    }
+    @OnClick(R.id.btnSeeAll)
+    public void BtnSeeAllOnClick() {
+        //do something
     }
 }

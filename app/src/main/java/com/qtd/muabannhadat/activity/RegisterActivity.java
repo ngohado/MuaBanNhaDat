@@ -281,7 +281,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             try {
                 final String SOAP_ACTION = ApiConstant.NAME_SPACE + ApiConstant.METHOD_REGISTER;
                 SoapObject request = new SoapObject(ApiConstant.NAME_SPACE, ApiConstant.METHOD_REGISTER);
-                request.addProperty("info", toJson(new String[]{params[0], params[1], params[2]}));
+                request.addProperty("json", toJson(new String[]{params[0], params[1], params[2]}));
                 SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 envelope.dotNet = true;
                 envelope.setOutputSoapObject(request);
