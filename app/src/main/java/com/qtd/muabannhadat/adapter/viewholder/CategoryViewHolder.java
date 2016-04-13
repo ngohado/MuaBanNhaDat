@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.qtd.muabannhadat.R;
+import com.qtd.muabannhadat.model.Apartment;
 import com.qtd.muabannhadat.model.ApartmentCategory;
 
 import butterknife.Bind;
@@ -196,5 +197,9 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
     @OnClick(R.id.btnSeeAll)
     public void BtnSeeAllOnClick() {
         //do something
+    }
+
+    private void StartActivity(Apartment apartment) {
+//        Intent intent = new Intent(view.getContext(),)
     }
 }
