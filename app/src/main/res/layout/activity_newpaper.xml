@@ -69,12 +69,24 @@
             android:id="@+id/edtDescribe"
             android:drawablePadding="7dp"/>
 
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ivImage"
             android:layout_gravity="center"
             android:src="@drawable/ic_account_box_white_36dp"/>
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="70dp">
+            <LinearLayout
+                android:id="@+id/lnrImages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            </LinearLayout>
+        </HorizontalScrollView>
+
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
