@@ -16,19 +16,18 @@
         <activity android:name=".activity.LoginActivity">
 
         </activity>
-        <activity android:name=".activity.HomeActivity"></activity>
-
-        <fragment android:name=".fragment.BlockNewsFragment" />
-
-        <activity android:name=".activity.NewpaperActivity">
-
-        </activity>
         <activity android:name=".activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <fragment android:name=".fragment.BlockNewsFragment" />
+
+        <activity android:name=".activity.NewpaperActivity">
+
         </activity>
         <activity android:name=".activity.ApartmentDetailActivity">
         </activity>
