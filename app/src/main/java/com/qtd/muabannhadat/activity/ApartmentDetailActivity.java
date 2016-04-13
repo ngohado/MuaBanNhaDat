@@ -1,21 +1,28 @@
 package com.qtd.muabannhadat.activity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.qtd.muabannhadat.R;
+import com.qtd.muabannhadat.callback.ResultRequestCallback;
 import com.qtd.muabannhadat.model.Apartment;
+import com.qtd.muabannhadat.request.GetApartmentInfoRequest;
 import com.qtd.muabannhadat.subview.DescriptionView;
+import com.qtd.muabannhadat.subview.UserContactView;
+import com.qtd.muabannhadat.util.NetworkUtil;
+import com.qtd.muabannhadat.util.StringUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ApartmentDetailActivity extends AppCompatActivity {
+public class ApartmentDetailActivity extends AppCompatActivity implements ResultRequestCallback<Apartment> {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
@@ -45,13 +52,19 @@ public class ApartmentDetailActivity extends AppCompatActivity {
 
     DescriptionView descriptionView;
 
+    UserContactView primaryUser;
+    UserContactView user1;
+    UserContactView user2;
+
     int idApartment;
 
     boolean isShowDescriptionView = false;
 
     public static final String DATA = "DATA";
 
-    public static final String ID_APARTMENT = "DATA";
+    public static final String ID_APARTMENT = "ID_APARTMENT";
+
+    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,25 +72,45 @@ public class ApartmentDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_apartment_detail);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        initView();
         getBundleData();
         initData();
     }
 
+    private void initView() {
+        descriptionView = new DescriptionView(this);
+        primaryUser = new UserContactView(this);
+        dialog = new ProgressDialog(this);
+        dialog.setIndeterminate(true);
+        dialog.setCancelable(false);
+        dialog.setMessage("Đang tải...");
+
+        layoutMore.addView(descriptionView, 2);
+        layoutMore.addView(primaryUser);
+    }
+
     private void getBundleData() {
-        Bundle bundle = getIntent().getBundleExtra(DATA);
-        if (bundle == null) {
-            idApartment = -1;
-            return;
-        }
-        idApartment = getIntent().getBundleExtra(DATA).getInt(ID_APARTMENT, -1);
+        idApartment = getIntent().getIntExtra(ID_APARTMENT, 1);
     }
 
     private void initData() {
-        if (idApartment != -1) {
-            descriptionView = new DescriptionView(this);
-            descriptionView.setupWith(new Apartment(1,"Bán", "Chung cư", 30, "Hà Nội", "Đống Đa", "Thái Hà", "", 200000, "agaga", 2, 36, 14));
-            layoutMore.addView(descriptionView, 2);
+        requestGetData();
+    }
+
+    public void requestGetData() {
+        if (!NetworkUtil.getInstance(this).isNetworkConnected()) {
+            Toast.makeText(this, "Kiểm tra lại kết nối mạng...", Toast.LENGTH_SHORT).show();
+            return;
         }
+        GetApartmentInfoRequest request = new GetApartmentInfoRequest(this, idApartment, this);
+        request.executeRequest();
+        dialog.show();
+    }
+
+    @OnClick(R.id.layout_header)
+    public void onImageViewClicked() {
+        //TODO: open activity show image
+
     }
 
     @OnClick(R.id.tv_description_title)
@@ -125,5 +158,28 @@ public class ApartmentDetailActivity extends AppCompatActivity {
     @OnClick(R.id.iv_back)
     public void onButtonBackClicked() {
         finish();
+    }
+
+    @Override
+    public void onSuccess(Apartment result) {
+        fillData(result);
+        dialog.dismiss();
+    }
+
+    private void fillData(Apartment result) {
+        StringUtil.displayText(result.getAddress(), tvAddress);
+        StringUtil.displayText(result.getDistrict() + ", " + result.getCity(), tvCity);
+        StringUtil.displayText(result.getKind(), tvKind);
+        StringUtil.displayText(result.getStatus(), tvStatus);
+        StringUtil.displayText("$" + result.getPrice(), tvPrice);
+        StringUtil.displayText("Diện tích " + result.getArea() + "m2", tvSize);
+        StringUtil.displayText(result.getDescribe(), tvIntro);
+        primaryUser.setupWith(result.getUser());
+    }
+
+    @Override
+    public void onFailed(String error) {
+
+        dialog.dismiss();
     }
 }

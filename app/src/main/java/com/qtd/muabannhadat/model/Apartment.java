@@ -5,7 +5,7 @@ package com.qtd.muabannhadat.model;
  */
 public class Apartment {
     private int id;
-    private User user;
+    private User user = new User();
     private String status;
     private String kind;
     private float area;
@@ -19,6 +19,9 @@ public class Apartment {
     private float latitude;
     private float longitude;
 
+    public Apartment() {
+
+    }
 
     public Apartment(int id, String status, String kind, float area, String city, String district, String street, String address, int price, String describe, int numberOfRoom, float latitude, float longitude) {
         this.id = id;

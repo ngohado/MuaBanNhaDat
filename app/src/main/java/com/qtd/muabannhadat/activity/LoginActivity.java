@@ -38,6 +38,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+
+        Intent intent = new Intent(this, ApartmentDetailActivity.class);
+        intent.putExtra(ApartmentDetailActivity.ID_APARTMENT, 1);
+        startActivity(intent);
+
         initView();
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);

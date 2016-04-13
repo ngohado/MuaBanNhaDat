@@ -10,4 +10,5 @@ public class ApiConstant {
     public static final String METHOD_LOGIN = "GetMemberinfobyIDnPassWord";
     public static final String METHOD_REGISTER = "InsertMember";
     public static final String METHOD_CHECK_USER = "ChecHaskUsername";
+    public static final String METHOD_APARTMENT = "GetApartmentinfobyID";
 }
