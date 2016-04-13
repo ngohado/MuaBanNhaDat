@@ -24,9 +24,6 @@
         </activity>
         <activity android:name=".activity.ApartmentDetailActivity">
         </activity>
-        <activity android:name=".activity.HomeActivity">
-
-        </activity>
         <fragment android:name=".fragment.BlockNewsFragment"></fragment>
     </application>
 
