@@ -13,6 +13,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.LoginActivity">
+
+        </activity>
+        <activity android:name=".activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
