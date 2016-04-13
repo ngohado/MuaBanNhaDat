@@ -5,24 +5,29 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.callback.ResultRequestCallback;
+import com.qtd.muabannhadat.constant.ApiConstant;
 import com.qtd.muabannhadat.model.Apartment;
-import com.qtd.muabannhadat.request.GetApartmentInfoRequest;
+import com.qtd.muabannhadat.request.BaseRequestApi;
 import com.qtd.muabannhadat.subview.DescriptionView;
 import com.qtd.muabannhadat.subview.UserContactView;
 import com.qtd.muabannhadat.util.NetworkUtil;
 import com.qtd.muabannhadat.util.StringUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ApartmentDetailActivity extends AppCompatActivity implements ResultRequestCallback<Apartment> {
+public class ApartmentDetailActivity extends AppCompatActivity implements ResultRequestCallback {
     @Bind(R.id.toolbar)
     Toolbar toolbar;
 
@@ -44,11 +49,14 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
     @Bind(R.id.tv_city)
     TextView tvCity;
 
-    @Bind(R.id.tv_intro)
+    @Bind(R.id.tv_content)
     TextView tvIntro;
 
     @Bind(R.id.layout_more)
     LinearLayout layoutMore;
+
+    @Bind(R.id.btn_loadmore)
+    Button btnLoadMore;
 
     DescriptionView descriptionView;
 
@@ -60,11 +68,13 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
 
     boolean isShowDescriptionView = false;
 
-    public static final String DATA = "DATA";
+    boolean isShowFull = false;
 
     public static final String ID_APARTMENT = "ID_APARTMENT";
 
     ProgressDialog dialog;
+
+    BaseRequestApi request;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +112,7 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
             Toast.makeText(this, "Kiểm tra lại kết nối mạng...", Toast.LENGTH_SHORT).show();
             return;
         }
-        GetApartmentInfoRequest request = new GetApartmentInfoRequest(this, idApartment, this);
+        request = new BaseRequestApi(this, String.format("{\"ID\":%d}", idApartment), ApiConstant.METHOD_APARTMENT, this);
         request.executeRequest();
         dialog.show();
     }
@@ -120,14 +130,24 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
 
         if (isShowDescriptionView) {
             descriptionView.setVisibility(View.VISIBLE);
+            isShowDescriptionView = false;
         } else {
             descriptionView.setVisibility(View.GONE);
+            isShowDescriptionView = true;
         }
     }
 
     @OnClick(R.id.btn_loadmore)
     public void onButtonLoadMoreClicked() {
-
+        if (isShowFull) {
+            tvIntro.setMaxLines(2);
+            btnLoadMore.setText("ĐỌC THÊM");
+            isShowFull = false;
+        } else {
+            tvIntro.setMaxLines(10);
+            btnLoadMore.setText("RÚT GỌN");
+            isShowFull = true;
+        }
     }
 
     @OnClick(R.id.tv_direction)
@@ -160,12 +180,6 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
         finish();
     }
 
-    @Override
-    public void onSuccess(Apartment result) {
-        fillData(result);
-        dialog.dismiss();
-    }
-
     private void fillData(Apartment result) {
         StringUtil.displayText(result.getAddress(), tvAddress);
         StringUtil.displayText(result.getDistrict() + ", " + result.getCity(), tvCity);
@@ -174,12 +188,52 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
         StringUtil.displayText("$" + result.getPrice(), tvPrice);
         StringUtil.displayText("Diện tích " + result.getArea() + "m2", tvSize);
         StringUtil.displayText(result.getDescribe(), tvIntro);
+        descriptionView.setupWith(result);
         primaryUser.setupWith(result.getUser());
     }
 
     @Override
-    public void onFailed(String error) {
-
+    public void onSuccess(String result) {
+        handleResponse(result);
         dialog.dismiss();
+    }
+
+    @Override
+    public void onFailed(String error) {
+        dialog.dismiss();
+    }
+
+    private void handleResponse(String s) {
+        try {
+            JSONObject object = new JSONObject(s);
+            Apartment response = new Apartment();
+            response.setAddress(object.getString("Address"));
+            response.setId(object.getInt("A_ID"));
+            response.setStatus(object.getString("Status"));
+            response.setKind(object.getString("Kind"));
+            response.setArea(object.getLong("Size"));
+            response.setCity(object.getString("City"));
+            response.setDistrict(object.getString("District"));
+            response.setStreet(object.getString("Street"));
+            response.setPrice(object.getInt("Price"));
+            response.setDescribe(object.getString("Describe"));
+            response.setNumberOfRoom(object.getInt("Room"));
+            response.setLatitude(object.getLong("Latitude"));
+            response.setLongitude(object.getLong("Longitude"));
+            response.getUser().setId(object.getInt("UserID"));
+            response.getUser().setUserName(object.getString("Username"));
+            response.getUser().setName(object.getString("Name"));
+            response.getUser().setDateOfBirth(object.getString("DOB"));
+            response.getUser().setPhone(object.getString("Telephone"));
+            fillData(response);
+        } catch (JSONException e) {
+
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        request.close();
+        super.onDestroy();
     }
 }
