@@ -6,7 +6,8 @@ import java.util.List;
  * Created by Dell on 4/9/2016.
  */
 public class Apartment {
-    private String id;
+    private int id;
+    private User user;
     private String status;
     private String kind;
     private float area;
@@ -56,11 +57,19 @@ public class Apartment {
         this.imageFirst = imageFirst;
     }
 
-    public String getId() {
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
