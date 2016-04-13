@@ -4,7 +4,6 @@ import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,34 +37,28 @@ public class BlockNewsFragment extends Fragment {
     private ArrayList<ApartmentCategory> listApartmentCategory = new ArrayList<>();
 
     ProgressBar progressBar;
-    Snackbar snackbar;
+    View view;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.block_fragment_news, container, false);
-        initView(view);
-        initData(view);
+        view = inflater.inflate(R.layout.block_fragment_news, container, false);
         return view;
     }
 
-    private void initData(View v) {
-        if (Utility.isNetworkAvailable(getContext())) {
-            new GetHomesAsyncTask().execute();
-        } else {
-//            snackbar = Snackbar.make(v.findViewById(R.id.layout_fragment_news),"Không có kết nối Internet - xin thử lại",Snackbar.LENGTH_LONG)
-//                    .setAction("Đóng", new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            snackbar.dismiss();
-//                        }
-//                    });
-//            snackbar.setActionTextColor(ContextCompat.getColor(v.getContext(),R.color.colorPrimary));
-//            snackbar.show();
-        }
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView();
+        initData();
     }
 
+    private void initData() {
+        Utility.isNetworkAvailable(view.getContext(), view, true);
+        new GetHomesAsyncTask().execute();
+    }
 
-    private void initView(View view) {
+    private void initView() {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         itemHomeAdapter = new ItemHomeAdapter(listApartmentCategory);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity().getApplicationContext());
@@ -73,7 +66,7 @@ public class BlockNewsFragment extends Fragment {
         recyclerView.setAdapter(itemHomeAdapter);
         progressBar = (ProgressBar) view.findViewById(R.id.progressbar_fragmentNews);
         progressBar.setIndeterminate(true);
-        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(view.getContext(),R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
         progressBar.setEnabled(true);
     }
 
@@ -87,7 +80,14 @@ public class BlockNewsFragment extends Fragment {
                 envelope.dotNet = true;
                 envelope.setOutputSoapObject(request);
                 HttpTransportSE transportSE = new HttpTransportSE(ApiConstant.MAIN_URL);
-                transportSE.call(SOAP_ACTION, envelope);
+                while (true) {
+                    if (!Utility.isNetworkAvailable(getContext(),view,false)) {
+                        Thread.sleep(1000);
+                    } else {
+                        transportSE.call(SOAP_ACTION, envelope);
+                        break;
+                    }
+                }
                 SoapPrimitive result = (SoapPrimitive) envelope.getResponse();
                 return result.toString();
             } catch (Exception e) {
@@ -105,9 +105,8 @@ public class BlockNewsFragment extends Fragment {
                 JSONArray list = obj.getJSONArray("home");
                 displayHomes(temp, list);
             } catch (JSONException e) {
-                e.printStackTrace();
-            }
 
+            }
         }
     }
 

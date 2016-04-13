@@ -228,7 +228,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/ic_favorite_border_white_36dp"
-                android:id="@+id/imv_favorite4"/>
+                android:id="@+id/imv_favorite4"
+                android:scaleType="fitXY"/>
 
             <TextView
                 android:id="@+id/txtCost4"

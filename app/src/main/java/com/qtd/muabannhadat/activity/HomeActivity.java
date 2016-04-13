@@ -28,16 +28,16 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        getSupportFragmentManager().beginTransaction().add(R.id.layout_container_home, new BlockNewsFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, new BlockNewsFragment()).commit();
     }
 
     private void initTabLayout() {
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_home_white_36dp));
-        tabLayout.addTab(tabLayout.newTab().setIcon(changeColor(R.drawable.ic_search_white_36dp, R.color .colorGray)));
-        tabLayout.addTab(tabLayout.newTab().setIcon(changeColor(R.drawable.ic_favorite_white_36dp, R.color.colorGray)));
-        tabLayout.addTab(tabLayout.newTab().setIcon(changeColor(R.drawable.ic_notifications_white_36dp, R.color.colorGray)));
-        tabLayout.addTab(tabLayout.newTab().setIcon(changeColor(R.drawable.ic_more_vert_white_36dp, R.color.colorGray)));
+        tabLayout.addTab(tabLayout.newTab().setIcon(changeColor(R.drawable.ic_search_white_36dp, R.color .colorPrimaryDark)));
+        tabLayout.addTab(tabLayout.newTab().setIcon(changeColor(R.drawable.ic_favorite_white_36dp, R.color.colorPrimaryDark)));
+        tabLayout.addTab(tabLayout.newTab().setIcon(changeColor(R.drawable.ic_notifications_white_36dp, R.color.colorPrimaryDark)));
+        tabLayout.addTab(tabLayout.newTab().setIcon(changeColor(R.drawable.ic_more_vert_white_36dp, R.color.colorPrimaryDark)));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
