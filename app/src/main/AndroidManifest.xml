@@ -22,15 +22,13 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:configChanges="orientation|screenSize"
-            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity" />
+            android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
+            android:configChanges="orientation|screenSize" />
         <activity android:name=".activity.RegisterActivity" />
-        <activity android:name=".activity.LoginActivity"></activity>
-        <activity android:name=".activity.HomeActivity"></activity>
 
         <fragment android:name=".fragment.BlockNewsFragment" />
 
-        <activity android:name=".activity.NewpaperActivity">
+        <activity android:name=".activity.NewpaperActivity"></activity>
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,18 +39,16 @@
         <activity android:name=".activity.HomeActivity">
 
         </activity>
-        <activity android:name=".activity.ApartmentDetailActivity">
-        </activity>
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" />
+        <activity android:name=".activity.ApartmentDetailActivity"></activity>
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="47e3fc3740c99d890974ecafbb1736707a959ddb" />
-        <activity android:name=".activity.ApartmentDetailActivity"></activity>
 
         <fragment android:name=".fragment.BlockNewsFragment"></fragment>
     </application>
