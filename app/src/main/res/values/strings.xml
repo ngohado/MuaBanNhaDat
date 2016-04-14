@@ -3,30 +3,19 @@
 
     <string name="from_picker">Select an iten</string>
     <string-array name="item_from">
-        <item>--Hình thức--</item>
-        <item>Nhà đất bán</item>
-        <item>Nhà đất cho thuê</item>
+        <item>Bán</item>
+        <item>Thuê</item>
     </string-array>
 
-    <string name="kind_picker">Select an iten</string>
+    <string name="kind_picker">Select an item</string>
     <string-array name="item_kind">
-        <item>--Phân loại--</item>
-        <item>Bán căn hộ chung cư</item>
-        <item>Bán nhà riêng</item>
-        <item>Bán đất</item>
-        <item>Bán nhà biệt thự,liền kề</item>
-        <item>Bán nhà mặt phố</item>
-        <item>Bán trang trại khu nghỉ dưỡng</item>
-        <item>Bán kho,nhà xưởng</item>
-        <item>Bán loại bất động sản khác</item>
-        <item>--Phân loại--</item>
-        <item>Cho thuê căn hộ chung cư</item>
-        <item>Cho thuê nhà riêng</item>
-        <item>Cho thuê nhà mặt phố</item>
-        <item>Cho thuê nhà trọ, phòng trọ</item>
-        <item>Cho thuê văn phòng</item>
-        <item>Cho thuê cửa hàng, ki ốt</item>
-        <item>Cho thuê kho xưởng</item>
-        <item>Cho thuê loại bất động sản khác</item>
+        <item>Căn hộ chung cư</item>
+        <item>Nhà riêng</item>
+        <item>Đất</item>
+        <item>Biệt thự, liền kề</item>
+        <item>Mặt phố</item>
+        <item>Trang trại khu nghỉ dưỡng</item>
+        <item>Kho, nhà xưởng</item>
+        <item>Khác</item>
     </string-array>
 </resources>

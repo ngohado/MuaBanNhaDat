@@ -1,105 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/colorPrimary"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:scrollbars="none"
     tools:context=".activity.NewpaperActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:weightSum="1">
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:id="@+id/spFrom">
-        </Spinner>
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:id="@+id/spKind">
-        </Spinner>
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:id="@+id/spCity">
-        </Spinner>
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:id="@+id/spDistrict">
-        </Spinner>
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:id="@+id/spStreet">
-        </Spinner>
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:hint="Diện tích"
-            android:inputType="number"
-            android:id="@+id/edtAcrea"
-            android:drawablePadding="7dp"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:id="@+id/edtCost"
-            android:inputType="number"
-            android:hint="Tổng tiền"
-            android:drawablePadding="7dp"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/edtRoom"
-            android:inputType="number"
-            android:hint="Số phòng"
-            android:drawablePadding="7dp"/>
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="Mô tả"
-            android:layout_weight="0.13"
-            android:id="@+id/edtDescribe"
-            android:drawablePadding="7dp"/>
-
-
-        <ImageView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/ivImage"
             android:layout_gravity="center"
-            android:src="@drawable/ic_account_box_white_36dp"/>
+            android:layout_marginTop="20dp"
+            android:text="Đăng Tin"
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"></Spinner>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/spFrom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"></Spinner>
+
+            <Spinner
+                android:id="@+id/spKind"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"></Spinner>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/spStreet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"></Spinner>
+
+            <Spinner
+                android:id="@+id/spDistrict"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"></Spinner>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/edtAddress"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:hint="Địa chỉ"
+                android:maxLines="1"
+                android:textColor="@color/colorAccent"
+                android:theme="@style/EditTextStyle" />
+
+            <TextView
+                android:id="@+id/tv_street"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/edtAddress"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text=", Thái Hà"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_district"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/tv_street"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text=", Đống Đa"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/tv_district"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text=", Hà Nội"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/edtAcrea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Diện tích"
+            android:inputType="number"
+            android:textColor="@color/colorAccent"
+            android:theme="@style/EditTextStyle" />
+
+        <EditText
+            android:id="@+id/edtCost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Tổng tiền"
+            android:inputType="number"
+            android:textColor="@color/colorAccent"
+            android:theme="@style/EditTextStyle" />
+
+        <EditText
+            android:id="@+id/edtRoom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Số phòng"
+            android:inputType="number"
+            android:textColor="@color/colorAccent"
+            android:theme="@style/EditTextStyle" />
+
+        <EditText
+            android:id="@+id/edtDescribe"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/text_area"
+            android:gravity="top"
+            android:hint="Mô tả"
+            android:padding="10dp"
+            android:textColor="@color/colorAccent"
+            android:theme="@style/EditTextStyle" />
+
         <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="70dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/text_area"
+            android:padding="5dp"
+            android:scrollbarStyle="insideOverlay">
+
             <LinearLayout
-                android:id="@+id/lnrImages"
+                android:id="@+id/layout_images"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnSelect"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/border_login"
+                    android:text="+"
+                    android:textColor="@android:color/white"
+                    android:textSize="40sp" />
             </LinearLayout>
         </HorizontalScrollView>
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Chọn ảnh"
-            android:id="@+id/btnSelect"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:id="@+id/btnPost"
-            android:text="Đăng tin"/>
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/border_login"
+            android:text="ĐĂNG TIN" />
 
     </LinearLayout>
 
-</RelativeLayout>
+</ScrollView>

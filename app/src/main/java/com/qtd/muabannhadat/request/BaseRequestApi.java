@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import com.qtd.muabannhadat.callback.ResultRequestCallback;
 import com.qtd.muabannhadat.constant.ApiConstant;
+import com.qtd.muabannhadat.util.DebugLog;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -31,6 +32,7 @@ public class BaseRequestApi {
                 try {
                     String soapAction = ApiConstant.NAME_SPACE + methodName;
                     SoapObject request = new SoapObject(ApiConstant.NAME_SPACE, methodName);
+                    DebugLog.i("json: " + dataRequest);
                     request.addProperty("json", dataRequest);
                     SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                     envelope.dotNet = true;
@@ -53,6 +55,7 @@ public class BaseRequestApi {
                     callback.onFailed("response is null");
                     return;
                 }
+                DebugLog.i("result: " + s);
                 callback.onSuccess(s);
             }
         };

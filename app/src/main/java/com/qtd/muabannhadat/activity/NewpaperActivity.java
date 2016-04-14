@@ -1,82 +1,133 @@
 package com.qtd.muabannhadat.activity;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.qtd.muabannhadat.BaseApplication;
 import com.qtd.muabannhadat.R;
+import com.qtd.muabannhadat.callback.ResultRequestCallback;
+import com.qtd.muabannhadat.constant.ApiConstant;
+import com.qtd.muabannhadat.constant.AppConstant;
 import com.qtd.muabannhadat.database.MyDatabase;
 import com.qtd.muabannhadat.model.District;
 import com.qtd.muabannhadat.model.Street;
+import com.qtd.muabannhadat.request.BaseRequestApi;
+import com.qtd.muabannhadat.subview.SubImageView;
+import com.qtd.muabannhadat.util.DebugLog;
+import com.qtd.muabannhadat.util.DialogUtil;
+import com.qtd.muabannhadat.util.SharedPrefUtils;
+import com.qtd.muabannhadat.util.StringUtil;
+import com.qtd.muabannhadat.util.Utility;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class NewpaperActivity extends AppCompatActivity implements View.OnClickListener {
-    private Spinner spFrom;
-    private Spinner spKind;
-    private Spinner spCity;
-    private Spinner spDistrict;
-    private Spinner spStreet;
-    private EditText edtAcrea;
-    private EditText edtCost;
-    private EditText edtDescribe;
-    private EditText edtRoom;
-    private Button btnPost;
-    private Button btnSelect;
-    private LinearLayout lnrImages;
-    private ArrayList<String> imagesPathList;
-    private ImageView ivImage;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import me.nereo.multi_image_selector.MultiImageSelectorActivity;
+
+public class NewpaperActivity extends AppCompatActivity {
+
+    @Bind(R.id.spFrom)
+    Spinner spFrom;
+
+    @Bind(R.id.spKind)
+    Spinner spKind;
+
+    @Bind(R.id.spCity)
+    Spinner spCity;
+
+    @Bind(R.id.spDistrict)
+    Spinner spDistrict;
+
+    @Bind(R.id.spStreet)
+    Spinner spStreet;
+
+    @Bind(R.id.edtAcrea)
+    EditText edtSize;
+
+    @Bind(R.id.edtCost)
+    EditText edtCost;
+
+    @Bind(R.id.edtDescribe)
+    EditText edtDescribe;
+
+    @Bind(R.id.edtRoom)
+    EditText edtRoom;
+
+    @Bind(R.id.edtAddress)
+    EditText edtAddress;
+
+    @Bind(R.id.layout_images)
+    LinearLayout layoutImages;
+
+    @Bind(R.id.tv_street)
+    TextView tvStreet;
+
+    @Bind(R.id.tv_district)
+    TextView tvDistrict;
+
+    private ArrayList<String> imagesPathList = new ArrayList<>();
+
     private MyDatabase myDatabase;
+
     private List<District> mDistrict;
+
     private List<Street> mStreet;
-    private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
 
     private List<Street> streetsByDistrict = new ArrayList<>();
+
     private ArrayAdapter<District> districtAdapter;
+
     private ArrayAdapter<Street> streetAdapter;
-    private Street street;
+
+    private ProgressDialog dialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newpaper);
+        ButterKnife.bind(this);
         myDatabase = new MyDatabase(this);
         initView();
         initData();
-        spinnerFrom();
+        spinnerFromAndKind();
         spinnerCity();
-        btnPost.setOnClickListener(this);
-        btnSelect.setOnClickListener(this);
+    }
+
+    public void getStreetsByDistrict(int position) {
+        streetsByDistrict.clear();
+        int idDistrict = mDistrict.get(position).getIdDistrict();
+        for (Street str : mStreet) {
+            if (str.getIdDistrict() == idDistrict) {
+                streetsByDistrict.add(str);
+            }
+        }
     }
 
     private void initData() {
@@ -85,23 +136,28 @@ public class NewpaperActivity extends AppCompatActivity implements View.OnClickL
         mStreet = myDatabase.getListStreet();
         districtAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, mDistrict);
         spDistrict.setAdapter(districtAdapter);
-        for (Street str : mStreet) {
-            if (str.getIdDistrict() == mDistrict.get(0).getIdDistrict()) {
-                streetsByDistrict.add(str);
-            }
-        }
+        StringUtil.displayText(mDistrict.get(0).getDistrictName(), tvDistrict);
+        getStreetsByDistrict(0);
         streetAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, streetsByDistrict);
         spStreet.setAdapter(streetAdapter);
         spDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                streetsByDistrict.clear();
-                for (Street str : mStreet) {
-                    if (str.getIdDistrict() == mDistrict.get(position).getIdDistrict()) {
-                        streetsByDistrict.add(str);
-                    }
-                }
+                getStreetsByDistrict(position);
                 streetAdapter.notifyDataSetChanged();
+                StringUtil.displayText(", " + mDistrict.get(position).getDistrictName(), tvDistrict);
+                StringUtil.displayText(", " + streetsByDistrict.get(spStreet.getSelectedItemPosition()).getStreetName(), tvStreet);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spStreet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                StringUtil.displayText(", " + streetsByDistrict.get(position).getStreetName(), tvStreet);
             }
 
             @Override
@@ -111,20 +167,11 @@ public class NewpaperActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
-
     private void initView() {
-        spFrom = (Spinner) findViewById(R.id.spFrom);
-        spKind = (Spinner) findViewById(R.id.spKind);
-        spCity = (Spinner) findViewById(R.id.spCity);
-        spDistrict = (Spinner) findViewById(R.id.spDistrict);
-        spStreet = (Spinner) findViewById(R.id.spStreet);
-        edtAcrea = (EditText) findViewById(R.id.edtAcrea);
-        edtCost = (EditText) findViewById(R.id.edtCost);
-        edtDescribe = (EditText) findViewById(R.id.edtDescribe);
-        edtRoom = (EditText) findViewById(R.id.edtRoom);
-        btnSelect = (Button) findViewById(R.id.btnSelect);
-        ivImage = (ImageView) findViewById(R.id.ivImage);
-        btnPost = (Button) findViewById(R.id.btnPost);
+        dialog = new ProgressDialog(this);
+        dialog.setCancelable(false);
+        dialog.setIndeterminate(true);
+        dialog.setMessage("Đang tải...");
 
         edtDescribe.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -139,48 +186,24 @@ public class NewpaperActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void spinnerCity() {
-        String arr[] = {"--Hà Nội--", "Hà Nội"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                (this, R.layout.support_simple_spinner_dropdown_item, arr);
-        adapter.setDropDownViewResource
-                (R.layout.support_simple_spinner_dropdown_item);
+        String arr[] = {"Hà Nội"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, arr);
+        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spCity.setAdapter(adapter);
     }
 
-    private void spinnerFrom() {
-        ArrayAdapter<CharSequence> fromAdapter = ArrayAdapter.createFromResource(
-                this, R.array.item_from, R.layout.support_simple_spinner_dropdown_item);
+    private void spinnerFromAndKind() {
+        ArrayAdapter<CharSequence> fromAdapter = ArrayAdapter.createFromResource(this, R.array.item_from, R.layout.support_simple_spinner_dropdown_item);
         fromAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spFrom.setAdapter(fromAdapter);
-        spFrom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                List<String> s = Arrays.asList(getResources().getStringArray(R.array.item_kind));
-                if (position == 1) {
-                    s = s.subList(0, 8);
-                    ArrayAdapter<String> kind = new ArrayAdapter<>(NewpaperActivity.this, R.layout.support_simple_spinner_dropdown_item, s);
-                    spKind.setAdapter(kind);
-                } else if (position == 2) {
-                    s = s.subList(9, 17);
-                    ArrayAdapter<String> kind = new ArrayAdapter<String>(NewpaperActivity.this, R.layout.support_simple_spinner_dropdown_item, s);
-                    spKind.setAdapter(kind);
-                } else {
-                    ArrayList<String> arr = new ArrayList<String>();
-                    arr.add("--Phân loại--");
-                    ArrayAdapter<String> kind = new ArrayAdapter<>(NewpaperActivity.this, R.layout.support_simple_spinner_dropdown_item, arr);
-                    spKind.setAdapter(kind);
-                }
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        ArrayAdapter<CharSequence> kindAdapter = ArrayAdapter.createFromResource(this, R.array.item_kind, R.layout.support_simple_spinner_dropdown_item);
+        fromAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spKind.setAdapter(kindAdapter);
     }
 
     public Boolean validate() {
-        if (edtAcrea.getError() != null) return false;
+        if (edtSize.getError() != null) return false;
         if (edtRoom.getError() != null) return false;
         if (edtCost.getError() != null) return false;
         if (edtDescribe.getError() != null) return false;
@@ -188,159 +211,179 @@ public class NewpaperActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private Boolean areEmpty() {
-        String dienTich = edtAcrea.getText().toString();
-        String tongTien = edtCost.getText().toString();
-        String phong = edtRoom.getText().toString();
-        if (dienTich.equals("") | tongTien.equals("") | phong.equals("")) {
+        String size = edtSize.getText().toString();
+        String price = edtCost.getText().toString();
+        String rooms = edtRoom.getText().toString();
+        if (size.equals("") || price.equals("") || rooms.equals("")) {
             return true;
         }
         return false;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnPost:
-                if (!isNetworkAvailable()) {
-                    Toast.makeText(NewpaperActivity.this, "Hãy kiểm tra kết nối mạng!", Toast.LENGTH_SHORT).show();
-                } else {
-                    btnPostOnClick();
-                }
-                break;
-            case R.id.btnSelect:
-                selectImage();
-                break;
+    @OnClick(R.id.btnPost)
+    public void onPostClicked() {
+        if (Utility.isNetworkAvailable(this, findViewById(R.id.scrollView), true)) {
+            if (areEmpty() || !validate() || !checkCountImage()) {
+                Toast.makeText(NewpaperActivity.this, "Hãy nhập đầy đủ và chính xác thông tin!", Toast.LENGTH_SHORT).show();
+            } else {
+                dialog.show();
+                requestGetLatLong();
+            }
         }
-
     }
 
-    private void selectImage() {
-        final CharSequence[] items = {"Chụp ảnh", "Chọn từ thư mục",
-                "Thoát"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(NewpaperActivity.this);
-        builder.setTitle("Chọn ảnh!");
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int item) {
-                if (items[item].equals("Chụp ảnh")) {
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent, REQUEST_CAMERA);
-                } else if (items[item].equals("Chọn từ thư mục")) {
-                    Intent intent = new Intent(
-                            Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    intent.setType("image/*");
-                    startActivityForResult(
-                            Intent.createChooser(intent, "Select File"),
-                            SELECT_FILE);
-                } else if (items[item].equals("Thoát")) {
-                    dialog.dismiss();
-                }
-            }
-        });
-        builder.show();
+    ArrayList<String> values = new ArrayList<>();
+
+    @OnClick(R.id.btnSelect)
+    public void onImageClicked() {
+        Intent intent = new Intent(this, MultiImageSelectorActivity.class);
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, 6 - layoutImages.getChildCount());
+        intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_MULTI);
+        intent.putStringArrayListExtra(MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST, values);
+        startActivityForResult(intent, 13);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == NewpaperActivity.RESULT_OK) {
-            if (requestCode == SELECT_FILE)
-                onSelectFromGalleryResult(data);
-            else if (requestCode == REQUEST_CAMERA)
-                onCaptureImageResult(data);
+        if (requestCode == 13 && resultCode == Activity.RESULT_OK) {
+            List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+            addImages(path);
         }
     }
 
-    private void onCaptureImageResult(Intent data) {
-        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+    private void addImages(List<String> paths) {
+        for (String url : paths) {
+            SubImageView view = new SubImageView(this);
+            view.setupWith(url);
+            layoutImages.addView(view, layoutImages.getChildCount() - 1);
+        }
+    }
+
+
+    public static String encodeToString(Bitmap bitmap) throws IOException {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        return Base64.encodeToString(bytes.toByteArray(), Base64.DEFAULT);
+    }
 
-        File destination = new File(Environment.getExternalStorageDirectory(),
-                System.currentTimeMillis() + ".jpg");
+    private boolean checkCountImage() {
+        if (layoutImages.getChildCount() - 1 == 5)
+            return true;
+        Toast.makeText(this, "Bạn chỉ được thêm 5 ảnh", Toast.LENGTH_SHORT).show();
+        return false;
+    }
 
-        FileOutputStream fo;
+
+    private void requestGetLatLong() {
+        String address = "";
         try {
-            destination.createNewFile();
-            fo = new FileOutputStream(destination);
-            fo.write(bytes.toByteArray());
-            fo.close();
-        } catch (FileNotFoundException e) {
+            address = URLEncoder.encode(edtAddress.getText().toString() + tvStreet.getText() + tvDistrict.getText() + ", Hà Nội, Việt Nam", "utf-8");
+        } catch (UnsupportedEncodingException e) {
+
+        }
+        String urlRequest = String.format("http://maps.google.com/maps/api/geocode/json?address=%s&sensor=false", address);
+        JsonObjectRequest request = new JsonObjectRequest(urlRequest, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                handleResponse(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        BaseApplication.getInstance().addToRequestQueue(request);
+    }
+
+    private void handleResponse(JSONObject response) {
+        try {
+            JSONObject location = response.getJSONArray("results").getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
+            double latitude = location.getDouble("lat");
+            double longitude = location.getDouble("lng");
+            sendDataToServer(latitude, longitude);
+        } catch (JSONException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            try {
+                sendDataToServer(0, 0);
+            } catch (JSONException ex) {
 
-        ivImage.setImageBitmap(thumbnail);
-    }
-
-    @SuppressWarnings("deprecation")
-    private void onSelectFromGalleryResult(Intent data) {
-        Uri selectedImageUri = data.getData();
-        String[] projection = {MediaStore.MediaColumns.DATA};
-        Cursor cursor = managedQuery(selectedImageUri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-        cursor.moveToFirst();
-
-        String selectedImagePath = cursor.getString(column_index);
-
-        Bitmap bm;
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(selectedImagePath, options);
-        final int REQUIRED_SIZE = 200;
-        int scale = 1;
-        while (options.outWidth / scale / 2 >= REQUIRED_SIZE
-                && options.outHeight / scale / 2 >= REQUIRED_SIZE)
-            scale *= 2;
-        options.inSampleSize = scale;
-        options.inJustDecodeBounds = false;
-        bm = BitmapFactory.decodeFile(selectedImagePath, options);
-
-        ivImage.setImageBitmap(bm);
-    }
-
-    private void btnPostOnClick() {
-        if (areEmpty() | !validate()) {
-            Toast.makeText(NewpaperActivity.this, "Hãy nhập đầy đủ và chính xác thông tin!", Toast.LENGTH_SHORT).show();
-        } else {
-
-        }
-
-    }
-
-    class PostAsyncTask extends AsyncTask<String,Void,String>{
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+            }
         }
     }
 
-    private String toJson(String[] params){
-        try{
-            JSONObject obj=new JSONObject();
+    private void sendDataToServer(double lat, double lng) throws JSONException {
+        JSONObject dataRequest = new JSONObject();
+        int userId = SharedPrefUtils.getInt(AppConstant.USER_ID, 1);
+        dataRequest.put(AppConstant.USER_ID, userId);
+        String address = edtAddress.getText().toString() + tvStreet.getText() + tvDistrict.getText() + ", Hà Nội, Việt Nam";
+        dataRequest.put(AppConstant.ADDRESS, address);
+        String street = tvStreet.getText().toString();
+        dataRequest.put(AppConstant.STREET, street);
+        String district = tvDistrict.getText().toString();
+        dataRequest.put(AppConstant.DISTRICT, district);
+        String status = spFrom.getSelectedItem().toString();
+        dataRequest.put(AppConstant.STATUS, status);
+        String kind = spKind.getSelectedItem().toString();
+        dataRequest.put(AppConstant.KIND, kind);
+        String city = spCity.getSelectedItem().toString();
+        dataRequest.put(AppConstant.CITY, city);
+        String description = edtDescribe.getText().toString();
+        dataRequest.put(AppConstant.DESCRIBE, description);
+        int rooms = Integer.parseInt(edtRoom.getText().toString());
+        dataRequest.put(AppConstant.ROOM, rooms);
+        int price = Integer.parseInt(edtCost.getText().toString());
+        dataRequest.put(AppConstant.PRICE, price);
+        int size = Integer.parseInt(edtSize.getText().toString());
+        dataRequest.put(AppConstant.SIZE, size);
 
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return "";
+        dataRequest.put(AppConstant.LATITUDE, lat);
+        dataRequest.put(AppConstant.LONGITUDE, lng);
+
+        getListImage();
+        String image1 = imagesPathList.get(0);
+        dataRequest.put(AppConstant.IMAGE1, image1);
+        String image2 = imagesPathList.get(1);
+        dataRequest.put(AppConstant.IMAGE2, image2);
+        String image3 = imagesPathList.get(2);
+        dataRequest.put(AppConstant.IMAGE3, image3);
+        String image4 = imagesPathList.get(3);
+        dataRequest.put(AppConstant.IMAGE4, image4);
+        String image5 = imagesPathList.get(4);
+        dataRequest.put(AppConstant.IMAGE5, image5);
+
+        BaseRequestApi requestApi = new BaseRequestApi(this, dataRequest.toString(), ApiConstant.METHOD_INSERT_APARTMENT, new ResultRequestCallback() {
+            @Override
+            public void onSuccess(String result) {
+                dialog.dismiss();
+                DialogUtil.showDialog(NewpaperActivity.this, "Thành công", "Chúc mừng thông tin căn nhà của bạn đã được đăng thành công");
+                layoutImages.removeViews(0, 5);
+                edtCost.setText("");
+                edtAddress.setText("");
+                edtRoom.setText("");
+                edtDescribe.setText("");
+                edtSize.setText("");
+            }
+
+            @Override
+            public void onFailed(String error) {
+                dialog.dismiss();
+                DebugLog.e(error);
+            }
+        });
+        requestApi.executeRequest();
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    private void getListImage() {
+        imagesPathList.clear();
+        for (int i = 0; i < layoutImages.getChildCount() - 1; i++) {
+            try {
+                imagesPathList.add(encodeToString(((SubImageView) layoutImages.getChildAt(i)).getBitmap()));
+            } catch (IOException e) {
+                imagesPathList.add("");
+            }
+        }
     }
 }
