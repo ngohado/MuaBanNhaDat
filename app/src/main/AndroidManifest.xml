@@ -11,20 +11,33 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.LoginActivity">
-
-        </activity>
-        <activity android:name=".activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.HomeActivity">
+
+        </activity>
         <activity android:name=".activity.ApartmentDetailActivity">
         </activity>
-        <fragment android:name=".fragment.BlockNewsFragment"></fragment>
+        <activity android:name="com.facebook.FacebookActivity"
+            android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:label="@string/app_name" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="47e3fc3740c99d890974ecafbb1736707a959ddb" />
     </application>
 
 </manifest>
