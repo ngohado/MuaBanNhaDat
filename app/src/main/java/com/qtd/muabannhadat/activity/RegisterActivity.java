@@ -21,7 +21,9 @@ import android.widget.Toast;
 
 import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 import com.qtd.muabannhadat.R;
+import com.qtd.muabannhadat.callback.ResultRequestCallback;
 import com.qtd.muabannhadat.constant.ApiConstant;
+import com.qtd.muabannhadat.request.BaseRequestApi;
 import com.qtd.muabannhadat.util.DebugLog;
 
 import org.json.JSONObject;
@@ -36,7 +38,7 @@ import java.util.Random;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener, ResultRequestCallback {
     public static final String EMAIL = "email";
     public static final int REGISTER_RESULT_CODE = 1;
 
@@ -51,6 +53,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private ProgressDialog loading;
     Boolean hasSentEmail;
     private int confirmCode = 0;
+
+    BaseRequestApi requestApi;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -185,8 +189,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 }
             } else {
                 if (etCode.getText().toString().equals(String.valueOf(confirmCode))) {
-                    new SubmitRegisterAsyncTask().execute(etEmail.getText().toString(), etPassword.getText().toString(),
-                            etTelephone.getText().toString());
+                    requestApi = new BaseRequestApi(this, toJson(etEmail.getText().toString(), etPassword.getText().toString(),
+                            etTelephone.getText().toString()),ApiConstant.METHOD_REGISTER, this);
+                    requestApi.executeRequest();
                 } else {
                     Toast.makeText(RegisterActivity.this, "Mã xác nhận không đúng", Toast.LENGTH_SHORT).show();
                 }
@@ -269,38 +274,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    @Override
+    public void onSuccess(String result) {
+        processResult(result);
+        loading.dismiss();
+    }
 
-    class SubmitRegisterAsyncTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected void onPreExecute() {
-            loading.show();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-                final String SOAP_ACTION = ApiConstant.NAME_SPACE + ApiConstant.METHOD_REGISTER;
-                SoapObject request = new SoapObject(ApiConstant.NAME_SPACE, ApiConstant.METHOD_REGISTER);
-                request.addProperty("json", toJson(new String[]{params[0], params[1], params[2]}));
-                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-                envelope.dotNet = true;
-                envelope.setOutputSoapObject(request);
-                HttpTransportSE transportSE = new HttpTransportSE(ApiConstant.MAIN_URL);
-                transportSE.call(SOAP_ACTION, envelope);
-                SoapPrimitive result = (SoapPrimitive) envelope.getResponse();
-                return result.toString();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                return ex.toString();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            loading.dismiss();
-            processResult(result);
-        }
+    @Override
+    public void onFailed(String error) {
+        DebugLog.e(error);
+        loading.dismiss();
     }
 
     private void processResult(String result) {
