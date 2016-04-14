@@ -1,8 +1,8 @@
 package com.qtd.muabannhadat.adapter.viewholder;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.qtd.muabannhadat.R;
+import com.qtd.muabannhadat.activity.ApartmentDetailActivity;
 import com.qtd.muabannhadat.model.Apartment;
 import com.qtd.muabannhadat.model.ApartmentCategory;
 
@@ -103,8 +104,8 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.btnSeeAll)
     public Button btnSeeAll;
 
-
     View view;
+    ApartmentCategory apartmentCategory;
 
     public CategoryViewHolder(View itemView) {
         super(itemView);
@@ -113,6 +114,7 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setupWith(ApartmentCategory a) {
+        apartmentCategory = a;
         tvTitle.setText(a.getName());
         btnSeeAll.setText("Xem tất cả " + a.getName());
 
@@ -144,62 +146,65 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.imv1)
     public void ImageView1OnClick() {
-        new AlertDialog.Builder(view.getContext())
-                .setTitle("Hello")
-                .setMessage("Can you hear me")
-                .create().show();
+        startApartmentDetailActivity(apartmentCategory.getApartments().get(0));
     }
 
     @OnClick(R.id.imv2)
     public void ImageView2OnClick() {
-
+        startApartmentDetailActivity(apartmentCategory.getApartments().get(1));
     }
 
     @OnClick(R.id.imv3)
     public void ImageView3OnClick() {
-
+        startApartmentDetailActivity(apartmentCategory.getApartments().get(2));
     }
 
     @OnClick(R.id.imv4)
     public void ImageView4OnClick() {
-
+        startApartmentDetailActivity(apartmentCategory.getApartments().get(3));
     }
 
     @OnClick(R.id.imv5)
     public void ImageView5OnClick() {
-
+        startApartmentDetailActivity(apartmentCategory.getApartments().get(4));
     }
 
     @OnClick(R.id.imv_favorite1)
-    public void ImvFavorite1OnClick(){
-        imvFavorite1.setImageDrawable(ContextCompat.getDrawable(view.getContext(),R.drawable.ic_favorite_white_36dp));
+    public void ImvFavorite1OnClick() {
+        imvFavorite1.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
     }
 
     @OnClick(R.id.imv_favorite2)
-    public void ImvFavorite2OnClick(){
+    public void ImvFavorite2OnClick() {
+        imvFavorite2.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
 
     }
 
     @OnClick(R.id.imv_favorite3)
-    public void ImvFavorite3OnClick(){
+    public void ImvFavorite3OnClick() {
+        imvFavorite3.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
 
     }
 
     @OnClick(R.id.imv_favorite4)
-    public void ImvFavorite4OnClick(){
+    public void ImvFavorite4OnClick() {
+        imvFavorite4.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
 
     }
 
     @OnClick(R.id.imv_favorite5)
-    public void ImvFavorite5OnClick(){
-
+    public void ImvFavorite5OnClick() {
+        imvFavorite5.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
     }
+
     @OnClick(R.id.btnSeeAll)
     public void BtnSeeAllOnClick() {
         //do something
     }
 
-    private void StartActivity(Apartment apartment) {
-//        Intent intent = new Intent(view.getContext(),)
+    private void startApartmentDetailActivity(Apartment apartment) {
+        Intent intent = new Intent(view.getContext(), ApartmentDetailActivity.class);
+        intent.putExtra(ApartmentDetailActivity.ID_APARTMENT, apartment.getId());
+        view.getContext().startActivity(intent);
     }
 }

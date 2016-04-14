@@ -84,8 +84,12 @@ public class BlockNewsFragment extends Fragment {
                     if (!Utility.isNetworkAvailable(getContext(),view,false)) {
                         Thread.sleep(1000);
                     } else {
-                        transportSE.call(SOAP_ACTION, envelope);
-                        break;
+                        try {
+                            transportSE.call(SOAP_ACTION, envelope);
+                            break;
+                        } catch (Exception unknownE) {
+                            Thread.sleep(1000);
+                        }
                     }
                 }
                 SoapPrimitive result = (SoapPrimitive) envelope.getResponse();

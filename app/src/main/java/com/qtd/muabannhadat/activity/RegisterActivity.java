@@ -4,8 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -25,6 +23,7 @@ import com.qtd.muabannhadat.callback.ResultRequestCallback;
 import com.qtd.muabannhadat.constant.ApiConstant;
 import com.qtd.muabannhadat.request.BaseRequestApi;
 import com.qtd.muabannhadat.util.DebugLog;
+import com.qtd.muabannhadat.util.Utility;
 
 import org.json.JSONObject;
 import org.ksoap2.SoapEnvelope;
@@ -36,7 +35,6 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.util.Random;
 
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener, ResultRequestCallback {
     public static final String EMAIL = "email";
@@ -79,9 +77,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    if (!isNetworkAvailable()){
-                        Toast.makeText(RegisterActivity.this, "Hãy kiểm tra lại kết nối mạng", Toast.LENGTH_LONG).show();
-                    }else if (!Patterns.EMAIL_ADDRESS.matcher(etEmail.getText().toString()).matches()) {
+                    if (!Utility.isNetworkAvailable(getApplicationContext(), findViewById(R.id.relativeLayout_register), true)) {
+
+                    } else if (!Patterns.EMAIL_ADDRESS.matcher(etEmail.getText().toString()).matches()) {
                         etEmail.setError("Email không hợp lệ");
                     } else {
                         new CheckHasEmailAsyncTask().execute(etEmail.getText().toString());
@@ -147,9 +145,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnRegister:
-                if (!isNetworkAvailable())
-                    Toast.makeText(RegisterActivity.this, "Hãy kiểm tra lại kết nối mạng", Toast.LENGTH_LONG).show();
-                else
+                if (!Utility.isNetworkAvailable(getApplicationContext(), findViewById(R.id.relativeLayout_register), true)) {
+
+                } else
                     btnRegisterOnClick();
                 break;
         }
@@ -190,7 +188,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             } else {
                 if (etCode.getText().toString().equals(String.valueOf(confirmCode))) {
                     requestApi = new BaseRequestApi(this, toJson(etEmail.getText().toString(), etPassword.getText().toString(),
-                            etTelephone.getText().toString()),ApiConstant.METHOD_REGISTER, this);
+                            etTelephone.getText().toString()), ApiConstant.METHOD_REGISTER, this);
                     requestApi.executeRequest();
                 } else {
                     Toast.makeText(RegisterActivity.this, "Mã xác nhận không đúng", Toast.LENGTH_SHORT).show();
@@ -268,12 +266,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         return true;
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
     @Override
     public void onSuccess(String result) {
         processResult(result);
@@ -317,14 +309,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         .setIcon(android.R.drawable.ic_dialog_info)
                         .create().show();
             }
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
-
-    @OnClick(R.id.tv_close)
-    public void onClickExit() {
-        finish();
     }
 
     class CheckHasEmailAsyncTask extends AsyncTask<String, Void, String> {
