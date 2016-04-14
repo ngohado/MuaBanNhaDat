@@ -264,6 +264,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         @Override
                         public void success(Result<User> result) {
                             info[2] = result.data.profileImageUrlHttps;
+                            requestLogin = new BaseRequestApi(getApplicationContext(), toJson(info, 2), ApiConstant.METHOD_LOGIN, LoginActivity.this);
+                            requestLogin.executeRequest();
                         }
 
                         @Override
@@ -271,8 +273,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             e.printStackTrace();
                         }
                     });
-                    requestLogin = new BaseRequestApi(getApplicationContext(), toJson(info, 2), ApiConstant.METHOD_LOGIN, LoginActivity.this);
-                    requestLogin.executeRequest();
+
                 }
             }
 
