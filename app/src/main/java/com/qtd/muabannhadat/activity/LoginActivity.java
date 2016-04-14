@@ -2,7 +2,6 @@ package com.qtd.muabannhadat.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,27 +11,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qtd.muabannhadat.R;
+import com.qtd.muabannhadat.callback.ResultRequestCallback;
 import com.qtd.muabannhadat.constant.ApiConstant;
+import com.qtd.muabannhadat.request.BaseRequestApi;
 import com.qtd.muabannhadat.util.DebugLog;
 
 import org.json.JSONObject;
-import org.ksoap2.SoapEnvelope;
-import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapPrimitive;
-import org.ksoap2.serialization.SoapSerializationEnvelope;
-import org.ksoap2.transport.HttpTransportSE;
-
-import java.net.UnknownHostException;
 
 import butterknife.ButterKnife;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, ResultRequestCallback {
     private EditText edtEmail;
     private EditText edtPass;
     private Button btnLogin;
     private TextView btnRegister;
     private ProgressDialog dialog;
-
+    private BaseRequestApi requestLogin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,56 +48,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         dialog.setMessage("Hãy đợi chút...");
     }
 
-    class MyAsyncTack extends AsyncTask<String, Void, String> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog.show();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-                String soapAction = ApiConstant.NAME_SPACE + ApiConstant.METHOD_LOGIN;
-                SoapObject request = new SoapObject(ApiConstant.NAME_SPACE, ApiConstant.METHOD_LOGIN);
-                request.addProperty("json", toJson(new String[]{params[0], params[1]}));
-                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-                envelope.dotNet = true;
-                envelope.setOutputSoapObject(request);
-                HttpTransportSE transport = new HttpTransportSE(ApiConstant.MAIN_URL);
-                transport.call(soapAction, envelope);
-                SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
-                return response.toString();
-            } catch (UnknownHostException u) {
-                Toast.makeText(LoginActivity.this, "Hãy kiểm tra kết nối mạng", Toast.LENGTH_SHORT).show();
-            } catch (Exception e) {
-                e.printStackTrace();
+    @Override
+    public void onSuccess(String result) {
+        dialog.dismiss();
+        try {
+            JSONObject obj = new JSONObject(result);
+            DebugLog.i(obj.toString());
+            String json = obj.getString("Res");
+            if (json.equals("None")) {
+                onSigninFail();
+            } else {
+                onSigninSuccess();
             }
-            return null;
-        }
 
-        @Override
-        protected void onPostExecute(String response) {
-            dialog.dismiss();
-            try {
-                JSONObject obj = new JSONObject(response);
-                DebugLog.i(obj.toString());
-                String json = obj.getString("Res");
-                if (json.equals("None")) {
-                    onSigninFail();
-                } else {
-                    onSigninSuccess();
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onFailed(String error) {
+        dialog.dismiss();
     }
 
     public void requestLogin() {
         if (validate()) {
-            new MyAsyncTack().execute(edtEmail.getText().toString(), edtPass.getText().toString());
+            requestLogin = new BaseRequestApi(this, toJson(new String[]{edtEmail.getText().toString(), edtPass.getText().toString()}), ApiConstant.METHOD_LOGIN, this);
+            requestLogin.executeRequest();
         }
     }
 
