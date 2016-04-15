@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -37,6 +38,9 @@ public class AllApartmentsActivity extends AppCompatActivity implements ResultRe
     @Bind(R.id.recyclerView_apartments)
     RecyclerView recyclerView;
 
+    @Bind(R.id.toolbar_all_apartments)
+    Toolbar toolbar;
+
     private ItemTileHomeAdapter itemHomeAdapter;
     private ArrayList<Apartment> apartments;
     private String kind = "";
@@ -46,21 +50,28 @@ public class AllApartmentsActivity extends AppCompatActivity implements ResultRe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_apartments);
+        setContentView(R.layout.activity_all_apartments);
         ButterKnife.bind(this);
         initComponent();
     }
 
     private void initComponent() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setTitle("Mua ban nha dat TDQH");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         apartments = new ArrayList<>();
         itemHomeAdapter = new ItemTileHomeAdapter(apartments);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(itemHomeAdapter);
+
         progressBar = (ProgressBar) findViewById(R.id.progressBar_allApartments);
         progressBar.setIndeterminate(true);
         progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
         progressBar.setEnabled(true);
+
         Intent intent = getIntent();
         kind = intent.getStringExtra("Kind");
         String json = "";

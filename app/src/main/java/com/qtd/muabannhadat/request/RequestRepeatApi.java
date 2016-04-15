@@ -13,6 +13,7 @@ import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpResponseException;
 import org.ksoap2.transport.HttpTransportSE;
 
 import java.net.ConnectException;
@@ -53,6 +54,9 @@ public class RequestRepeatApi extends BaseRequestApi {
                                 Thread.sleep(1000);
                             } catch (ConnectException connectEx) {
                                 DebugLog.d(connectEx);
+                                Thread.sleep(1000);
+                            } catch (HttpResponseException httpE) {
+                                DebugLog.d(httpE);
                                 Thread.sleep(1000);
                             }
                         }

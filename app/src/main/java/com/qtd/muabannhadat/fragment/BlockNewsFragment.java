@@ -37,7 +37,6 @@ public class BlockNewsFragment extends Fragment implements ResultRequestCallback
     ProgressBar progressBar;
     View view;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.block_fragment_news, container, false);
@@ -55,7 +54,6 @@ public class BlockNewsFragment extends Fragment implements ResultRequestCallback
         Utility.isNetworkAvailable(view.getContext(), view, true);
         requestRepeatApi = new RequestRepeatApi(view.getContext(), "{}", ApiConstant.METHOD_FIRST_VIEW, this,view);
         requestRepeatApi.executeRequest();
-        //new GetHomesAsyncTask().execute();
     }
 
     private void initView() {

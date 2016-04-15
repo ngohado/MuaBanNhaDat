@@ -26,6 +26,7 @@ import com.qtd.muabannhadat.constant.ApiConstant;
 import com.qtd.muabannhadat.request.BaseRequestApi;
 import com.qtd.muabannhadat.request.LienTMTwitterApiClient;
 import com.qtd.muabannhadat.util.DebugLog;
+import com.qtd.muabannhadat.util.SharedPrefUtils;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
@@ -147,6 +148,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(getBaseContext(), "Đăng nhập không thành công!", Toast.LENGTH_LONG).show();
                 btnLogin.setEnabled(true);
             } else {
+                int userId = obj.getInt("UserID");
+                SharedPrefUtils.putInt("ID", userId);
                 Toast.makeText(getBaseContext(), "Đăng nhập  thành công!", Toast.LENGTH_LONG).show();
                 btnLogin.setEnabled(true);
             }

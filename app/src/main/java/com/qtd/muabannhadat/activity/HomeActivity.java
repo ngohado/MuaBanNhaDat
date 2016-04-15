@@ -42,6 +42,7 @@ public class HomeActivity extends AppCompatActivity {
                 switch (tab.getPosition()) {
                     case 0:
                         changeColorTabItem(R.drawable.ic_home_white_36dp, 0);
+                        //tabLayout.setElevation(0);
                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, new BlockNewsFragment()).commit();
 
                         break;

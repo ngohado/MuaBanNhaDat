@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="175dp"
+    android:layout_height="175dp"
+    android:orientation="vertical"
+    android:background="@drawable/background_item_board">
+
+    <ImageView
+        android:id="@+id/imv_board"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/backgroud_demo"
+        android:scaleType="centerCrop" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/foreground_item_board" />
+
+    <TextView
+        android:id="@+id/tv_name_board"
+        style="@style/TextViewApartmentStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:id="@+id/tv_member_board"
+        style="@style/TextViewApartmentStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_apartment_board" />
+
+    <TextView
+        android:id="@+id/tv_apartment_board"
+        style="@style/TextViewApartmentStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/colorGray" />
+
+
+</RelativeLayout>
