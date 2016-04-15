@@ -59,4 +59,6 @@ dependencies {
     }
     compile 'com.mcxiaoke.volley:library:1.0.19'
     compile project(':multi-image-selector')
+    compile 'com.google.android.gms:play-services-maps:8.3.0'
+    compile 'com.google.android.gms:play-services-location:8.3.0'
 }

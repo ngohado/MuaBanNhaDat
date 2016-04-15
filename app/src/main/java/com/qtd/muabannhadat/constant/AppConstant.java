@@ -4,6 +4,7 @@ package com.qtd.muabannhadat.constant;
  * Created by Ngo Hado on 14-Apr-16.
  */
 public class AppConstant {
+    public static final String A_ID = "A_ID";
     public static final String USER_ID = "UserID";
     public static final String USER_NAME = "Username";
     public static final String PASSWORD = "Password";

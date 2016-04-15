@@ -4,6 +4,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
@@ -11,6 +12,7 @@ import android.support.v7.widget.PopupMenu;
 import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.fragment.BlockNewsFragment;
 import com.qtd.muabannhadat.fragment.FavoriteFragment;
+import com.qtd.muabannhadat.fragment.NormalMapFragment;
 
 public class HomeActivity extends AppCompatActivity {
     private TabLayout tabLayout;
@@ -43,10 +45,15 @@ public class HomeActivity extends AppCompatActivity {
                     case 0:
                         changeColorTabItem(R.drawable.ic_home_white_36dp, 0);
                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, new BlockNewsFragment()).commit();
-
                         break;
                     case 1:
                         changeColorTabItem(R.drawable.ic_search_white_36dp, 1);
+                        Fragment fm = new NormalMapFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putDouble("LAT",21.012219);
+                        bundle.putDouble("LNG",105.8199264);
+                        fm.setArguments(bundle);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, fm).commit();
                         break;
                     case 2:
                         changeColorTabItem(R.drawable.ic_favorite_white_36dp, 2);
