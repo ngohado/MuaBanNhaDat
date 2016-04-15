@@ -1,4 +1,22 @@
 <resources>
     <string name="app_name">Mua Ban Nha Dat</string>
+
+    <string name="from_picker">Select an iten</string>
+    <string-array name="item_from">
+        <item>Bán</item>
+        <item>Thuê</item>
+    </string-array>
+
+    <string name="kind_picker">Select an item</string>
+    <string-array name="item_kind">
+        <item>Căn hộ chung cư</item>
+        <item>Nhà riêng</item>
+        <item>Đất</item>
+        <item>Biệt thự, liền kề</item>
+        <item>Mặt phố</item>
+        <item>Trang trại khu nghỉ dưỡng</item>
+        <item>Kho, nhà xưởng</item>
+        <item>Khác</item>
+    </string-array>
     <string name="facebook_app_id">1125172607534171</string>
 </resources>

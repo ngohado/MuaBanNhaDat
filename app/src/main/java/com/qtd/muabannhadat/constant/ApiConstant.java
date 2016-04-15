@@ -14,4 +14,6 @@ public class ApiConstant {
     public static final String METHOD_APARTMENT = "GetApartmentinfobyID";
     public static final String TWITTER_KEY = "oPvIId5mxlpG8mwfdKjuEPRlC";
     public static final String TWITTER_SECRET = "9wcue21zUuOX0kVZdaFZaXccG";
+    public static final String METHOD_INSERT_APARTMENT = "InsertApartment";
+
 }
