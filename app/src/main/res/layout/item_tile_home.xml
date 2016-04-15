@@ -1,48 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="300dp">
+    android:layout_height="wrap_content"
+    android:minHeight="200dp">
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/imv_tileHome"
         android:src="@drawable/backgroud_demo"
-        android:scaleType="fitCenter"/>
+        android:scaleType="fitXY" />
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_cityTileHome"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginBottom="10dp"
-        android:textSize="12sp"
-        android:maxLines="1"
-        android:ellipsize="end"
+        android:id="@+id/tv_costTileHome"
+        android:text="asldkfjas;dklj"
+        android:layout_above="@+id/tv_address_tileHome"
+        style="@style/TextViewCostStyle"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_address_tileHome"
-        android:textSize="12sp"
-        android:textColor="@android:color/white"
+        android:text="lsdakfjas;ldkfj"
         android:layout_above="@+id/tv_cityTileHome"
-        android:layout_marginLeft="15dp"
-        android:maxLines="1"
-        android:ellipsize="end"
+        style="@style/TextViewApartmentStyle"
         />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_costTileHome"
-        android:textSize="12sp"
-        android:textColor="@android:color/white"
-        android:layout_above="@+id/tv_address_tileHome"
-        android:layout_marginLeft="15dp"
-        android:maxLines="1"
-        android:ellipsize="end"
+        android:id="@+id/tv_cityTileHome"
+        android:text="lsdakfjas;ldkfj"
+        android:layout_alignParentBottom="true"
+        style="@style/TextViewApartmentStyle"
         />
 </RelativeLayout>

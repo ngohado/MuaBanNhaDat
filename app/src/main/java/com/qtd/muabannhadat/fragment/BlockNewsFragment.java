@@ -61,7 +61,8 @@ public class BlockNewsFragment extends Fragment implements ResultRequestCallback
     private void initView() {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         itemHomeAdapter = new ItemHomeAdapter(listApartmentCategory);
-        LinearLayoutManager manager = new LinearLayoutManager(getActivity().getApplicationContext());
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(itemHomeAdapter);
         progressBar = (ProgressBar) view.findViewById(R.id.progressbar_fragmentNews);
