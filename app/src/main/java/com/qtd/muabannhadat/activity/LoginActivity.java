@@ -46,11 +46,6 @@ import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, ResultRequestCallback {
-
-    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private static final String TWITTER_KEY = "YWWE9Ai7WVLWhaDUCOYbVHZsf ";
-    private static final String TWITTER_SECRET = "HHRE0iI1IjXTwpNcngSK77EElG8T8XU2D2Q9fDUObtWXatOdAp ";
-
     private EditText edtEmail;
     private EditText edtPass;
     private Button btnLogin;
@@ -80,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initLoginTwitter() {
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(ApiConstant.TWITTER_KEY, ApiConstant.TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
         twitterAuthClient = new TwitterAuthClient();
     }

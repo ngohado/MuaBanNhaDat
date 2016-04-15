@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.qtd.muabannhadat.R;
+import com.qtd.muabannhadat.activity.AllApartmentsActivity;
 import com.qtd.muabannhadat.activity.ApartmentDetailActivity;
 import com.qtd.muabannhadat.model.Apartment;
 import com.qtd.muabannhadat.model.ApartmentCategory;
@@ -194,12 +195,15 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.imv_favorite5)
     public void ImvFavorite5OnClick() {
-        imvFavorite5.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+//        imvFavorite5.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+        Intent intent = new Intent(view.getContext(), AllApartmentsActivity.class);
+        intent.putExtra("Kind", apartmentCategory.getName());
+        view.getContext().startActivity(intent);
     }
 
     @OnClick(R.id.btnSeeAll)
     public void BtnSeeAllOnClick() {
-        //do something
+
     }
 
     private void startApartmentDetailActivity(Apartment apartment) {
