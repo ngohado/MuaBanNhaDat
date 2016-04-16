@@ -48,6 +48,7 @@ public class NormalMapFragment extends BaseMapFragment {
             a.setPrice(getArguments().getInt(AppConstant.PRICE,0));
             a.setLatitude(getArguments().getDouble(AppConstant.LATITUDE, 0));
             a.setLongitude(getArguments().getDouble(AppConstant.LONGITUDE, 0));
+            apartments.add(a);
             addMarkers();
         }
     }
@@ -60,8 +61,8 @@ public class NormalMapFragment extends BaseMapFragment {
             for (int i = 0 ; i < array.length() ; i++) {
                 apartment = new Apartment();
                 apartment.setId(array.getJSONObject(i).getInt(AppConstant.A_ID));
-                apartment.setLatitude(array.getJSONObject(i).getInt(AppConstant.LATITUDE));
-                apartment.setLongitude(array.getJSONObject(i).getInt(AppConstant.LONGITUDE));
+                apartment.setLatitude(array.getJSONObject(i).getDouble(AppConstant.LATITUDE));
+                apartment.setLongitude(array.getJSONObject(i).getDouble(AppConstant.LONGITUDE));
                 apartment.setPrice(array.getJSONObject(i).getInt(AppConstant.PRICE));
                 apartments.add(apartment);
             }
@@ -78,7 +79,7 @@ public class NormalMapFragment extends BaseMapFragment {
 
     @Override
     public float setInitLevelZoom() {
-        return 16f;
+        return 14f;
     }
 
     @Override
@@ -102,8 +103,8 @@ public class NormalMapFragment extends BaseMapFragment {
         if (apartments == null || apartments.get(0).getLatitude() == 0)
             return;
         for (Apartment a : apartments) {
+            DebugLog.i("Lat: " + a.getLatitude() + ", Lng: " + a.getLongitude());
             drawMarker(new LatLng(a.getLatitude(), a.getLongitude()), getBitmapFromView(String.valueOf(a.getPrice())));
         }
-        drawMarker(new LatLng(21.0031177, 105.8201408), getBitmapFromView(String.valueOf(3000)));
     }
 }

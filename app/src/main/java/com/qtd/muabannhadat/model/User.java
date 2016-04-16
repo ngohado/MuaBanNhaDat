@@ -5,7 +5,6 @@ package com.qtd.muabannhadat.model;
  */
 public class User {
     private int id;
-    private String userName;
     private String name;
     private String dateOfBirth;
     private String phone;
@@ -13,13 +12,27 @@ public class User {
     private String email;
     private String gender;
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    private String avatar;
+
     public User() {
 
     }
 
+    public User(String name, String phone, String avatar) {
+        this.name = name;
+        this.phone = phone;
+    }
+
     public User(int id, String userName, String name, String dateOfBirth, String phone, String address, String email, String gender) {
         this.id = id;
-        this.userName = userName;
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.phone = phone;
@@ -34,14 +47,6 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getName() {

@@ -1,22 +1,29 @@
 package com.qtd.muabannhadat.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.callback.ResultRequestCallback;
 import com.qtd.muabannhadat.constant.ApiConstant;
+import com.qtd.muabannhadat.constant.AppConstant;
 import com.qtd.muabannhadat.model.Apartment;
+import com.qtd.muabannhadat.model.User;
 import com.qtd.muabannhadat.request.BaseRequestApi;
 import com.qtd.muabannhadat.subview.DescriptionView;
 import com.qtd.muabannhadat.subview.UserContactView;
+import com.qtd.muabannhadat.util.DebugLog;
 import com.qtd.muabannhadat.util.NetworkUtil;
 import com.qtd.muabannhadat.util.StringUtil;
 
@@ -58,6 +65,9 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
     @Bind(R.id.btn_loadmore)
     Button btnLoadMore;
 
+    @Bind(R.id.iv_apartment)
+    ImageView ivApartment;
+
     DescriptionView descriptionView;
 
     UserContactView primaryUser;
@@ -76,12 +86,19 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
 
     BaseRequestApi request;
 
+    Intent openMapActivity;
+
+    Apartment response;
+
+    String[] urls = new String[5];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apartment_detail);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        openMapActivity = new Intent(this, MapActivity.class);
         initView();
         getBundleData();
         initData();
@@ -97,10 +114,20 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
 
         layoutMore.addView(descriptionView, 2);
         layoutMore.addView(primaryUser);
+        addDefaultUser();
+    }
+
+    private void addDefaultUser() {
+        User u1 = new User("Hỗ trợ 1", "19001800", "https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png");
+        User u2 = new User("Hỗ trợ 2", "19001820", "http://www.textbookrecycling.com/images/female.png");
+        user1 = new UserContactView(this, u1);
+        user2 = new UserContactView(this, u2);
+        layoutMore.addView(user1);
+        layoutMore.addView(user2);
     }
 
     private void getBundleData() {
-        idApartment = getIntent().getIntExtra(ID_APARTMENT, 1);
+        idApartment = getIntent().getIntExtra(ID_APARTMENT, 7);
     }
 
     private void initData() {
@@ -119,8 +146,9 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
 
     @OnClick(R.id.layout_header)
     public void onImageViewClicked() {
-        //TODO: open activity show image
-
+        Intent intent = new Intent(this, PreviewActivity.class);
+        intent.putExtra(AppConstant.IMAGE1, urls);
+        startActivity(intent);
     }
 
     @OnClick(R.id.tv_description_title)
@@ -152,17 +180,22 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
 
     @OnClick(R.id.tv_direction)
     public void onButtonDirectionClicked() {
-
+        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + response.getLatitude() + "," + response.getLongitude() + "&mode=d");
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        startActivity(mapIntent);
     }
 
     @OnClick(R.id.tv_mapview)
     public void onButtonMapViewClicked() {
-
+        openMapActivity.putExtra(AppConstant.MAP_TYPE, 1);
+        startActivity(openMapActivity);
     }
 
     @OnClick(R.id.tv_earthview)
     public void onButtonEarthViewClicked() {
-
+        openMapActivity.putExtra(AppConstant.MAP_TYPE, 0);
+        startActivity(openMapActivity);
     }
 
     @OnClick(R.id.iv_love)
@@ -206,28 +239,39 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
     private void handleResponse(String s) {
         try {
             JSONObject object = new JSONObject(s);
-            Apartment response = new Apartment();
-            response.setAddress(object.getString("Address"));
-            response.setId(object.getInt("A_ID"));
-            response.setStatus(object.getString("Status"));
-            response.setKind(object.getString("Kind"));
-            response.setArea(object.getLong("Size"));
-            response.setCity(object.getString("City"));
-            response.setDistrict(object.getString("District"));
-            response.setStreet(object.getString("Street"));
-            response.setPrice(object.getInt("Price"));
-            response.setDescribe(object.getString("Describe"));
-            response.setNumberOfRoom(object.getInt("Room"));
-            response.setLatitude(object.getLong("Latitude"));
-            response.setLongitude(object.getLong("Longitude"));
-            response.getUser().setId(object.getInt("UserID"));
-            response.getUser().setUserName(object.getString("Username"));
-            response.getUser().setName(object.getString("Name"));
-            response.getUser().setDateOfBirth(object.getString("DOB"));
-            response.getUser().setPhone(object.getString("Telephone"));
-            fillData(response);
-        } catch (JSONException e) {
 
+            urls[0] = object.getString(AppConstant.IMAGE1);
+            urls[1] = object.getString(AppConstant.IMAGE2);
+            urls[2] = object.getString(AppConstant.IMAGE3);
+            urls[3] = object.getString(AppConstant.IMAGE4);
+            urls[4] = object.getString(AppConstant.IMAGE5);
+
+            response = new Apartment();
+            response.setAddress(object.getString(AppConstant.ADDRESS));
+            response.setId(object.getInt(AppConstant.A_ID));
+            response.setStatus(object.getString(AppConstant.STATUS));
+            response.setKind(object.getString(AppConstant.KIND));
+            response.setArea(object.getLong(AppConstant.SIZE));
+            response.setCity(object.getString(AppConstant.CITY));
+            response.setDistrict(object.getString(AppConstant.DISTRICT));
+            response.setStreet(object.getString(AppConstant.STREET));
+            response.setPrice(object.getInt(AppConstant.PRICE));
+            response.setDescribe(object.getString(AppConstant.DESCRIBE));
+            response.setNumberOfRoom(object.getInt(AppConstant.ROOM));
+            response.setLatitude(object.getDouble(AppConstant.LATITUDE));
+            response.setLongitude(object.getDouble(AppConstant.LONGITUDE));
+            response.getUser().setId(object.getInt(AppConstant.USER_ID));
+            response.getUser().setName(object.getString(AppConstant.NAME));
+            response.getUser().setPhone(object.getString(AppConstant.TELEPHONE));
+            response.getUser().setAvatar(object.getString(AppConstant.AVATAR));
+            Glide.with(this).load(object.getString(AppConstant.IMAGE1)).into(ivApartment);
+            fillData(response);
+            openMapActivity.putExtra(AppConstant.PRICE, response.getPrice());
+            openMapActivity.putExtra(AppConstant.LATITUDE, response.getLatitude());
+            openMapActivity.putExtra(AppConstant.LONGITUDE, response.getLongitude());
+            openMapActivity.putExtra(AppConstant.LONGITUDE, response.getLongitude());
+        } catch (JSONException e) {
+            DebugLog.e("error: " + e.toString());
         }
     }
 

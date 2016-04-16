@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.model.User;
 import com.qtd.muabannhadat.util.StringUtil;
@@ -50,7 +51,7 @@ public class UserContactView extends RelativeLayout {
         this.user = user;
         StringUtil.displayText(user.getName(), tvName);
         StringUtil.displayText(user.getPhone(), tvPhone);
-
+        Glide.with(getContext()).load(user.getAvatar()).into(ivAvatar);
     }
 
     @OnClick(R.id.btn_call)
