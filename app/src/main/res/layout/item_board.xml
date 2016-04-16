@@ -29,6 +29,7 @@
         style="@style/TextViewApartmentStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Chỉ mình tôi"
         android:layout_above="@+id/tv_apartment_board" />
 
     <TextView

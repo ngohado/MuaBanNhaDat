@@ -13,7 +13,7 @@ import com.qtd.muabannhadat.R;
  * Created by Dell on 4/12/2016.
  */
 public class HomesFavoriteFragment extends Fragment {
-    @Nullable
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_homes_favorite, container, false);

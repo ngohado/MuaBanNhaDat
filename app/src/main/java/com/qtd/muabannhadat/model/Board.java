@@ -1,30 +1,34 @@
 package com.qtd.muabannhadat.model;
 
-import java.util.ArrayList;
-
 /**
  * Created by Dell on 4/15/2016.
  */
 public class Board {
+    private int id;
     private String name;
-    private ArrayList<User> users;
-    private ArrayList<Apartment> apartments;
+    private int numberOfApartment;
+    private String imageFirst;
 
-    public Board(String name, ArrayList<User> users, ArrayList<Apartment> apartments) {
+    public Board(int id, String name, int numberOfApartment, String imageFirst) {
+        this.id = id;
         this.name = name;
-        this.users = users;
-        this.apartments = apartments;
+        this.numberOfApartment = numberOfApartment;
+        this.imageFirst = imageFirst;
     }
 
-    public ArrayList<Apartment> getApartments() {
-        return apartments;
+    public int getId() {
+        return id;
     }
 
-    public ArrayList<User> getUsers() {
-        return users;
+    public int getNumberOfApartment() {
+        return numberOfApartment;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getImageFirst() {
+        return imageFirst;
     }
 }

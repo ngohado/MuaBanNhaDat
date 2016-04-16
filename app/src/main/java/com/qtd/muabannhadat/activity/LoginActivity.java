@@ -82,14 +82,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initLoginFacebook() {
-        final String[] info = new String[3];
+        final String[] info = new String[4];
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Profile profile = Profile.getCurrentProfile();
-                info[2] = profile.getProfilePictureUri(72, 72).toString();
+                info[2] = profile.getFirstName() + " " + profile.getMiddleName() + " " + profile.getLastName();
+                info[3] = profile.getProfilePictureUri(72, 72).toString();
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
@@ -167,14 +168,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public void requestLogin() {
         if (validate()) {
-            requestLogin = new BaseRequestApi(this, toJson(new String[]{edtEmail.getText().toString(), edtPass.getText().toString()},1), ApiConstant.METHOD_LOGIN, this);
+            requestLogin = new BaseRequestApi(this, toJson(new String[]{edtEmail.getText().toString(), edtPass.getText().toString()}, 1), ApiConstant.METHOD_LOGIN, this);
             requestLogin.executeRequest();
         }
     }
 
     private String toJson(String[] params, int type) {
         JSONObject obj = new JSONObject();
-        if (type == 1){
+        if (type == 1) {
             try {
                 obj.put("Email", params[0]);
                 obj.put("Password", params[1]);
@@ -183,12 +184,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-        else if (type==2) {
+        } else if (type == 2) {
             try {
                 obj.put("Id", params[0]);
                 obj.put("Email", params[1]);
-                obj.put("UrlImage", params[2]);
+                obj.put("Name", params[2]);
+                obj.put("UrlImage", params[3]);
                 obj.put("Type", 2);
                 return obj.toString();
             } catch (Exception e) {
@@ -254,15 +255,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void success(Result<TwitterSession> result) {
                 if (result == null) {
                     DebugLog.d("result null");
-                    Log.d("result", "null");
                 } else {
                     twitterSession = result.data;
                     info[0] = String.valueOf(result.data.getId());
                     info[1] = "";
+                    Log.d("username", result.data.getUserName());
                     new LienTMTwitterApiClient(twitterSession).getUsersService().show(12L, null, true, new Callback<User>() {
                         @Override
                         public void success(Result<User> result) {
-                            info[2] = result.data.profileImageUrlHttps;
+                            Log.d("name", result.data.name);
+                            info[3] = result.data.profileImageUrlHttps;
                             requestLogin = new BaseRequestApi(getApplicationContext(), toJson(info, 2), ApiConstant.METHOD_LOGIN, LoginActivity.this);
                             requestLogin.executeRequest();
                         }

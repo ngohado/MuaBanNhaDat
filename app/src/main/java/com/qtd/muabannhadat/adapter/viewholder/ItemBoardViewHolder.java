@@ -25,9 +25,6 @@ public class ItemBoardViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.tv_name_board)
     TextView tvName;
 
-    @Bind(R.id.tv_member_board)
-    TextView tvMember;
-
     @Bind(R.id.tv_apartment_board)
     TextView tvApartment;
 
@@ -46,12 +43,11 @@ public class ItemBoardViewHolder extends RecyclerView.ViewHolder {
 
     public void setupWith(Board board, int number) {
         tvName.setText(board.getName());
-        tvMember.setText(String.valueOf(board.getUsers().size()) + " thành viên");
-        tvApartment.setText(String.valueOf(board.getApartments().size()) + " căn hộ");
+        tvApartment.setText(board.getNumberOfApartment() + " căn hộ");
         if (number == 0) {
             imageView.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorPink));
         } else {
-            Glide.with(view.getContext()).load(Uri.parse(board.getApartments().get(0).getImageFirst())).into(imageView);
+            Glide.with(view.getContext()).load(Uri.parse(board.getImageFirst())).into(imageView);
         }
     }
 

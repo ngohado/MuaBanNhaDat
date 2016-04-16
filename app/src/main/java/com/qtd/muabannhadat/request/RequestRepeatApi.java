@@ -37,7 +37,7 @@ public class RequestRepeatApi extends BaseRequestApi {
             protected String doInBackground(Void... params) {
                 try {
                     String soapAction = ApiConstant.NAME_SPACE + methodName;
-                    SoapObject soapObject = new SoapObject(ApiConstant.NAME_SPACE, ApiConstant.METHOD_GET_ALL_APARTMENT_BY_KIND);
+                    SoapObject soapObject = new SoapObject(ApiConstant.NAME_SPACE, methodName);
                     soapObject.addProperty("json", dataRequest);
                     SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                     envelope.dotNet = true;

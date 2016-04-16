@@ -44,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText etConfirmPassword;
     private EditText etEmail;
     private EditText etTelephone;
+    private EditText etName;
     private EditText etCode;
 
     private Button btnRegister;
@@ -67,6 +68,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         etConfirmPassword = (EditText) findViewById(R.id.etConfirmPassword);
         etEmail = (EditText) findViewById(R.id.etEmail);
         etTelephone = (EditText) findViewById(R.id.etTelephone);
+        etName = (EditText) findViewById(R.id.etName);
         etCode = (EditText) findViewById(R.id.etCode);
         btnRegister = (Button) findViewById(R.id.btnRegister);
         loading = new ProgressDialog(this);
@@ -188,7 +190,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             } else {
                 if (etCode.getText().toString().equals(String.valueOf(confirmCode))) {
                     requestApi = new BaseRequestApi(this, toJson(etEmail.getText().toString(), etPassword.getText().toString(),
-                            etTelephone.getText().toString()), ApiConstant.METHOD_REGISTER, this);
+                            etName.getText().toString(), etTelephone.getText().toString()), ApiConstant.METHOD_REGISTER, this);
                     requestApi.executeRequest();
                 } else {
                     Toast.makeText(RegisterActivity.this, "Mã xác nhận không đúng", Toast.LENGTH_SHORT).show();
@@ -228,7 +230,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             JSONObject obj = new JSONObject();
             obj.put("Email", params[0]);
             obj.put("Password", params[1]);
-            obj.put("Telephone", params[2]);
+            obj.put("Name", params[2]);
+            obj.put("Telephone", params[3]);
             return obj.toString();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -251,8 +254,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
         String confirmPassword = etConfirmPassword.getText().toString();
+        String name = etName.getText().toString();
         String telephone = etTelephone.getText().toString();
-        if (email.equals("") | password.equals("") | confirmPassword.equals("") | telephone.equals("")) {
+        if (email.equals("") || password.equals("") || confirmPassword.equals("") || name.equals("") || telephone.equals("")) {
             return true;
         }
         return false;

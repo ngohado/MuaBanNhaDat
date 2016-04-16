@@ -26,7 +26,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, new BlockNewsFragment()).commit();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, new BlockNewsFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, new FavoriteFragment()).commit();
     }
 
     private void initTabLayout() {

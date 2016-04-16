@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.qtd.muabannhadat.R;
-import com.qtd.muabannhadat.activity.LoginActivity;
+import com.qtd.muabannhadat.activity.CreateBoardAcitivity;
 import com.qtd.muabannhadat.adapter.ItemBoardAdapter;
 import com.qtd.muabannhadat.callback.ResultRequestCallback;
 import com.qtd.muabannhadat.constant.ApiConstant;
@@ -22,6 +22,7 @@ import com.qtd.muabannhadat.request.RequestRepeatApi;
 import com.qtd.muabannhadat.util.DebugLog;
 import com.qtd.muabannhadat.util.SharedPrefUtils;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -83,10 +84,10 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
 
     public void refreshData() {
         int id = SharedPrefUtils.getInt("ID", -1);
-        if (id != -1) {
+        if (id == -1) {
             JSONObject object = new JSONObject();
             try {
-                object.put("ID", id);
+                object.put("ID", 3);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -94,10 +95,20 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
             requestRepeatApi.executeRequest();
         }
     }
+
     @Override
     public void onSuccess(String result) {
-//        refreshLayout.setRefreshing(false);
-
+        try {
+            JSONArray array = new JSONArray(result);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject obj = array.getJSONObject(i);
+                Board board = new Board(obj.getInt("BoardID"), obj.getString("BoardName"), obj.getInt("NumberOfApartment"), obj.getString("ImageFirst"));
+                boards.add(board);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        boardAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -108,10 +119,21 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
 
     @OnClick(R.id.fab_add)
     void fabAddOnClick() {
-        if (SharedPrefUtils.getInt("ID", -1) == -1) {
-            Intent intent = new Intent(view.getContext(), LoginActivity.class);
-            getActivity().startActivity(intent);
+//        int id = SharedPrefUtils.getInt("ID", -1);
+//        if (id == -1) {
+//            Intent intent = new Intent(view.getContext(), LoginActivity.class);
+//            getActivity().startActivity(intent);
+//        } else {
+//            Intent intent = new Intent(view.getContext(), CreateBoardAcitivity.class);
+//            getActivity().startActivity(intent);
+//        }
+        Intent intent = new Intent(view.getContext(), CreateBoardAcitivity.class);
+        String s = "";
+        for (int i = 0; i < boards.size(); i++) {
+            s += ("|" + boards.get(i).getName());
         }
+        intent.putExtra("Name", s);
+        getActivity().startActivity(intent);
     }
 
     @Override
