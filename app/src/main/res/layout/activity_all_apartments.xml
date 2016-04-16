@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:elevation="5dp"
         android:background="@color/colorPrimary"
-        android:titleTextColor="@android:color/white"
         android:id="@+id/toolbar_all_apartments"></android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView

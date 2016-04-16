@@ -102,6 +102,7 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
 
     @Bind(R.id.imv_favorite5)
     public ImageView imvFavorite5;
+
     @Bind(R.id.btnSeeAll)
     public Button btnSeeAll;
 
@@ -119,29 +120,29 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
         tvTitle.setText(a.getName());
         btnSeeAll.setText("Xem tất cả " + a.getName());
 
-        tvCost.setText(String.valueOf(a.getApartments().get(0).getPrice()));
-        tvCost1.setText(String.valueOf(a.getApartments().get(1).getPrice()));
-        tvCost2.setText(String.valueOf(a.getApartments().get(2).getPrice()));
-        tvCost3.setText(String.valueOf(a.getApartments().get(3).getPrice()));
-        tvCost4.setText(String.valueOf(a.getApartments().get(4).getPrice()));
+        tvCost.setText(String.valueOf(a.getApartments().get(4).getPrice()));
+        tvCost1.setText(String.valueOf(a.getApartments().get(0).getPrice()));
+        tvCost2.setText(String.valueOf(a.getApartments().get(1).getPrice()));
+        tvCost3.setText(String.valueOf(a.getApartments().get(2).getPrice()));
+        tvCost4.setText(String.valueOf(a.getApartments().get(3).getPrice()));
 
-        tvAddress.setText(a.getApartments().get(0).getAddress());
-        tvAddress1.setText(a.getApartments().get(1).getAddress());
-        tvAddress2.setText(a.getApartments().get(2).getAddress());
-        tvAddress3.setText(a.getApartments().get(3).getAddress());
-        tvAddress4.setText(a.getApartments().get(4).getAddress());
+        tvAddress.setText(a.getApartments().get(4).getAddress());
+        tvAddress1.setText(a.getApartments().get(0).getAddress());
+        tvAddress2.setText(a.getApartments().get(1).getAddress());
+        tvAddress3.setText(a.getApartments().get(2).getAddress());
+        tvAddress4.setText(a.getApartments().get(3).getAddress());
 
-        tvCity.setText(a.getApartments().get(0).getCity());
-        tvCity1.setText(a.getApartments().get(1).getCity());
-        tvCity2.setText(a.getApartments().get(2).getCity());
-        tvCity3.setText(a.getApartments().get(3).getCity());
-        tvCity4.setText(a.getApartments().get(4).getCity());
+        tvCity.setText(a.getApartments().get(4).getCity());
+        tvCity1.setText(a.getApartments().get(0).getCity());
+        tvCity2.setText(a.getApartments().get(1).getCity());
+        tvCity3.setText(a.getApartments().get(2).getCity());
+        tvCity4.setText(a.getApartments().get(3).getCity());
 
-        Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(0).getImageFirst())).into(ivHome);
-        Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(1).getImageFirst())).into(ivHome1);
-        Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(2).getImageFirst())).into(ivHome2);
-        Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(3).getImageFirst())).into(ivHome3);
-        Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(4).getImageFirst())).into(ivHome4);
+        Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(4).getImageFirst())).into(ivHome);
+        Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(0).getImageFirst())).into(ivHome1);
+        Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(1).getImageFirst())).into(ivHome2);
+        Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(2).getImageFirst())).into(ivHome3);
+        Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(3).getImageFirst())).into(ivHome4);
     }
 
 

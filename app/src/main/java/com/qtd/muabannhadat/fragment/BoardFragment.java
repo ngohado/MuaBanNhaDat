@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -39,6 +41,9 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
     @Bind(R.id.fab_add)
     FloatingActionButton fabAdd;
 
+    @Bind(R.id.layout_fragment_board)
+    SwipeRefreshLayout refreshLayout;
+
     private ItemBoardAdapter boardAdapter;
     private ArrayList<Board> boards;
     private View view;
@@ -48,6 +53,7 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_board_favorite, container, false);
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -58,16 +64,29 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
     }
 
     private void initComponent() {
-        layoutManager = new GridLayoutManager(view.getContext(), 2);
-        recyclerView.setLayoutManager(layoutManager);
         boards = new ArrayList<>();
         boardAdapter = new ItemBoardAdapter(boards);
         recyclerView.setAdapter(boardAdapter);
+
+        layoutManager = new GridLayoutManager(view.getContext(), 2);
+        recyclerView.setLayoutManager(layoutManager);
+        refreshLayout.setRefreshing(true);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshData();
+            }
+        });
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        refreshData();
+    }
+
+    public void refreshData() {
         int id = SharedPrefUtils.getInt("ID", -1);
         if (id != -1) {
             JSONObject object = new JSONObject();
             try {
-                object.put("Id", id);
+                object.put("ID", id);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -75,14 +94,15 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
             requestRepeatApi.executeRequest();
         }
     }
-
     @Override
     public void onSuccess(String result) {
+//        refreshLayout.setRefreshing(false);
 
     }
 
     @Override
     public void onFailed(String error) {
+//        refreshLayout.setRefreshing(false);
         DebugLog.d(error);
     }
 

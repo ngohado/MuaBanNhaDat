@@ -41,10 +41,12 @@ public class AllApartmentsActivity extends AppCompatActivity implements ResultRe
     @Bind(R.id.toolbar_all_apartments)
     Toolbar toolbar;
 
+    @Bind(R.id.progressBar_allApartments)
+    ProgressBar progressBar;
+
     private ItemTileHomeAdapter itemHomeAdapter;
     private ArrayList<Apartment> apartments;
     private String kind = "";
-    private ProgressBar progressBar;
     private RequestRepeatApi requestApartment;
 
     @Override
@@ -56,22 +58,6 @@ public class AllApartmentsActivity extends AppCompatActivity implements ResultRe
     }
 
     private void initComponent() {
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
-        getSupportActionBar().setTitle("Mua ban nha dat TDQH");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        apartments = new ArrayList<>();
-        itemHomeAdapter = new ItemTileHomeAdapter(apartments);
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(itemHomeAdapter);
-
-        progressBar = (ProgressBar) findViewById(R.id.progressBar_allApartments);
-        progressBar.setIndeterminate(true);
-        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
-        progressBar.setEnabled(true);
-
         Intent intent = getIntent();
         kind = intent.getStringExtra("Kind");
         String json = "";
@@ -82,6 +68,26 @@ public class AllApartmentsActivity extends AppCompatActivity implements ResultRe
         } catch (JSONException e) {
             DebugLog.d(e.toString());
         }
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp);
+        getSupportActionBar().setTitle(kind);
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, android.R.color.white));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        progressBar.setIndeterminate(true);
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+        progressBar.setEnabled(true);
+
+        apartments = new ArrayList<>();
+        itemHomeAdapter = new ItemTileHomeAdapter(apartments);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(itemHomeAdapter);
 
         Utility.isNetworkAvailable(this, findViewById(R.id.relativeLayout_allApartments), true);
         requestApartment = new RequestRepeatApi(this, json, ApiConstant.METHOD_GET_ALL_APARTMENT_BY_KIND, this, findViewById(R.id.relativeLayout_allApartments));

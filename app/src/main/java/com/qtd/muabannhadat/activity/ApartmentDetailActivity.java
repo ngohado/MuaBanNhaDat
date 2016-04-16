@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ApartmentDetailActivity extends AppCompatActivity implements ResultRequestCallback {
-    @Bind(R.id.toolbar)
+    @Bind(R.id.toolbar_apartment_detail)
     Toolbar toolbar;
 
     @Bind(R.id.tv_kind)
@@ -97,6 +97,14 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
 
         layoutMore.addView(descriptionView, 2);
         layoutMore.addView(primaryUser);
+
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void getBundleData() {
@@ -173,11 +181,6 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
     @OnClick(R.id.iv_share)
     public void onButtonShareClicked() {
 
-    }
-
-    @OnClick(R.id.iv_back)
-    public void onButtonBackClicked() {
-        finish();
     }
 
     private void fillData(Apartment result) {

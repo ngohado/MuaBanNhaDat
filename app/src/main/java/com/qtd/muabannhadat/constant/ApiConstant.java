@@ -5,7 +5,7 @@ package com.qtd.muabannhadat.constant;
  */
 public class ApiConstant {
     public static final String NAME_SPACE = "http://tranhongquan.com/";
-    public static final String MAIN_URL = "http://nckhbds.somee.com/WebServiceNCKH.asmx?WSDL";
+    public static final String MAIN_URL = "http://nckhqtdh.somee.com/WebServiceNCKH.asmx?WSDL";
 
     public static final String METHOD_LOGIN = "GetMemberinfobyIDnPassWord";
     public static final String METHOD_REGISTER = "InsertMember";
