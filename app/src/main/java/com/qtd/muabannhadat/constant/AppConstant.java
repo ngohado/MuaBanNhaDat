@@ -4,6 +4,8 @@ package com.qtd.muabannhadat.constant;
  * Created by Ngo Hado on 14-Apr-16.
  */
 public class AppConstant {
+    public static final String ID = "ID";
+    public static final String A_ID = "A_ID";
     public static final String USER_ID = "UserID";
     public static final String USER_NAME = "Username";
     public static final String PASSWORD = "Password";
@@ -27,6 +29,8 @@ public class AppConstant {
     public static final String LATITUDE = "Latitude";
     public static final String LONGITUDE = "Longitude";
     public static final String SIZE = "Size";
+
+    public static final String MAP_TYPE = "MAP_TYPE";
 
     public static final String IMAGE1 = "Image1";
     public static final String IMAGE2 = "Image2";

@@ -198,7 +198,7 @@ public class NewpaperActivity extends AppCompatActivity {
         spFrom.setAdapter(fromAdapter);
 
         ArrayAdapter<CharSequence> kindAdapter = ArrayAdapter.createFromResource(this, R.array.item_kind, R.layout.support_simple_spinner_dropdown_item);
-        fromAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        kindAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spKind.setAdapter(kindAdapter);
     }
 
@@ -316,13 +316,13 @@ public class NewpaperActivity extends AppCompatActivity {
 
     private void sendDataToServer(double lat, double lng) throws JSONException {
         JSONObject dataRequest = new JSONObject();
-        int userId = SharedPrefUtils.getInt(AppConstant.USER_ID, 1);
+        int userId = SharedPrefUtils.getInt(AppConstant.ID, 3);
         dataRequest.put(AppConstant.USER_ID, userId);
         String address = edtAddress.getText().toString() + tvStreet.getText() + tvDistrict.getText() + ", Hà Nội, Việt Nam";
         dataRequest.put(AppConstant.ADDRESS, address);
-        String street = tvStreet.getText().toString();
+        String street = spStreet.getSelectedItem().toString();
         dataRequest.put(AppConstant.STREET, street);
-        String district = tvDistrict.getText().toString();
+        String district = spDistrict.getSelectedItem().toString();
         dataRequest.put(AppConstant.DISTRICT, district);
         String status = spFrom.getSelectedItem().toString();
         dataRequest.put(AppConstant.STATUS, status);

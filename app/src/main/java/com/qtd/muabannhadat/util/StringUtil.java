@@ -195,7 +195,7 @@ public class StringUtil {
     }
 
     public static boolean isEmpty(String input) {
-        if (input == null || input.length() == 0) {
+        if (input == null || input.length() == 0 || input.equalsIgnoreCase("null")) {
             return true;
         }
         return false;

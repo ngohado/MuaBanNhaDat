@@ -1,18 +1,24 @@
 package com.qtd.muabannhadat.activity;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
+import android.view.MenuItem;
 
 import com.qtd.muabannhadat.R;
+import com.qtd.muabannhadat.constant.AppConstant;
 import com.qtd.muabannhadat.fragment.BlockNewsFragment;
 import com.qtd.muabannhadat.fragment.FavoriteFragment;
+import com.qtd.muabannhadat.fragment.NormalMapFragment;
+import com.qtd.muabannhadat.util.SharedPrefUtils;
 
 public class HomeActivity extends AppCompatActivity {
     private TabLayout tabLayout;
@@ -49,6 +55,13 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                     case 1:
                         changeColorTabItem(R.drawable.ic_search_white_36dp, 1);
+                        Fragment fm = new NormalMapFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putDouble(AppConstant.LATITUDE,21.012219);
+                        bundle.putDouble(AppConstant.LONGITUDE,105.8199264);
+                        bundle.putBoolean("ALL", true);
+                        fm.setArguments(bundle);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, fm).commit();
                         break;
                     case 2:
                         tabLayout.setElevation(0f);
@@ -59,9 +72,37 @@ public class HomeActivity extends AppCompatActivity {
                         changeColorTabItem(R.drawable.ic_notifications_white_36dp, 3);
                         break;
                     case 4:
-//                        popupMenu = new PopupMenu();
+                        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1) {
+                            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            break;
+                        }
+                        popupMenu = new PopupMenu(HomeActivity.this, tab.getCustomView());
+                        popupMenu.getMenuInflater().inflate(R.menu.tab_more, popupMenu.getMenu());
+                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                switch (item.getItemId()) {
+                                    case R.id.sign:
+
+
+                                        SharedPrefUtils.putInt(AppConstant.ID, -1);
+                                        break;
+                                    case R.id.profile:
+
+                                        break;
+                                    case R.id.settings:
+
+                                        break;
+                                }
+
+                                return true;
+                            }
+                        });
+                        popupMenu.show();
                         break;
                 }
+
             }
 
             @Override

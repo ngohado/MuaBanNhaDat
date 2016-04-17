@@ -32,7 +32,7 @@ import butterknife.OnClick;
 /**
  * Created by Dell on 4/16/2016.
  */
-public class CreateBoardAcitivity extends AppCompatActivity implements ResultRequestCallback {
+public class CreateBoardActivity extends AppCompatActivity implements ResultRequestCallback {
     @Bind(R.id.toolbar_create_board)
     Toolbar toolbar;
 
