@@ -26,6 +26,7 @@ import com.qtd.muabannhadat.constant.ApiConstant;
 import com.qtd.muabannhadat.request.BaseRequestApi;
 import com.qtd.muabannhadat.request.LienTMTwitterApiClient;
 import com.qtd.muabannhadat.util.DebugLog;
+import com.qtd.muabannhadat.util.SharedPrefUtils;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
@@ -46,11 +47,6 @@ import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, ResultRequestCallback {
-
-    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
-    private static final String TWITTER_KEY = "YWWE9Ai7WVLWhaDUCOYbVHZsf ";
-    private static final String TWITTER_SECRET = "HHRE0iI1IjXTwpNcngSK77EElG8T8XU2D2Q9fDUObtWXatOdAp ";
-
     private EditText edtEmail;
     private EditText edtPass;
     private Button btnLogin;
@@ -80,20 +76,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initLoginTwitter() {
-        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(ApiConstant.TWITTER_KEY, ApiConstant.TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
         twitterAuthClient = new TwitterAuthClient();
     }
 
     private void initLoginFacebook() {
-        final String[] info = new String[3];
+        final String[] info = new String[4];
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Profile profile = Profile.getCurrentProfile();
-                info[2] = profile.getProfilePictureUri(72, 72).toString();
+                info[2] = profile.getFirstName() + " " + profile.getMiddleName() + " " + profile.getLastName();
+                info[3] = profile.getProfilePictureUri(72, 72).toString();
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
@@ -152,6 +149,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(getBaseContext(), "Đăng nhập không thành công!", Toast.LENGTH_LONG).show();
                 btnLogin.setEnabled(true);
             } else {
+                int userId = obj.getInt("UserID");
+                SharedPrefUtils.putInt("ID", userId);
                 Toast.makeText(getBaseContext(), "Đăng nhập  thành công!", Toast.LENGTH_LONG).show();
                 btnLogin.setEnabled(true);
             }
@@ -164,18 +163,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onFailed(String error) {
         dialog.dismiss();
+        DebugLog.d(error);
     }
 
     public void requestLogin() {
         if (validate()) {
-            requestLogin = new BaseRequestApi(this, toJson(new String[]{edtEmail.getText().toString(), edtPass.getText().toString()},1), ApiConstant.METHOD_LOGIN, this);
+            requestLogin = new BaseRequestApi(this, toJson(new String[]{edtEmail.getText().toString(), edtPass.getText().toString()}, 1), ApiConstant.METHOD_LOGIN, this);
             requestLogin.executeRequest();
         }
     }
 
     private String toJson(String[] params, int type) {
         JSONObject obj = new JSONObject();
-        if (type == 1){
+        if (type == 1) {
             try {
                 obj.put("Email", params[0]);
                 obj.put("Password", params[1]);
@@ -184,12 +184,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-        else if (type==2) {
+        } else if (type == 2) {
             try {
                 obj.put("Id", params[0]);
                 obj.put("Email", params[1]);
-                obj.put("UrlImage", params[2]);
+                obj.put("Name", params[2]);
+                obj.put("UrlImage", params[3]);
                 obj.put("Type", 2);
                 return obj.toString();
             } catch (Exception e) {
@@ -255,15 +255,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void success(Result<TwitterSession> result) {
                 if (result == null) {
                     DebugLog.d("result null");
-                    Log.d("result", "null");
                 } else {
                     twitterSession = result.data;
                     info[0] = String.valueOf(result.data.getId());
                     info[1] = "";
+                    Log.d("username", result.data.getUserName());
                     new LienTMTwitterApiClient(twitterSession).getUsersService().show(12L, null, true, new Callback<User>() {
                         @Override
                         public void success(Result<User> result) {
-                            info[2] = result.data.profileImageUrlHttps;
+                            Log.d("name", result.data.name);
+                            info[3] = result.data.profileImageUrlHttps;
                             requestLogin = new BaseRequestApi(getApplicationContext(), toJson(info, 2), ApiConstant.METHOD_LOGIN, LoginActivity.this);
                             requestLogin.executeRequest();
                         }

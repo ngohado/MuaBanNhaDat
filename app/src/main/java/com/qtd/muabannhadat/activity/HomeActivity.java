@@ -1,7 +1,9 @@
 package com.qtd.muabannhadat.activity;
 
+import android.annotation.TargetApi;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
@@ -37,18 +39,19 @@ public class HomeActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setIcon(changeColor(R.drawable.ic_notifications_white_36dp, R.color.colorPrimaryDark)));
         tabLayout.addTab(tabLayout.newTab().setIcon(changeColor(R.drawable.ic_more_vert_white_36dp, R.color.colorPrimaryDark)));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 0:
                         changeColorTabItem(R.drawable.ic_home_white_36dp, 0);
                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, new BlockNewsFragment()).commit();
-
                         break;
                     case 1:
                         changeColorTabItem(R.drawable.ic_search_white_36dp, 1);
                         break;
                     case 2:
+                        tabLayout.setElevation(0f);
                         changeColorTabItem(R.drawable.ic_favorite_white_36dp, 2);
                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, new FavoriteFragment()).commit();
                         break;

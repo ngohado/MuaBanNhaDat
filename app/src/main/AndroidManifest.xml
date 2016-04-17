@@ -24,20 +24,18 @@
         <activity
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
             android:configChanges="orientation|screenSize" />
+        <activity android:name=".activity.AllApartmentsActivity"/>
         <activity android:name=".activity.RegisterActivity" />
-
-        <fragment android:name=".fragment.BlockNewsFragment" />
-
-        <activity android:name=".activity.NewpaperActivity"></activity>
-        <activity android:name=".activity.LoginActivity">
+        <activity android:name=".activity.NewpaperActivity"/>
+        <activity android:name=".activity.LoginActivity"></activity>
+        <activity android:name=".activity.CreateBoardAcitivity"></activity>
+        <activity android:name=".activity.BoardDetailActivity"></activity>
+        <activity android:name=".activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".activity.HomeActivity">
-
         </activity>
         <activity android:name=".activity.ApartmentDetailActivity"></activity>
         <activity
@@ -49,8 +47,6 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="47e3fc3740c99d890974ecafbb1736707a959ddb" />
-
-        <fragment android:name=".fragment.BlockNewsFragment"></fragment>
     </application>
 
 </manifest>

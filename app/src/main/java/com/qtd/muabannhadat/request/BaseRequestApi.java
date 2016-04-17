@@ -19,13 +19,17 @@ import java.net.UnknownHostException;
  * Created by Ngo Hado on 13-Apr-16.
  */
 public class BaseRequestApi {
-    private ResultRequestCallback callback;
-    Context context;
-    AsyncTask<Void, Void, String> requestAsync;
+    protected ResultRequestCallback callback;
+    protected Context context;
+    protected AsyncTask<Void, Void, String> requestAsync;
 
     public BaseRequestApi(Context context, final String dataRequest, final String methodName, final ResultRequestCallback callback) {
         this.context = context;
         this.callback = callback;
+        initAsyncTask(dataRequest, methodName);
+    }
+
+    public void initAsyncTask(final String dataRequest,final String methodName) {
         requestAsync = new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
@@ -42,11 +46,10 @@ public class BaseRequestApi {
                     SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
                     return response.toString();
                 } catch (UnknownHostException u) {
-                    callback.onFailed("UnknownHostException");
+                    return null;
                 } catch (Exception e) {
-                    callback.onFailed("Unknown Exception");
+                    return null;
                 }
-                return null;
             }
 
             @Override
