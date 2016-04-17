@@ -36,4 +36,29 @@
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="colorControlNormal">@color/colorPrimary</item>
     </style>
+
+    <style name="TextViewApartmentStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
+    <style name="TextViewCostStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="EditTextStyleWhiteBackground" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
+        <item name="android:textColorHint">@color/colorPrimaryDark</item>
+        <item name="android:textSize">16sp</item>
+    </style>
 </resources>

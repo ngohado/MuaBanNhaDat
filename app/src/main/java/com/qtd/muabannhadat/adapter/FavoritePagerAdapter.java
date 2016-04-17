@@ -12,7 +12,7 @@ import com.qtd.muabannhadat.fragment.SearchFavoriteFragment;
  * Created by Dell on 4/12/2016.
  */
 public class FavoritePagerAdapter extends FragmentPagerAdapter {
-    private String[] tabs= {"Bảng","Danh sách","Tìm kiếm"};
+    private String[] tabs = {"Nhóm", "Danh sách", "Tìm kiếm"};
 
     public FavoritePagerAdapter(FragmentManager fm) {
         super(fm);

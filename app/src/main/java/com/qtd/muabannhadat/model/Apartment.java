@@ -21,9 +21,18 @@ public class Apartment {
     private double latitude;
     private double longitude;
     private List<String> images;
+    private String imageFirst;
 
     public Apartment() {
 
+    }
+
+    public Apartment(int id, String address, String city, int price, String imageFirst) {
+        this.id = id;
+        this.address = address;
+        this.city = city;
+        this.price = price;
+        this.imageFirst = imageFirst;
     }
     public String getImageFirst() {
         return imageFirst;
@@ -41,7 +50,6 @@ public class Apartment {
         this.images = images;
     }
 
-    private String imageFirst;
 
     public Apartment(int id, String status, String kind, float area, String city, String district, String street, String address, int price, String describe, int numberOfRoom, float latitude, float longitude, String imageFirst) {
         this.id = id;
