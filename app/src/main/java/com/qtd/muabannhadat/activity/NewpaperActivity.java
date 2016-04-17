@@ -198,7 +198,7 @@ public class NewpaperActivity extends AppCompatActivity {
         spFrom.setAdapter(fromAdapter);
 
         ArrayAdapter<CharSequence> kindAdapter = ArrayAdapter.createFromResource(this, R.array.item_kind, R.layout.support_simple_spinner_dropdown_item);
-        fromAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        kindAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spKind.setAdapter(kindAdapter);
     }
 

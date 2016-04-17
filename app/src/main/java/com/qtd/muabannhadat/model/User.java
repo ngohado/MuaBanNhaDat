@@ -11,6 +11,15 @@ public class User {
     private String address;
     private String email;
     private String gender;
+    private String kind;
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
 
     public String getAvatar() {
         return avatar;
