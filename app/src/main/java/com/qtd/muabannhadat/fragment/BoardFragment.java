@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.qtd.muabannhadat.R;
-import com.qtd.muabannhadat.activity.CreateBoardAcitivity;
+import com.qtd.muabannhadat.activity.CreateBoardActivity;
 import com.qtd.muabannhadat.activity.LoginActivity;
 import com.qtd.muabannhadat.adapter.ItemBoardAdapter;
 import com.qtd.muabannhadat.callback.ResultRequestCallback;
@@ -132,7 +132,7 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
             Intent intent = new Intent(view.getContext(), LoginActivity.class);
             getActivity().startActivity(intent);
         } else {
-            Intent intent = new Intent(view.getContext(), CreateBoardAcitivity.class);
+            Intent intent = new Intent(view.getContext(), CreateBoardActivity.class);
             String s = "";
             for (int i = 0; i < boards.size(); i++) {
                 s += ("|" + boards.get(i).getName().trim());

@@ -30,8 +30,7 @@ public class SubImageView extends RelativeLayout {
     }
 
     public void setupWith(String uri) {
-        Glide.with(context).load(uri).into(ivHome);
-
+        Glide.with(context).load(uri).asBitmap().into(ivHome);
     }
 
     public Bitmap getBitmap() {
