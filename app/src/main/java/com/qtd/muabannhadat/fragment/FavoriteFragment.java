@@ -12,19 +12,24 @@ import android.view.ViewGroup;
 import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.adapter.FavoritePagerAdapter;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Dell on 4/12/2016.
  */
 public class FavoriteFragment extends Fragment {
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
+    @Bind(R.id.tabLayout_favorite)
+    TabLayout tabLayout;
+    @Bind(R.id.viewPager_favorite)
+    ViewPager viewPager;
 
+    View view;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_favorite, container, false);
-        tabLayout = (TabLayout) view.findViewById(R.id.tabLayout_favorite);
-        viewPager = (ViewPager) view.findViewById(R.id.viewPager_favorite);
+        view = inflater.inflate(R.layout.fragment_favorite, container, false);
+        ButterKnife.bind(this, view);
         setupViewpager();
         return view;
     }

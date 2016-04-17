@@ -1,7 +1,6 @@
 package com.qtd.muabannhadat.adapter.viewholder;
 
-import android.net.Uri;
-import android.support.v4.content.ContextCompat;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,6 +8,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.qtd.muabannhadat.R;
+import com.qtd.muabannhadat.activity.BoardDetailActivity;
 import com.qtd.muabannhadat.model.Board;
 
 import butterknife.Bind;
@@ -28,7 +28,9 @@ public class ItemBoardViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.tv_apartment_board)
     TextView tvApartment;
 
-    View view;
+    private View view;
+    private int boardID = -1;
+    private String boardName = "";
 
     public ItemBoardViewHolder(View itemView) {
         super(itemView);
@@ -38,16 +40,22 @@ public class ItemBoardViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.imv_board)
     void imageViewOnClick() {
-
+        Intent intent = new Intent(view.getContext(), BoardDetailActivity.class);
+        intent.putExtra("BoardID", boardID);
+        intent.putExtra("BoardName", boardName);
+        view.getContext().startActivity(intent);
     }
 
     public void setupWith(Board board, int number) {
+        boardID = board.getId();
+        boardName = board.getName();
         tvName.setText(board.getName());
         tvApartment.setText(board.getNumberOfApartment() + " căn hộ");
         if (number == 0) {
-            imageView.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.colorPink));
+            imageView.setImageResource(R.drawable.board);
         } else {
-            Glide.with(view.getContext()).load(Uri.parse(board.getImageFirst())).into(imageView);
+            String temp = board.getImageFirst();
+            Glide.with(view.getContext()).load(temp).into(imageView);
         }
     }
 

@@ -46,11 +46,10 @@ public class BaseRequestApi {
                     SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
                     return response.toString();
                 } catch (UnknownHostException u) {
-                    callback.onFailed("UnknownHostException");
+                    return null;
                 } catch (Exception e) {
-                    callback.onFailed("Unknown Exception");
+                    return null;
                 }
-                return null;
             }
 
             @Override

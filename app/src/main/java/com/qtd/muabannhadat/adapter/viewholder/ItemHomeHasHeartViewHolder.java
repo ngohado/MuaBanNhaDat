@@ -15,9 +15,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by Dell on 4/14/2016.
+ * Created by Dell on 4/17/2016.
  */
-public class TileHomeViewHolder extends RecyclerView.ViewHolder {
+public class ItemHomeHasHeartViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.imv_tileHome)
     ImageView imageView;
 
@@ -30,9 +30,12 @@ public class TileHomeViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.tv_cityTileHome)
     TextView tvCity;
 
-    private View view;
+    @Bind(R.id.imv_favorite)
+    ImageView imageViewHeart;
 
-    public TileHomeViewHolder(View itemView) {
+    protected View view;
+
+    public ItemHomeHasHeartViewHolder(View itemView) {
         super(itemView);
         view = itemView;
         ButterKnife.bind(this, itemView);
@@ -48,7 +51,6 @@ public class TileHomeViewHolder extends RecyclerView.ViewHolder {
         tvAddress.setText(apartment.getAddress());
         tvCity.setText(apartment.getCity());
         tvCost.setText(String.valueOf(apartment.getPrice()));
-
     }
 
 }

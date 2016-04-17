@@ -18,5 +18,7 @@ public class ApiConstant {
     public static final String METHOD_GET_ALL_APARTMENT_BY_KIND = "getAllApartmentByKind";
     public static final String METHOD_GET_BOARD_BY_ID = "getUserBoardByID";
     public static final String METHOD_ADD_BOARD = "addBoard";
+    public static final String METHOD_GET_FAVORITE_HOMES = "getFavoriteHome";
+    public static final String METHOD_GET_FAVORITE_HOMES_BY_BOARD = "getFavoriteHomeByBoard";
 
 }

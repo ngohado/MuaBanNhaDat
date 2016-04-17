@@ -64,7 +64,6 @@ public class RequestRepeatApi extends BaseRequestApi {
                     SoapPrimitive result = (SoapPrimitive) envelope.getResponse();
                     return result.toString();
                 } catch (Exception ex) {
-                    callback.onFailed(ex.toString());
                     return "";
                 }
             }

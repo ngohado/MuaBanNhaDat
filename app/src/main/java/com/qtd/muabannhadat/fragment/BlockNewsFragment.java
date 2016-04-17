@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.qtd.muabannhadat.R;
-import com.qtd.muabannhadat.adapter.ItemHomeAdapter;
+import com.qtd.muabannhadat.adapter.ItemCategoryAdapter;
 import com.qtd.muabannhadat.callback.ResultRequestCallback;
 import com.qtd.muabannhadat.constant.ApiConstant;
 import com.qtd.muabannhadat.model.Apartment;
@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class BlockNewsFragment extends Fragment implements ResultRequestCallback{
     private RecyclerView recyclerView;
-    private ItemHomeAdapter itemHomeAdapter;
+    private ItemCategoryAdapter itemCategoryAdapter;
     private ArrayList<ApartmentCategory> listApartmentCategory = new ArrayList<>();
     private RequestRepeatApi requestRepeatApi;
 
@@ -58,11 +58,11 @@ public class BlockNewsFragment extends Fragment implements ResultRequestCallback
 
     private void initView() {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        itemHomeAdapter = new ItemHomeAdapter(listApartmentCategory);
+        itemCategoryAdapter = new ItemCategoryAdapter(listApartmentCategory);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(itemHomeAdapter);
+        recyclerView.setAdapter(itemCategoryAdapter);
         progressBar = (ProgressBar) view.findViewById(R.id.progressbar_fragmentNews);
         progressBar.setIndeterminate(true);
         progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
@@ -76,7 +76,7 @@ public class BlockNewsFragment extends Fragment implements ResultRequestCallback
         for (int i = 0; i < 5; i++) {
             try {
                 JSONObject object = list.getJSONObject(i);
-                Apartment apartment = new Apartment(object.getInt("id"), " ", " ", (float) object.getDouble("size"), "Ha Noi", "Dong da", "Street", object.getString("address"), object.getInt("price"), "", 2, 103f, 102f, object.getString("image"));
+                Apartment apartment = new Apartment(object.getInt("id"), object.getString("address"), object.getString("city"), object.getInt("price"), object.getString("image"));
                 apartments.add(apartment);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -85,7 +85,7 @@ public class BlockNewsFragment extends Fragment implements ResultRequestCallback
         }
         ApartmentCategory category = new ApartmentCategory(temp, apartments);
         listApartmentCategory.add(category);
-        itemHomeAdapter.notifyDataSetChanged();
+        itemCategoryAdapter.notifyDataSetChanged();
         progressBar.setEnabled(false);
         progressBar.setVisibility(View.INVISIBLE);
     }

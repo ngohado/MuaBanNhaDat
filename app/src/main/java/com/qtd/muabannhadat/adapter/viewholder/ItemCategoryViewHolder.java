@@ -23,7 +23,7 @@ import butterknife.OnClick;
 /**
  * Created by Dell on 4/9/2016.
  */
-public class CategoryViewHolder extends RecyclerView.ViewHolder {
+public class ItemCategoryViewHolder extends RecyclerView.ViewHolder {
 
     @Bind(R.id.tv_title)
     public TextView tvTitle;
@@ -109,7 +109,7 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
     View view;
     ApartmentCategory apartmentCategory;
 
-    public CategoryViewHolder(View itemView) {
+    public ItemCategoryViewHolder(View itemView) {
         super(itemView);
         this.view = itemView;
         ButterKnife.bind(this, itemView);

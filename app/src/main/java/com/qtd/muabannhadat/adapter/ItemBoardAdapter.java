@@ -31,7 +31,7 @@ public class ItemBoardAdapter extends RecyclerView.Adapter<ItemBoardViewHolder> 
     @Override
     public void onBindViewHolder(ItemBoardViewHolder holder, int position) {
         Board board = boards.get(position);
-        holder.setupWith(board, boards.size());
+        holder.setupWith(board, board.getNumberOfApartment());
     }
 
     @Override

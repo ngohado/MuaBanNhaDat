@@ -46,7 +46,7 @@ public class CreateBoardAcitivity extends AppCompatActivity implements ResultReq
     ImageButton imageButton;
 
     private BaseRequestApi requestApi;
-    private String name;
+    private String listBoard;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,10 +58,9 @@ public class CreateBoardAcitivity extends AppCompatActivity implements ResultReq
 
     private void initComponent() {
         Intent intent = getIntent();
-        name = intent.getStringExtra("Name");
+        listBoard = intent.getStringExtra("Boards");
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp);
-        getSupportActionBar().setTitle("Tạo bảng");
         toolbar.setTitleTextColor(ContextCompat.getColor(this, android.R.color.white));
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,8 +77,8 @@ public class CreateBoardAcitivity extends AppCompatActivity implements ResultReq
 
     @OnClick(R.id.btn_check_board)
     void btnCheckBoardOnClick() {
-        if (name != "") {
-            String temp[] = name.split("\\|");
+        if (listBoard != "") {
+            String temp[] = listBoard.split("\\|");
             for (int i = 1; i < temp.length; i++) {
                 if (edtBoardName.getText().toString().trim().equals(temp[i])) {
                     edtBoardName.setError("Nhóm đã tồn tại");
@@ -95,7 +94,7 @@ public class CreateBoardAcitivity extends AppCompatActivity implements ResultReq
             progressBar.setVisibility(View.VISIBLE);
             JSONObject obj = new JSONObject();
             try {
-                obj.put("ID", SharedPrefUtils.getInt("ID", -1));
+                obj.put("UserID", SharedPrefUtils.getInt("ID", 3));
                 obj.put("BoardName", edtBoardName.getText().toString());
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -107,7 +106,16 @@ public class CreateBoardAcitivity extends AppCompatActivity implements ResultReq
 
     @Override
     public void onSuccess(String result) {
-        finish();
+        new AlertDialog.Builder(this)
+                .setTitle("Tạo nhóm")
+                .setMessage("Tạo nhóm thành công")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .create().show();
     }
 
     @Override

@@ -27,12 +27,9 @@
         <activity android:name=".activity.AllApartmentsActivity"/>
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.NewpaperActivity"/>
-        <activity android:name=".activity.LoginActivity">
-
-        </activity>
-        <activity android:name=".activity.CreateBoardAcitivity">
-
-        </activity>
+        <activity android:name=".activity.LoginActivity"></activity>
+        <activity android:name=".activity.CreateBoardAcitivity"></activity>
+        <activity android:name=".activity.BoardDetailActivity"></activity>
         <activity android:name=".activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.activity.CreateBoardAcitivity;
+import com.qtd.muabannhadat.activity.LoginActivity;
 import com.qtd.muabannhadat.adapter.ItemBoardAdapter;
 import com.qtd.muabannhadat.callback.ResultRequestCallback;
 import com.qtd.muabannhadat.constant.ApiConstant;
@@ -71,23 +72,22 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
 
         layoutManager = new GridLayoutManager(view.getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
-        refreshLayout.setRefreshing(true);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 refreshData();
             }
         });
-        refreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        refreshData();
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
     }
 
     public void refreshData() {
-        int id = SharedPrefUtils.getInt("ID", -1);
-        if (id == -1) {
+//        int id = SharedPrefUtils.getInt("ID", -1);
+        int id = 3;
+        if (id != -1) {
             JSONObject object = new JSONObject();
             try {
-                object.put("ID", 3);
+                object.put("UserID", id);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -98,58 +98,56 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
 
     @Override
     public void onSuccess(String result) {
+        boards.clear();
+        boardAdapter.notifyDataSetChanged();
         try {
             JSONArray array = new JSONArray(result);
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
-                Board board = new Board(obj.getInt("BoardID"), obj.getString("BoardName"), obj.getInt("NumberOfApartment"), obj.getString("ImageFirst"));
-                boards.add(board);
+                if (obj.getInt("NumberOfApartment") == 0) {
+                    Board board = new Board(obj.getInt("BoardID"), obj.getString("BoardName"), obj.getInt("NumberOfApartment"), "");
+                    boards.add(board);
+                } else {
+                    Board board = new Board(obj.getInt("BoardID"), obj.getString("BoardName"), obj.getInt("NumberOfApartment"), obj.getString("ImageFirst"));
+                    boards.add(board);
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         boardAdapter.notifyDataSetChanged();
+        refreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onFailed(String error) {
-//        refreshLayout.setRefreshing(false);
+        refreshLayout.setRefreshing(false);
         DebugLog.d(error);
     }
 
     @OnClick(R.id.fab_add)
     void fabAddOnClick() {
-//        int id = SharedPrefUtils.getInt("ID", -1);
-//        if (id == -1) {
-//            Intent intent = new Intent(view.getContext(), LoginActivity.class);
-//            getActivity().startActivity(intent);
-//        } else {
-//            Intent intent = new Intent(view.getContext(), CreateBoardAcitivity.class);
-//            getActivity().startActivity(intent);
-//        }
-        Intent intent = new Intent(view.getContext(), CreateBoardAcitivity.class);
-        String s = "";
-        for (int i = 0; i < boards.size(); i++) {
-            s += ("|" + boards.get(i).getName());
+        int id = SharedPrefUtils.getInt("ID", -1);
+        if (id == -1) {
+            Intent intent = new Intent(view.getContext(), LoginActivity.class);
+            getActivity().startActivity(intent);
+        } else {
+            Intent intent = new Intent(view.getContext(), CreateBoardAcitivity.class);
+            String s = "";
+            for (int i = 0; i < boards.size(); i++) {
+                s += ("|" + boards.get(i).getName().trim());
+            }
+            intent.putExtra("Boards", s);
+            getActivity().startActivity(intent);
         }
-        intent.putExtra("Name", s);
-        getActivity().startActivity(intent);
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        int id = SharedPrefUtils.getInt("ID", -1);
-        if (id != -1) {
-            JSONObject object = new JSONObject();
-            try {
-                object.put("Id", id);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            requestRepeatApi = new RequestRepeatApi(view.getContext(), object.toString(), ApiConstant.METHOD_GET_BOARD_BY_ID, this, view);
-            requestRepeatApi.executeRequest();
-        }
+        refreshLayout.setRefreshing(true);
+        refreshData();
     }
 }
 

@@ -7,6 +7,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="search" />
-
+        android:layout_centerInParent="true"
+        android:textSize="17sp"
+        android:textColor="@android:color/black"
+        android:gravity="center"
+        android:text="Chức năng đang được phát triển\nXin thứ lỗi vì sự bất tiện này" />
 </RelativeLayout>

@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.qtd.muabannhadat.R;
-import com.qtd.muabannhadat.adapter.ItemTileHomeAdapter;
+import com.qtd.muabannhadat.adapter.ItemHomeHasHeartAdapter;
 import com.qtd.muabannhadat.callback.ResultRequestCallback;
 import com.qtd.muabannhadat.constant.ApiConstant;
 import com.qtd.muabannhadat.model.Apartment;
@@ -44,7 +44,7 @@ public class AllApartmentsActivity extends AppCompatActivity implements ResultRe
     @Bind(R.id.progressBar_allApartments)
     ProgressBar progressBar;
 
-    private ItemTileHomeAdapter itemHomeAdapter;
+    private ItemHomeHasHeartAdapter itemHomeAdapter;
     private ArrayList<Apartment> apartments;
     private String kind = "";
     private RequestRepeatApi requestApartment;
@@ -84,7 +84,7 @@ public class AllApartmentsActivity extends AppCompatActivity implements ResultRe
         progressBar.setEnabled(true);
 
         apartments = new ArrayList<>();
-        itemHomeAdapter = new ItemTileHomeAdapter(apartments);
+        itemHomeAdapter = new ItemHomeHasHeartAdapter(apartments);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(itemHomeAdapter);

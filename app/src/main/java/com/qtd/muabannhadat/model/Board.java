@@ -9,6 +9,9 @@ public class Board {
     private int numberOfApartment;
     private String imageFirst;
 
+    public Board() {
+
+    }
     public Board(int id, String name, int numberOfApartment, String imageFirst) {
         this.id = id;
         this.name = name;
