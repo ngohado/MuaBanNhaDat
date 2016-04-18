@@ -2,8 +2,10 @@ package com.qtd.muabannhadat.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.constant.AppConstant;
@@ -12,7 +14,6 @@ import com.qtd.muabannhadat.fragment.NormalMapFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MapActivity extends AppCompatActivity {
     @Bind(R.id.toolbar)
@@ -26,6 +27,14 @@ public class MapActivity extends AppCompatActivity {
         setContentView(R.layout.activity_map);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp);
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, android.R.color.white));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         initData();
         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container, mapFragment).commit();
     }
@@ -44,15 +53,5 @@ public class MapActivity extends AppCompatActivity {
             mapFragment = new EarthMapFragment();
         }
         mapFragment.setArguments(bundle);
-    }
-
-    @OnClick(R.id.iv_back)
-    public void onIconBack() {
-        finish();
-    }
-
-    @OnClick(R.id.tv_back)
-    public void onTextViewBack() {
-        finish();
     }
 }

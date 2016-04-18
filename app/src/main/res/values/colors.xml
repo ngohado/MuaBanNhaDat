@@ -7,11 +7,12 @@
 
     <color name="colorPrimary">#22BF65</color>
     <color name="colorPrimaryDark">#0F6C4C</color>
-    <color name="colorAccent">#FFF</color>
+    <color name="colorAccent">#22BF65</color>
     <color name="colorGray">#E0E0E0</color>
     <color name="colorPink">#EE1C79</color>
     <color name="colorOrange">#F84A29</color>
     <color name="green">#1ad673</color>
     <color name="colorDarkBlue">#24243f</color>
+    <color name="colorGrayDark">#8b8b8b</color>
     <!---->
 </resources>

@@ -3,6 +3,7 @@ package com.qtd.muabannhadat.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -69,6 +70,8 @@ public class CreateBoardActivity extends AppCompatActivity implements ResultRequ
             }
         });
         progressBar.setVisibility(View.INVISIBLE);
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, android.R.color.white), PorterDuff.Mode.SRC_ATOP);
+        progressBar.setEnabled(true);
         progressBar.setIndeterminate(true);
         edtBoardName.requestFocus();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -126,6 +129,9 @@ public class CreateBoardActivity extends AppCompatActivity implements ResultRequ
                     .setMessage("Đã có lỗi xảy ra trong quá trình xử lý. Xin thử lại!")
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
+                            imageButton.setVisibility(View.VISIBLE);
+                            progressBar.setEnabled(false);
+                            progressBar.setVisibility(View.INVISIBLE);
                             dialog.dismiss();
                         }
                     })

@@ -196,15 +196,14 @@ public class ItemCategoryViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.imv_favorite5)
     public void ImvFavorite5OnClick() {
-//        imvFavorite5.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
-        Intent intent = new Intent(view.getContext(), AllApartmentsActivity.class);
-        intent.putExtra("Kind", apartmentCategory.getName());
-        view.getContext().startActivity(intent);
+        imvFavorite5.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
     }
 
     @OnClick(R.id.btnSeeAll)
     public void BtnSeeAllOnClick() {
-
+        Intent intent = new Intent(view.getContext(), AllApartmentsActivity.class);
+        intent.putExtra("Kind", apartmentCategory.getName());
+        view.getContext().startActivity(intent);
     }
 
     private void startApartmentDetailActivity(Apartment apartment) {

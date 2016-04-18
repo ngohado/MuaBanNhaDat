@@ -17,6 +17,7 @@ import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.adapter.ItemHomeHasHeartAdapter;
 import com.qtd.muabannhadat.callback.ResultRequestCallback;
 import com.qtd.muabannhadat.constant.ApiConstant;
+import com.qtd.muabannhadat.constant.AppConstant;
 import com.qtd.muabannhadat.model.Apartment;
 import com.qtd.muabannhadat.request.RequestRepeatApi;
 import com.qtd.muabannhadat.util.DebugLog;
@@ -44,10 +45,10 @@ public class AllApartmentsActivity extends AppCompatActivity implements ResultRe
     @Bind(R.id.progressBar_allApartments)
     ProgressBar progressBar;
 
-    private ItemHomeHasHeartAdapter itemHomeAdapter;
-    private ArrayList<Apartment> apartments;
-    private String kind = "";
-    private RequestRepeatApi requestApartment;
+    protected ItemHomeHasHeartAdapter itemHomeAdapter;
+    protected ArrayList<Apartment> apartments;
+    protected String kind = "";
+    protected RequestRepeatApi requestApartment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,7 +58,7 @@ public class AllApartmentsActivity extends AppCompatActivity implements ResultRe
         initComponent();
     }
 
-    private void initComponent() {
+    protected void initComponent() {
         Intent intent = getIntent();
         kind = intent.getStringExtra("Kind");
         String json = "";
@@ -99,15 +100,13 @@ public class AllApartmentsActivity extends AppCompatActivity implements ResultRe
         displayHome(result);
     }
 
-    private void displayHome(String result) {
+    protected void displayHome(String result) {
         try {
             JSONArray array = new JSONArray(result);
             for (int i = 0; i < array.length(); i++) {
                 JSONObject object = array.getJSONObject(i);
-                apartments.add(new Apartment(object.getInt("A_ID"), object.getString("Status"), object.getString("Kind"), (float) object.getDouble("Size"), object.getString("City")
-                        , object.getString("District"), object.getString("Street"), object.getString("Address"), object.getInt("Price"), object.getString("Describe")
-                        , object.getInt("Room"), (float) object.getDouble("Latitude"), (float) object.getDouble("Longitude"), object.getString("URL")));
-
+                apartments.add(new Apartment(object.getInt(AppConstant.A_ID), object.getString(AppConstant.CITY), object.getString(AppConstant.ADDRESS), object.getInt(AppConstant.PRICE), object.getString("URL"), object.getDouble(AppConstant.LATITUDE), object.getDouble(AppConstant.LONGITUDE)));
+                
             }
         } catch (JSONException e) {
             e.printStackTrace();

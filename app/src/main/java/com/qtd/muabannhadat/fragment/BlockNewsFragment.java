@@ -76,7 +76,7 @@ public class BlockNewsFragment extends Fragment implements ResultRequestCallback
         for (int i = 0; i < 5; i++) {
             try {
                 JSONObject object = list.getJSONObject(i);
-                Apartment apartment = new Apartment(object.getInt("id"), object.getString("address"), object.getString("city"), object.getInt("price"), object.getString("image"));
+                Apartment apartment = new Apartment(object.getInt("id"), object.getString("address"), object.getString("City"), object.getInt("price"), object.getString("image"));
                 apartments.add(apartment);
             } catch (JSONException e) {
                 e.printStackTrace();
