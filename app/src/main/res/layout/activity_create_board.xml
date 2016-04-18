@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="Tạo bảng"
+                android:text="Tạo nhóm"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
 

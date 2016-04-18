@@ -55,6 +55,7 @@
         android:layout_height="wrap_content"
         android:text="Đăng nhập"
         style="@style/ButtonStyle"
+
         android:background="@drawable/border_login"
         android:layout_below="@+id/linearLayout"
         android:layout_marginRight="10dp"
