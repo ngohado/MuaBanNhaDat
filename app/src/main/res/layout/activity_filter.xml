@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:elevation="5dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_filter">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:paddingBottom="100dp"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="Địa chỉ"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <RelativeLayout
+                android:id="@+id/layout_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_address">
+
+                <Spinner
+                    android:id="@+id/sp_street"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:entries="@array/area_range" />
+
+                <TextView
+                    android:id="@+id/tv_score_area1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="15dp"
+                    android:layout_toRightOf="@id/sp_street"
+                    android:text="-"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp" />
+
+                <Spinner
+                    android:id="@+id/sp_district"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_toRightOf="@id/tv_score_area1"
+                    android:entries="@array/area_range"
+                    android:foregroundTint="@color/colorGrayDark" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="Hình thức"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/layout_address" />
+
+            <RadioGroup
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/tv_status"
+                android:id="@+id/rgb_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/rbt_sale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bán"
+                    android:textSize="15sp" />
+
+                <android.support.v7.widget.AppCompatRadioButton
+                    android:id="@+id/rbt_rent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="60dp"
+                    android:layout_toRightOf="@id/rbt_sale"
+                    android:text="Cho thuê"
+                    android:textSize="15sp" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/tv_price_range"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/rgb_status"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="25dp"
+                android:text="Tầm giá"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <RelativeLayout
+                android:id="@+id/layout_price_range"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_price_range">
+
+                <Spinner
+                    android:id="@+id/sp_price_low_range"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:entries="@array/price_range_for_sale"
+                    android:foregroundTint="@color/colorGrayDark" />
+
+                <TextView
+                    android:id="@+id/tv_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="15dp"
+                    android:layout_toRightOf="@id/sp_price_low_range"
+                    android:text="-"
+                    android:textColor="@color/colorGrayDark"
+                    android:textSize="20sp" />
+
+                <Spinner
+                    android:id="@+id/sp_price_high_range"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_toRightOf="@id/tv_score"
+                    android:entries="@array/price_range_for_sale"
+                    android:foregroundTint="@color/colorGrayDark" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_kind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_price_range"
+                android:layout_margin="5dp"
+
+                android:text="Loaị nhà"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/sp_kind"
+                android:layout_width="230dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_below="@id/tv_kind"
+                android:layout_marginTop="5dp"
+                android:entries="@array/item_kind"
+                android:textColor="@color/colorGrayDark" />
+
+            <TextView
+                android:id="@+id/tv_room"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/sp_kind"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="Số phòng"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_room1"
+                android:layout_width="65dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/tv_room"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/background_room_selected"
+                android:gravity="center"
+                android:text="Bất kỳ"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/tv_room2"
+                android:layout_width="65dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/tv_room"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/tv_room1"
+                android:background="@drawable/background_room"
+                android:gravity="center"
+                android:text="1+"
+                android:textColor="@color/colorGrayDark" />
+
+            <TextView
+                android:id="@+id/tv_room3"
+                android:layout_width="65dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/tv_room"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/tv_room2"
+                android:background="@drawable/background_room"
+                android:gravity="center"
+                android:text="2+"
+                android:textColor="@color/colorGrayDark" />
+
+            <TextView
+                android:id="@+id/tv_room4"
+                android:layout_width="65dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/tv_room"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/tv_room3"
+                android:background="@drawable/background_room"
+                android:gravity="center"
+                android:text="3+"
+                android:textColor="@color/colorGrayDark" />
+
+            <TextView
+                android:id="@+id/tv_room5"
+                android:layout_width="65dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/tv_room"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/tv_room4"
+                android:background="@drawable/background_room"
+                android:gravity="center"
+                android:text="4+"
+                android:textColor="@color/colorGrayDark" />
+
+            <TextView
+                android:id="@+id/tv_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_room1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="25dp"
+                android:text="Diện tích"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <RelativeLayout
+                android:id="@+id/layout_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_area">
+
+                <Spinner
+                    android:id="@+id/sp_area_low_range"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:entries="@array/area_range"
+                    android:foregroundTint="@color/colorGrayDark" />
+
+                <TextView
+                    android:id="@+id/tv_score_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="15dp"
+                    android:layout_toRightOf="@id/sp_area_low_range"
+                    android:text="-"
+                    android:textColor="@color/colorGrayDark"
+                    android:textSize="20sp" />
+
+                <Spinner
+                    android:id="@+id/sp_area_high_range"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_toRightOf="@id/tv_score_area"
+                    android:entries="@array/area_range"
+                    android:foregroundTint="@color/colorGrayDark" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        android:orientation="horizontal"
+        android:elevation="2dp">
+
+
+        <TextView
+            android:id="@+id/tv_reset"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:text="Xóa"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_search"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Tìm kiếm"
+            android:textSize="16sp" />
+    </LinearLayout>
+</RelativeLayout>

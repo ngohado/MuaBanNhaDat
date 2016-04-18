@@ -1,5 +1,6 @@
 package com.qtd.muabannhadat.adapter.viewholder;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.qtd.muabannhadat.R;
+import com.qtd.muabannhadat.activity.ApartmentDetailActivity;
+import com.qtd.muabannhadat.constant.AppConstant;
 import com.qtd.muabannhadat.model.Apartment;
 
 import butterknife.Bind;
@@ -33,6 +36,7 @@ public class ItemHomeHasHeartViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.imv_favorite)
     ImageView imageViewHeart;
 
+    int id = 0;
     protected View view;
 
     public ItemHomeHasHeartViewHolder(View itemView) {
@@ -43,10 +47,13 @@ public class ItemHomeHasHeartViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.imv_tileHome)
     void ImvOnClick() {
-
+        Intent intent = new Intent(view.getContext(), ApartmentDetailActivity.class);
+        intent.putExtra(AppConstant.A_ID, id);
+        view.getContext().startActivity(intent);
     }
 
     public void setupWith(Apartment apartment) {
+        id = apartment.getId();
         Glide.with(view.getContext()).load(Uri.parse(apartment.getImageFirst())).into(imageView);
         tvAddress.setText(apartment.getAddress());
         tvCity.setText(apartment.getCity());

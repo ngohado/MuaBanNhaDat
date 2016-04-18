@@ -82,8 +82,8 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
     }
 
     public void refreshData() {
-//        int id = SharedPrefUtils.getInt("ID", -1);
-        int id = 3;
+        int id = SharedPrefUtils.getInt("ID", -1);
+//        int id = 3;
         if (id != -1) {
             JSONObject object = new JSONObject();
             try {
