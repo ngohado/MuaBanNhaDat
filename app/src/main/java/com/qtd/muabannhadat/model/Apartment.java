@@ -22,6 +22,7 @@ public class Apartment {
     private double longitude;
     private List<String> images;
     private String imageFirst;
+    public boolean isLiked = false;
 
     public Apartment() {
 

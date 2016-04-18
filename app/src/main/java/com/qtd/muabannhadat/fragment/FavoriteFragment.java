@@ -19,8 +19,10 @@ import butterknife.ButterKnife;
  * Created by Dell on 4/12/2016.
  */
 public class FavoriteFragment extends Fragment {
+
     @Bind(R.id.tabLayout_favorite)
     TabLayout tabLayout;
+
     @Bind(R.id.viewPager_favorite)
     ViewPager viewPager;
 

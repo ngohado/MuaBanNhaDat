@@ -2,7 +2,7 @@ package com.qtd.muabannhadat.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.qtd.muabannhadat.fragment.BoardFragment;
 import com.qtd.muabannhadat.fragment.HomesFavoriteFragment;
@@ -11,7 +11,7 @@ import com.qtd.muabannhadat.fragment.SearchFavoriteFragment;
 /**
  * Created by Dell on 4/12/2016.
  */
-public class FavoritePagerAdapter extends FragmentPagerAdapter {
+public class FavoritePagerAdapter extends FragmentStatePagerAdapter {
     private String[] tabs = {"Nhóm", "Danh sách", "Tìm kiếm"};
 
     public FavoritePagerAdapter(FragmentManager fm) {

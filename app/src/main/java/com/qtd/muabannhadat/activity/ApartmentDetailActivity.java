@@ -135,7 +135,7 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
     }
 
     private void getBundleData() {
-        idApartment = getIntent().getIntExtra(ID_APARTMENT, 7);
+        idApartment = getIntent().getIntExtra(ID_APARTMENT, 8);
     }
 
     private void initData() {

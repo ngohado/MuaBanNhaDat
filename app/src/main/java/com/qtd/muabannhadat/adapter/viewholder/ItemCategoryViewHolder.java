@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide;
 import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.activity.AllApartmentsActivity;
 import com.qtd.muabannhadat.activity.ApartmentDetailActivity;
+import com.qtd.muabannhadat.callback.ResultRequestCallback;
+import com.qtd.muabannhadat.dialog.BoardListDialog;
 import com.qtd.muabannhadat.model.Apartment;
 import com.qtd.muabannhadat.model.ApartmentCategory;
 
@@ -143,6 +145,21 @@ public class ItemCategoryViewHolder extends RecyclerView.ViewHolder {
         Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(1).getImageFirst())).into(ivHome2);
         Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(2).getImageFirst())).into(ivHome3);
         Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(3).getImageFirst())).into(ivHome4);
+
+        if (apartmentCategory.getApartments().get(0).isLiked)
+            imvFavorite1.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+
+        if (apartmentCategory.getApartments().get(1).isLiked)
+            imvFavorite2.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+
+        if (apartmentCategory.getApartments().get(2).isLiked)
+            imvFavorite3.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+
+        if (apartmentCategory.getApartments().get(3).isLiked)
+            imvFavorite4.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+
+        if (apartmentCategory.getApartments().get(4).isLiked)
+            imvFavorite5.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
     }
 
 
@@ -173,30 +190,86 @@ public class ItemCategoryViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.imv_favorite1)
     public void ImvFavorite1OnClick() {
-        imvFavorite1.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+        if (apartmentCategory.getApartments().get(0).isLiked)
+            return;
+        openDialog(0);
+    }
+    BoardListDialog dialog ;
+    private void openDialog(final int i) {
+        dialog = new BoardListDialog(view.getContext(), apartmentCategory.getApartments().get(i).getId(), new ResultRequestCallback() {
+            @Override
+            public void onSuccess(String result) {
+                try {
+                    JSONObject o = new JSONObject(result);
+                    if (!o.getString("Respone").equalsIgnoreCase("Success")) {
+
+                        return;
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                switch (i) {
+                    case 0:
+                        imvFavorite1.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+                        apartmentCategory.getApartments().get(i).isLiked = true;
+                        break;
+                    case 1:
+                        imvFavorite2.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+                        apartmentCategory.getApartments().get(i).isLiked = true;
+                        break;
+                    case 2:
+                        imvFavorite3.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+                        apartmentCategory.getApartments().get(i).isLiked = true;
+                        break;
+                    case 3:
+                        imvFavorite4.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+                        apartmentCategory.getApartments().get(i).isLiked = true;
+                        break;
+                    case 4:
+                        imvFavorite5.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+                        apartmentCategory.getApartments().get(i).isLiked = true;
+                        break;
+                }
+                if (dialog.isShowing())
+                    dialog.dismiss();
+            }
+
+            @Override
+            public void onFailed(String error) {
+                if (dialog.isShowing())
+                    dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     @OnClick(R.id.imv_favorite2)
     public void ImvFavorite2OnClick() {
-        imvFavorite2.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
-
+        if (apartmentCategory.getApartments().get(1).isLiked)
+            return;
+        openDialog(1);
     }
 
     @OnClick(R.id.imv_favorite3)
     public void ImvFavorite3OnClick() {
-        imvFavorite3.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
-
+        if (apartmentCategory.getApartments().get(2).isLiked)
+            return;
+        openDialog(2);
     }
 
     @OnClick(R.id.imv_favorite4)
     public void ImvFavorite4OnClick() {
-        imvFavorite4.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
-
+        if (apartmentCategory.getApartments().get(3).isLiked)
+            return;
+        openDialog(3);
     }
 
     @OnClick(R.id.imv_favorite5)
     public void ImvFavorite5OnClick() {
-        imvFavorite5.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+        if (apartmentCategory.getApartments().get(4).isLiked)
+            return;
+        openDialog(4);
     }
 
     @OnClick(R.id.btnSeeAll)

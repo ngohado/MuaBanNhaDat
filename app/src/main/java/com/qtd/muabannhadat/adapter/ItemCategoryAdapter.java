@@ -16,7 +16,6 @@ import java.util.ArrayList;
  */
 public class ItemCategoryAdapter extends RecyclerView.Adapter<ItemCategoryViewHolder> {
     private ArrayList<ApartmentCategory> list;
-
     public ItemCategoryAdapter(ArrayList<ApartmentCategory> homeCategories) {
         this.list = homeCategories;
     }

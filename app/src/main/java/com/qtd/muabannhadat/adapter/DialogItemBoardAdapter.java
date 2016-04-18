@@ -6,36 +6,36 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.qtd.muabannhadat.R;
-import com.qtd.muabannhadat.adapter.viewholder.ItemBoardViewHolder;
+import com.qtd.muabannhadat.adapter.viewholder.DialogItemBoardViewHolder;
 import com.qtd.muabannhadat.callback.ResultRequestCallback;
 import com.qtd.muabannhadat.model.Board;
 
 import java.util.ArrayList;
 
 /**
- * Created by Dell on 4/15/2016.
+ * Created by Ngo Hado on 18-Apr-16.
  */
-public class ItemBoardAdapter extends RecyclerView.Adapter<ItemBoardViewHolder> {
+public class DialogItemBoardAdapter extends RecyclerView.Adapter<DialogItemBoardViewHolder> {
     private ArrayList<Board> boards;
     ResultRequestCallback callback;
-    public ItemBoardAdapter(ArrayList<Board> boards) {
+    public DialogItemBoardAdapter(ArrayList<Board> boards) {
         this.boards = boards;
     }
 
-    public ItemBoardAdapter(ArrayList<Board> boards, ResultRequestCallback callback) {
+    public DialogItemBoardAdapter(ArrayList<Board> boards, ResultRequestCallback callback) {
         this.boards = boards;
         this.callback = callback;
     }
 
     @Override
-    public ItemBoardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DialogItemBoardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View v = inflater.inflate(R.layout.item_board, parent, false);
-        return new ItemBoardViewHolder(v);
+        return new DialogItemBoardViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ItemBoardViewHolder holder, int position) {
+    public void onBindViewHolder(DialogItemBoardViewHolder holder, int position) {
         final Board board = boards.get(position);
         holder.setupWith(board, board.getNumberOfApartment());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
