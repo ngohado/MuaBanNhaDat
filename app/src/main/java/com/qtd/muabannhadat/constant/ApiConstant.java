@@ -23,6 +23,8 @@ public class ApiConstant {
     public static final String METHOD_ADD_BOARD = "addBoard";
     public static final String METHOD_GET_FAVORITE_HOMES = "getFavoriteHome";
     public static final String METHOD_GET_FAVORITE_HOMES_BY_BOARD = "getFavoriteHomeByBoard";
+    public static final String METHOD_ADD_REG_ID = "updateRegID";
+    public static final String METHOD_FILTER = "methodFilter";
 
     public static final String METHOD_UPDATE_INFO_USER = "";
     public static final String METHOD_ADD_APARTMENT_TO_BOARD = "addFavorite";

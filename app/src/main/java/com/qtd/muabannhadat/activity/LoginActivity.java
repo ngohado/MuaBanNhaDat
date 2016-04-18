@@ -152,6 +152,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 int userId = obj.getInt("UserID");
                 SharedPrefUtils.putInt("ID", userId);
                 Toast.makeText(getBaseContext(), "Đăng nhập  thành công!", Toast.LENGTH_LONG).show();
+                finish();
                 btnLogin.setEnabled(true);
             }
 

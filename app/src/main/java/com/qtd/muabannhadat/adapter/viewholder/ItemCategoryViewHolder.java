@@ -199,16 +199,16 @@ public class ItemCategoryViewHolder extends RecyclerView.ViewHolder {
         dialog = new BoardListDialog(view.getContext(), apartmentCategory.getApartments().get(i).getId(), new ResultRequestCallback() {
             @Override
             public void onSuccess(String result) {
-//                try {
-//                    JSONObject o = new JSONObject(result);
-//                    if (!o.getString("Respone").equalsIgnoreCase("Success")) {
-//
-//                        return;
-//                    }
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    JSONObject o = new JSONObject(result);
+                    if (!o.getString("Respone").equalsIgnoreCase("Success")) {
+
+                        return;
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 switch (i) {
                     case 0:
                         imvFavorite1.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));

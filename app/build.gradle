@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
+apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -60,6 +61,9 @@ dependencies {
     compile 'com.android.support:support-v4:23.2.1'
     compile 'com.facebook.android:facebook-android-sdk:4.+'
     compile 'com.mcxiaoke.volley:library:1.0.19'
-    compile 'com.google.android.gms:play-services-maps:8.4.0'
-    compile 'com.google.android.gms:play-services-location:8.4.0'
+    compile 'com.google.android.gms:play-services-maps:8.3.0'
+    compile 'com.google.android.gms:play-services-location:8.3.0'
+    compile "com.google.android.gms:play-services-gcm:8.3.0"
+
+
 }

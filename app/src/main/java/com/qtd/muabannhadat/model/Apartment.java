@@ -35,6 +35,16 @@ public class Apartment {
         this.price = price;
         this.imageFirst = imageFirst;
     }
+
+    public Apartment(int id, String address, String city, int price, String imageFirst, double latitude, double longitude) {
+        this.id = id;
+        this.address = address;
+        this.city = city;
+        this.price = price;
+        this.imageFirst = imageFirst;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
     public String getImageFirst() {
         return imageFirst;
     }

@@ -37,4 +37,9 @@ public class AppConstant {
     public static final String IMAGE3 = "Image3";
     public static final String IMAGE4 = "Image4";
     public static final String IMAGE5 = "Image5";
+
+    public static final String PRICE_LOW_RANGE = "priceLowRange";
+    public static final String PRICE_HIGH_RANGE = "priceHighRange";
+    public static final String AREA_LOW_RANGE = "areaLowRange";
+    public static final String AREA_HIGH_RANGE = "areaHighRange";
 }

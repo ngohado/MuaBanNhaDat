@@ -5,7 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
@@ -107,6 +109,9 @@ public class NewpaperActivity extends AppCompatActivity {
 
     private ProgressDialog dialog;
 
+    @Bind(R.id.toolbar_newspaper)
+    Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,6 +173,16 @@ public class NewpaperActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Đăng tin");
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp);
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, android.R.color.white));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         dialog = new ProgressDialog(this);
         dialog.setCancelable(false);
         dialog.setIndeterminate(true);

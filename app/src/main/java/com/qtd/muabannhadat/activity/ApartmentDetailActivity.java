@@ -126,8 +126,8 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
     }
 
     private void addDefaultUser() {
-        User u1 = new User("Hỗ trợ 1", "19001800", "https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png");
-        User u2 = new User("Hỗ trợ 2", "19001820", "http://www.textbookrecycling.com/images/female.png");
+        User u1 = new User("Trần Hồng Quân", "01675141995", "http://www.textbookrecycling.com/images/female.png");
+        User u2 = new User("Hoa Anh Tú", "0942899531", "https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png");
         user1 = new UserContactView(this, u1);
         user2 = new UserContactView(this, u2);
         layoutMore.addView(user1);
