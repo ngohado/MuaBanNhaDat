@@ -38,6 +38,7 @@ public class User {
     public User(String name, String phone, String avatar) {
         this.name = name;
         this.phone = phone;
+        this.avatar = avatar;
     }
 
     public User(int id, String userName, String name, String dateOfBirth, String phone, String address, String email, String gender) {

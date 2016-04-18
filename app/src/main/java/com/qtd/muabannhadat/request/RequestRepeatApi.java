@@ -38,6 +38,7 @@ public class RequestRepeatApi extends BaseRequestApi {
                 try {
                     String soapAction = ApiConstant.NAME_SPACE + methodName;
                     SoapObject soapObject = new SoapObject(ApiConstant.NAME_SPACE, methodName);
+                    DebugLog.i(dataRequest);
                     soapObject.addProperty("json", dataRequest);
                     SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                     envelope.dotNet = true;
@@ -74,6 +75,7 @@ public class RequestRepeatApi extends BaseRequestApi {
                     callback.onFailed("Error");
                     return;
                 }
+                DebugLog.i(s);
                 callback.onSuccess(s);
             }
         };

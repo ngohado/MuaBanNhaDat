@@ -24,4 +24,7 @@ public class ApiConstant {
     public static final String METHOD_GET_FAVORITE_HOMES = "getFavoriteHome";
     public static final String METHOD_GET_FAVORITE_HOMES_BY_BOARD = "getFavoriteHomeByBoard";
 
+    public static final String METHOD_UPDATE_INFO_USER = "";
+    public static final String METHOD_ADD_APARTMENT_TO_BOARD = "addFavorite";
+
 }

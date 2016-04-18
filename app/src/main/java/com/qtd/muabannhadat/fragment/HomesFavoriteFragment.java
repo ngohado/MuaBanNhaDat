@@ -60,10 +60,11 @@ public class HomesFavoriteFragment extends Fragment implements ResultRequestCall
     private void initComponent() {
         apartments = new ArrayList<>();
         tileHomeAdapter = new ItemHomeAdapter(apartments);
-        recyclerView.setAdapter(tileHomeAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setAdapter(tileHomeAdapter);
 
         refreshLayout.setRefreshing(true);
+        refreshData();
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -74,7 +75,7 @@ public class HomesFavoriteFragment extends Fragment implements ResultRequestCall
     }
 
     private void refreshData() {
-        int id = SharedPrefUtils.getInt("ID", -1);
+        int id = SharedPrefUtils.getInt("ID", 3);
         if (id != -1) {
             JSONObject object = new JSONObject();
             try {

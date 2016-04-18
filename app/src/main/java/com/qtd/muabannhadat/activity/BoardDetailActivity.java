@@ -76,6 +76,7 @@ public class BoardDetailActivity extends AppCompatActivity implements ResultRequ
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         refreshLayout.setRefreshing(true);
+        refreshData();
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -117,7 +118,7 @@ public class BoardDetailActivity extends AppCompatActivity implements ResultRequ
     public void refreshData() {
         JSONObject object = new JSONObject();
         try {
-            object.put("UserID", SharedPrefUtils.getInt("ID", -1));
+            object.put("UserID", SharedPrefUtils.getInt("ID", 3));
             object.put("BoardID", boardID);
         } catch (JSONException e) {
             e.printStackTrace();

@@ -1,50 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="180dp"
-    android:layout_height="180dp"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/imv_board"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp"
-        android:src="@drawable/backgroud_demo"
-        android:scaleType="fitXY" />
+    <RelativeLayout
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_centerInParent="true">
+        <ImageView
+            android:id="@+id/imv_board"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:src="@drawable/backgroud_demo"
+            android:scaleType="fitXY" />
 
-    <View
-        android:id="@+id/view_foreground"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/frame" />
+        <View
+            android:id="@+id/view_foreground"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/frame" />
 
-    <TextView
-        android:id="@+id/tv_name_board"
-        style="@style/TextViewApartmentStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="18dp" />
+        <TextView
+            android:id="@+id/tv_name_board"
+            style="@style/TextViewApartmentStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="18dp" />
 
-    <TextView
-        android:id="@+id/tv_member_board"
-        style="@style/TextViewApartmentStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/tv_apartment_board"
-        android:layout_marginLeft="20dp"
-        android:text="Chỉ mình tôi" />
+        <TextView
+            android:id="@+id/tv_member_board"
+            style="@style/TextViewApartmentStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tv_apartment_board"
+            android:layout_marginLeft="20dp"
+            android:text="Chỉ mình tôi" />
 
 
-    <TextView
-        android:id="@+id/tv_apartment_board"
-        style="@style/TextViewApartmentStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="18dp"
-        android:layout_marginLeft="20dp"
-        android:textColor="@color/colorGray" />
+        <TextView
+            android:id="@+id/tv_apartment_board"
+            style="@style/TextViewApartmentStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="18dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/colorGray" />
+    </RelativeLayout>
+
+
 
 
 </RelativeLayout>

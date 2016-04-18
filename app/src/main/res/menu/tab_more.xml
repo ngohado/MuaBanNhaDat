@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/sign"
-        android:title="Thoát" />
+        android:title="Thoát"/>
     <item
         android:id="@+id/profile"
         android:title="Quản lý tài khoản" />
     <item
         android:id="@+id/settings"
-        android:title="Cài đặt" />
+        android:title="Cài đặt"/>
 </menu>

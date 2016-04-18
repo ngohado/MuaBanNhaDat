@@ -1,11 +1,14 @@
 package com.qtd.muabannhadat.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.qtd.muabannhadat.activity.ApartmentDetailActivity;
 import com.qtd.muabannhadat.callback.ResultRequestCallback;
 import com.qtd.muabannhadat.constant.ApiConstant;
 import com.qtd.muabannhadat.constant.AppConstant;
@@ -106,5 +109,19 @@ public class NormalMapFragment extends BaseMapFragment {
             DebugLog.i("Lat: " + a.getLatitude() + ", Lng: " + a.getLongitude());
             drawMarker(new LatLng(a.getLatitude(), a.getLongitude()), getBitmapFromView(String.valueOf(a.getPrice())));
         }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        for (Apartment a : apartments) {
+            if (a.getLatitude() == marker.getPosition().latitude &&
+                    a.getLongitude() == marker.getPosition().longitude) {
+                Intent intent = new Intent(getActivity(), ApartmentDetailActivity.class);
+                intent.putExtra(ApartmentDetailActivity.ID_APARTMENT, a.getId());
+                getActivity().startActivity(intent);
+                return true;
+            }
+        }
+        return false;
     }
 }

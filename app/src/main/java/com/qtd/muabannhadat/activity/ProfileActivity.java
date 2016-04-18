@@ -1,7 +1,9 @@
 package com.qtd.muabannhadat.activity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.callback.ResultRequestCallback;
 import com.qtd.muabannhadat.constant.ApiConstant;
@@ -19,12 +22,14 @@ import com.qtd.muabannhadat.constant.AppConstant;
 import com.qtd.muabannhadat.model.User;
 import com.qtd.muabannhadat.request.BaseRequestApi;
 import com.qtd.muabannhadat.util.DebugLog;
+import com.qtd.muabannhadat.util.DialogUtil;
 import com.qtd.muabannhadat.util.SharedPrefUtils;
 import com.qtd.muabannhadat.util.StringUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,6 +93,12 @@ public class ProfileActivity extends AppCompatActivity {
     @Bind(R.id.iv_save)
     ImageView ivSave;
 
+    @Bind(R.id.iv_clear)
+    ImageView ivClear;
+
+    User beforeUser = new User();
+    BaseRequestApi requestApi;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +106,7 @@ public class ProfileActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initView();
         initDataOffline();
-        BaseRequestApi requestApi = new BaseRequestApi(this, String.format("{\"%s\":%d}", AppConstant.USER_ID, SharedPrefUtils.getInt(AppConstant.ID, 3)), ApiConstant.METHOD_GET_USER, new ResultRequestCallback() {
+        requestApi = new BaseRequestApi(this, String.format("{\"%s\":%d}", AppConstant.USER_ID, SharedPrefUtils.getInt(AppConstant.ID, 3)), ApiConstant.METHOD_GET_USER, new ResultRequestCallback() {
             @Override
             public void onSuccess(String result) {
                 handleResponse(result);
@@ -125,6 +136,7 @@ public class ProfileActivity extends AppCompatActivity {
             user.setGender(object.getString(AppConstant.GENDER));
             user.setKind(object.getString("TargetKind"));
             user.setKind(object.getString(AppConstant.AVATAR));
+            beforeUser = user;
             fillData(user);
         } catch (JSONException e) {
             DebugLog.e(e.toString());
@@ -164,8 +176,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     @OnClick(R.id.iv_edit)
     public void onEditClicked() {
-        ivEdit.setVisibility(View.GONE);
-        ivSave.setVisibility(View.VISIBLE);
         swapView(View.GONE, View.VISIBLE);
         swNotification.setEnabled(true);
 
@@ -185,15 +195,71 @@ public class ProfileActivity extends AppCompatActivity {
         edtDob.setVisibility(edt);
         edtName.setVisibility(edt);
         spGender.setVisibility(edt);
+
+        ivEdit.setVisibility(tv);
+        ivSave.setVisibility(edt);
+        ivClear.setVisibility(edt);
+    }
+
+
+    @OnClick(R.id.iv_clear)
+    public void onClearClicked() {
+        fillData(beforeUser);
+        swapView(View.VISIBLE, View.GONE);
     }
 
     @OnClick(R.id.iv_save)
     public void onSaveClicked() {
-        ivEdit.setVisibility(View.VISIBLE);
-        ivSave.setVisibility(View.GONE);
+        BaseRequestApi requestUpdate = new BaseRequestApi(this, toJson(beforeUser), ApiConstant.METHOD_UPDATE_INFO_USER, new ResultRequestCallback() {
+            @Override
+            public void onSuccess(String result) {
+                DialogUtil.showDialog(ProfileActivity.this, "Thành công", "Update thông tin cá nhân thành công", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        requestApi.executeRequest();
+                        dialog.dismiss();
+                    }
+                });
+            }
 
+            @Override
+            public void onFailed(String error) {
+                DialogUtil.showDialog(ProfileActivity.this, "Thất bại", "Xảy ra lỗi, vui lòng thử lại", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+        requestUpdate.executeRequest();
         swapView(View.VISIBLE, View.GONE);
         swNotification.setEnabled(false);
+    }
+
+    public String toJson(User u) {
+        JSONObject o = new JSONObject();
+        try {
+            o.put(AppConstant.USER_ID, u.getId());
+            o.put(AppConstant.NAME, edtName.getText().toString());
+            o.put(AppConstant.DOB, edtDob.getText().toString());
+            o.put(AppConstant.TELEPHONE, edtPhone.getText().toString());
+            o.put(AppConstant.ADDRESS, edtAddress.getText().toString());
+            o.put(AppConstant.EMAIL, u.getEmail());
+            o.put(AppConstant.GENDER, spGender.getSelectedItem().toString());
+            if (swNotification.isSelected()) {
+                o.put(AppConstant.KIND, spKind.getSelectedItem().toString());
+            } else {
+                o.put(AppConstant.KIND, "");
+            }
+            o.put(AppConstant.AVATAR, NewpaperActivity.encodeToString(((BitmapDrawable) ivAvatar.getDrawable()).getBitmap()));
+            return o.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "{}";
     }
 
     @OnClick(R.id.iv_avatar)
@@ -213,6 +279,9 @@ public class ProfileActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 14 && resultCode == Activity.RESULT_OK) {
             List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+            if (path.size() == 1) {
+                Glide.with(this).load(path.get(0)).into(ivAvatar);
+            }
         }
     }
 }

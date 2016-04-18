@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
@@ -20,15 +21,19 @@ import com.qtd.muabannhadat.fragment.FavoriteFragment;
 import com.qtd.muabannhadat.fragment.NormalMapFragment;
 import com.qtd.muabannhadat.util.SharedPrefUtils;
 
+import butterknife.ButterKnife;
+
 public class HomeActivity extends AppCompatActivity {
     private TabLayout tabLayout;
 
     private PopupMenu popupMenu;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+        ButterKnife.bind(this);
         initView();
         initTabLayout();
     }
@@ -40,7 +45,7 @@ public class HomeActivity extends AppCompatActivity {
     private void initTabLayout() {
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_home_white_36dp));
-        tabLayout.addTab(tabLayout.newTab().setIcon(changeColor(R.drawable.ic_search_white_36dp, R.color .colorPrimaryDark)));
+        tabLayout.addTab(tabLayout.newTab().setIcon(changeColor(R.drawable.ic_search_white_36dp, R.color.colorPrimaryDark)));
         tabLayout.addTab(tabLayout.newTab().setIcon(changeColor(R.drawable.ic_favorite_white_36dp, R.color.colorPrimaryDark)));
         tabLayout.addTab(tabLayout.newTab().setIcon(changeColor(R.drawable.ic_notifications_white_36dp, R.color.colorPrimaryDark)));
         tabLayout.addTab(tabLayout.newTab().setIcon(changeColor(R.drawable.ic_more_vert_white_36dp, R.color.colorPrimaryDark)));
@@ -50,20 +55,23 @@ public class HomeActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
                     case 0:
+                        popEntireFragmentBackStack();
                         changeColorTabItem(R.drawable.ic_home_white_36dp, 0);
                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, new BlockNewsFragment()).commit();
                         break;
                     case 1:
+                        popEntireFragmentBackStack();
                         changeColorTabItem(R.drawable.ic_search_white_36dp, 1);
                         Fragment fm = new NormalMapFragment();
                         Bundle bundle = new Bundle();
-                        bundle.putDouble(AppConstant.LATITUDE,21.012219);
-                        bundle.putDouble(AppConstant.LONGITUDE,105.8199264);
+                        bundle.putDouble(AppConstant.LATITUDE, 21.012219);
+                        bundle.putDouble(AppConstant.LONGITUDE, 105.8199264);
                         bundle.putBoolean("ALL", true);
                         fm.setArguments(bundle);
                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, fm).commit();
                         break;
                     case 2:
+                        popEntireFragmentBackStack();
                         tabLayout.setElevation(0f);
                         changeColorTabItem(R.drawable.ic_favorite_white_36dp, 2);
                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, new FavoriteFragment()).commit();
@@ -72,34 +80,7 @@ public class HomeActivity extends AppCompatActivity {
                         changeColorTabItem(R.drawable.ic_notifications_white_36dp, 3);
                         break;
                     case 4:
-                        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1) {
-                            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                            break;
-                        }
-                        popupMenu = new PopupMenu(HomeActivity.this, tab.getCustomView());
-                        popupMenu.getMenuInflater().inflate(R.menu.tab_more, popupMenu.getMenu());
-                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem item) {
-                                switch (item.getItemId()) {
-                                    case R.id.sign:
-
-
-                                        SharedPrefUtils.putInt(AppConstant.ID, -1);
-                                        break;
-                                    case R.id.profile:
-
-                                        break;
-                                    case R.id.settings:
-
-                                        break;
-                                }
-
-                                return true;
-                            }
-                        });
-                        popupMenu.show();
+                        showPopupMenu();
                         break;
                 }
 
@@ -112,9 +93,53 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                if (tab.getPosition() == 4) {
+                    showPopupMenu();
+                }
             }
         });
+    }
+
+    private void popEntireFragmentBackStack() {
+        try {
+            final FragmentManager fm = getSupportFragmentManager();
+            final int backStackCount = fm.getBackStackEntryCount();
+            for (int i = 0; i < backStackCount; i++) {
+                fm.popBackStack();
+            }
+        } catch (Exception ignored) {
+
+        }
+    }
+
+    private void showPopupMenu() {
+        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == 1) {
+            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
+        popupMenu = new PopupMenu(HomeActivity.this, HomeActivity.this.findViewById(R.id.anchor_view));
+        popupMenu.getMenuInflater().inflate(R.menu.tab_more, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.sign:
+
+
+                        SharedPrefUtils.putInt(AppConstant.ID, -1);
+                        break;
+                    case R.id.profile:
+
+                        break;
+                    case R.id.settings:
+
+                        break;
+                }
+
+                return true;
+            }
+        });
+        popupMenu.show();
     }
 
     private Drawable changeColor(int id, int color) {

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.adapter.ViewPagerAdapter;
 import com.qtd.muabannhadat.constant.AppConstant;
+import com.qtd.muabannhadat.fragment.ImageFragment;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class PreviewActivity extends AppCompatActivity {
         String[] dataReceive = getIntent().getStringArrayExtra(AppConstant.IMAGE1);
         List<Fragment> fragments = new ArrayList<>();
         for (String string : dataReceive) {
-            Fragment fm = new Fragment();
+            Fragment fm = new ImageFragment();
             Bundle b = new Bundle();
             b.putString(AppConstant.IMAGE1, string);
             fm.setArguments(b);
