@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/AppTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    style="@style/AppTheme">
+    android:background="@color/colorPrimary">
+
     <TextView
         android:id="@+id/tv_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:layout_marginTop="100dp"
         android:text="Đăng nhập"
         android:textColor="@android:color/white"
-        android:textStyle="bold"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="50dp"
-        android:textSize="30sp"/>
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -29,118 +30,120 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:textColor="@android:color/white"
-            android:theme="@style/EditTextStyle"
-            android:hint="Email"
             android:drawableLeft="@drawable/ic_account_box_white_36dp"
-            android:drawablePadding="8dp"/>
+            android:drawablePadding="8dp"
+            android:hint="Email"
+            android:textColor="@android:color/white"
+            android:theme="@style/EditTextStyleLogin" />
 
         <EditText
             android:id="@+id/edtPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/EditTextStyle"
-            android:hint="Mật khẩu"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:textColor="@android:color/white"
-            android:inputType="textPassword"
             android:drawableLeft="@drawable/ic_lock_outline_white_36dp"
-            android:drawablePadding="8dp"/>
+            android:drawablePadding="8dp"
+            android:hint="Mật khẩu"
+            android:inputType="textPassword"
+            android:textColor="@android:color/white"
+            android:theme="@style/EditTextStyleLogin" />
     </LinearLayout>
 
     <Button
         android:id="@+id/btnLogin"
+        style="@style/ButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Đăng nhập"
-        style="@style/ButtonStyle"
-
-        android:background="@drawable/border_login"
         android:layout_below="@+id/linearLayout"
-        android:layout_marginRight="10dp"
+
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/border_login"
+        android:text="Đăng nhập" />
 
     <TextView
+        android:id="@+id/tv_forget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tv_forget"
+        android:layout_below="@+id/btnLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         android:text="Quên mật khẩu"
         android:textColor="@android:color/white"
-        android:textSize="15sp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/btnLogin"
-        android:layout_marginTop="10dp"/>
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/tv_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@android:color/white"
-        android:text="Tạo một tài khoản"
-        android:textSize="15sp"
-        android:layout_marginTop="5dp"
         android:layout_below="@+id/tv_forget"
         android:layout_centerHorizontal="true"
-        />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:text="Tạo một tài khoản"
+        android:textColor="@android:color/white"
+        android:textSize="15sp" />
+
     <RelativeLayout
         android:id="@+id/layout_slash"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_register"
         android:layout_margin="10dp">
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_toLeftOf="@+id/tv_slashRegister"
             android:layout_centerVertical="true"
-            android:background="@android:color/white"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/tv_slashRegister"
+            android:background="@android:color/white" />
+
         <TextView
+            android:id="@+id/tv_slashRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_slashRegister"
-            android:textSize="15sp"
-            android:textColor="@android:color/white"
+            android:layout_centerInParent="true"
             android:text=" hoặc "
-            android:layout_centerInParent="true"/>
+            android:textColor="@android:color/white"
+            android:textSize="15sp" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_toRightOf="@+id/tv_slashRegister"
             android:layout_centerVertical="true"
-            android:background="@android:color/white"
             android:layout_margin="10dp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/tv_slashRegister"
+            android:background="@android:color/white" />
     </RelativeLayout>
 
     <Button
+        android:id="@+id/btn_LoginFacebook"
+        style="@style/ButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/border_facebook"
-        android:text="Đăng nhập với Facebook"
-        style="@style/ButtonStyle"
-        android:drawableLeft="@drawable/ic_facebook_white_36dp"
+        android:layout_below="@+id/layout_slash"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_below="@+id/layout_slash"
-        android:id="@+id/btn_LoginFacebook"
+        android:background="@drawable/border_facebook"
+        android:drawableLeft="@drawable/ic_facebook_white_36dp"
         android:paddingLeft="10dp"
-        />
+        android:text="Đăng nhập với Facebook" />
+
     <Button
+        android:id="@+id/btn_LoginTwitter"
+        style="@style/ButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/border_twitter"
-        android:text="Đăng nhập với Twitter"
-        style="@style/ButtonStyle"
-        android:drawableLeft="@drawable/ic_twitter_white_36dp"
+        android:layout_below="@+id/btn_LoginFacebook"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
-        android:id="@+id/btn_LoginTwitter"
-        android:layout_below="@+id/btn_LoginFacebook"
+        android:background="@drawable/border_twitter"
+        android:drawableLeft="@drawable/ic_twitter_white_36dp"
         android:paddingLeft="10dp"
-        />
+        android:text="Đăng nhập với Twitter" />
 </RelativeLayout>

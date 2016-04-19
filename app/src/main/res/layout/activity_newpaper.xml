@@ -45,13 +45,14 @@
                     android:id="@+id/spFrom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"></Spinner>
+                    android:layout_weight="1" />
 
                 <Spinner
                     android:id="@+id/spKind"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"></Spinner>
+                    android:layout_weight="1"
+                    android:prompt="@string/kind_prompt" />
             </LinearLayout>
 
             <LinearLayout
@@ -83,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Địa chỉ"
                     android:maxLines="1"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@android:color/black"
                     android:theme="@style/EditTextStyle" />
 
                 <TextView
@@ -96,7 +97,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text=", Thái Hà"
-                    android:textColor="@android:color/white"
+                    android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
                 <TextView
@@ -109,7 +110,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text=", Đống Đa"
-                    android:textColor="@android:color/white"
+                    android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
                 <TextView
@@ -122,7 +123,7 @@
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text=", Hà Nội"
-                    android:textColor="@android:color/white"
+                    android:textColor="@android:color/black"
                     android:textSize="16sp" />
             </RelativeLayout>
 
@@ -132,7 +133,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Diện tích"
                 android:inputType="number"
-                android:textColor="@color/colorAccent"
+                android:textColor="@android:color/black"
                 android:theme="@style/EditTextStyle" />
 
             <EditText
@@ -141,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Tổng tiền"
                 android:inputType="number"
-                android:textColor="@color/colorAccent"
+                android:textColor="@android:color/black"
                 android:theme="@style/EditTextStyle" />
 
             <EditText
@@ -150,7 +151,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Số phòng"
                 android:inputType="number"
-                android:textColor="@color/colorAccent"
+                android:textColor="@android:color/black"
                 android:theme="@style/EditTextStyle" />
 
             <EditText
@@ -161,7 +162,7 @@
                 android:gravity="top"
                 android:hint="Mô tả"
                 android:padding="10dp"
-                android:textColor="@color/colorAccent"
+                android:textColor="@android:color/black"
                 android:theme="@style/EditTextStyle" />
 
             <HorizontalScrollView
@@ -183,7 +184,7 @@
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_marginLeft="5dp"
-                        android:background="@drawable/border_login"
+                        android:background="@drawable/border_orange"
                         android:text="+"
                         android:textColor="@android:color/white"
                         android:textSize="40sp" />
@@ -197,7 +198,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
                 android:layout_marginTop="30dp"
-                android:background="@drawable/border_login"
+                android:background="@drawable/border_orange"
                 android:text="ĐĂNG TIN" />
 
         </LinearLayout>

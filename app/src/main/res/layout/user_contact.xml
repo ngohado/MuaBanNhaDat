@@ -45,5 +45,5 @@
         android:layout_alignParentRight="true"
         android:background="@drawable/border_call"
         android:text="GỌI"
-        android:textColor="@color/green" />
+        android:textColor="@color/colorPrimaryDark" />
 </RelativeLayout>

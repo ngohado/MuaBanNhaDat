@@ -45,7 +45,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
-                    android:entries="@array/area_range" />
+                    android:entries="@array/area_range"
+                    android:prompt="@string/district_prompt" />
 
                 <TextView
                     android:id="@+id/tv_score_area1"
