@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.qtd.muabannhadat.R;
-import com.qtd.muabannhadat.adapter.ItemHomeHasHeartAdapter;
+import com.qtd.muabannhadat.adapter.ItemHomeAdapter;
 import com.qtd.muabannhadat.callback.ResultRequestCallback;
 import com.qtd.muabannhadat.constant.ApiConstant;
 import com.qtd.muabannhadat.model.Apartment;
@@ -44,7 +44,7 @@ public class BoardDetailActivity extends AppCompatActivity implements ResultRequ
     @Bind(R.id.refreshLayout_board_detail)
     SwipeRefreshLayout refreshLayout;
 
-    private ItemHomeHasHeartAdapter adapter;
+    private ItemHomeAdapter adapter;
     private ArrayList<Apartment> apartments;
     private RequestRepeatApi requestApi;
     private int boardID;
@@ -72,7 +72,7 @@ public class BoardDetailActivity extends AppCompatActivity implements ResultRequ
             }
         });
         apartments = new ArrayList<>();
-        adapter = new ItemHomeHasHeartAdapter(apartments);
+        adapter = new ItemHomeAdapter(apartments);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         refreshLayout.setRefreshing(true);

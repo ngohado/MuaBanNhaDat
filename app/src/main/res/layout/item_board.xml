@@ -14,8 +14,14 @@
             android:layout_height="match_parent"
             android:padding="8dp"
             android:src="@drawable/backgroud_demo"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:alpha="0.5" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/foreground_image"
+            android:padding="8dp" />
         <View
             android:id="@+id/view_foreground"
             android:layout_width="wrap_content"
