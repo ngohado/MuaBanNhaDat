@@ -33,7 +33,6 @@ import java.util.List;
 
 public class BlockNewsFragment extends Fragment implements ResultRequestCallback {
     private LinearLayout recyclerView;
-    private ArrayList<ApartmentCategory> listApartmentCategory = new ArrayList<>();
     private RequestRepeatApi requestRepeatApi;
 
     ProgressBar progressBar;
