@@ -35,10 +35,13 @@ public class NotificationFragment extends Fragment implements ResultRequestCallb
     @Bind(R.id.recyclerView_notification)
     RecyclerView recyclerView;
 
+    @Bind(R.id.refreshLayout_notification)
+    private SwipeRefreshLayout refreshLayout;
+
     private View view;
     private ItemNotificationAdapter adapter;
     private ArrayList<Notification> notifications;
-    private SwipeRefreshLayout refreshLayout;
+
     private RequestRepeatApi requestRepeatApi;
 
     @Nullable
