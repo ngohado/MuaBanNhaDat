@@ -10,7 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -22,8 +21,8 @@ import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.constant.AppConstant;
 import com.qtd.muabannhadat.fragment.BlockNewsFragment;
 import com.qtd.muabannhadat.fragment.FavoriteFragment;
-import com.qtd.muabannhadat.fragment.NormalMapFragment;
 import com.qtd.muabannhadat.fragment.NotificationFragment;
+import com.qtd.muabannhadat.fragment.Tab2Fragment;
 import com.qtd.muabannhadat.service.RegistrationIntentService;
 import com.qtd.muabannhadat.util.SharedPrefUtils;
 
@@ -75,21 +74,20 @@ public class HomeActivity extends AppCompatActivity {
                         popEntireFragmentBackStack();
                         SharedPrefUtils.putBoolean(NOTIFICATION_IS_VISIBLE, false);
                         changeColorTabItem(R.drawable.ic_home_white_36dp, 0);
+                        tabLayout.setElevation(5f);
                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, new BlockNewsFragment()).commit();
                         break;
                     case 1:
                         popEntireFragmentBackStack();
                         SharedPrefUtils.putBoolean(NOTIFICATION_IS_VISIBLE, false);
                         changeColorTabItem(R.drawable.ic_search_white_36dp, 1);
-                        Fragment fm = new NormalMapFragment();
-                        Bundle bundle = new Bundle();
-                        bundle.putDouble(AppConstant.LATITUDE, 21.012219);
-                        bundle.putDouble(AppConstant.LONGITUDE, 105.8199264);
-                        bundle.putBoolean("ALL", true);
-                        fm.setArguments(bundle);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, fm).commit();
+                        tabLayout.setElevation(0f);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, new Tab2Fragment()).commit();
                         break;
                     case 2:
+                        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1) {
+                            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                        }
                         popEntireFragmentBackStack();
                         SharedPrefUtils.putBoolean(NOTIFICATION_IS_VISIBLE, false);
                         tabLayout.setElevation(0f);
@@ -97,8 +95,12 @@ public class HomeActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, new FavoriteFragment()).commit();
                         break;
                     case 3:
+                        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1) {
+                            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                        }
                         changeColorTabItem(R.drawable.ic_notifications_white_36dp, 3);
                         SharedPrefUtils.putBoolean(NOTIFICATION_IS_VISIBLE, true);
+                        tabLayout.setElevation(5f);
                         getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, new NotificationFragment()).commit();
                         break;
                     case 4:
@@ -135,9 +137,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void showPopupMenu() {
-        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == 1) {
+        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1) {
             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
             startActivity(intent);
+            return;
         }
         popupMenu = new PopupMenu(HomeActivity.this, HomeActivity.this.findViewById(R.id.anchor_view));
         popupMenu.getMenuInflater().inflate(R.menu.tab_more, popupMenu.getMenu());
@@ -147,14 +150,13 @@ public class HomeActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.sign:
 
-
                         SharedPrefUtils.putInt(AppConstant.ID, -1);
                         break;
                     case R.id.profile:
-
+                        startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
                         break;
                     case R.id.settings:
-
+                        startActivity(new Intent(HomeActivity.this, NewpaperActivity.class));
                         break;
                 }
 

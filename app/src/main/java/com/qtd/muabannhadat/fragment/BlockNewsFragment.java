@@ -5,15 +5,14 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.qtd.muabannhadat.R;
-import com.qtd.muabannhadat.adapter.ItemCategoryAdapter;
+import com.qtd.muabannhadat.adapter.viewholder.ItemCategoryViewHolder;
 import com.qtd.muabannhadat.callback.ResultRequestCallback;
 import com.qtd.muabannhadat.constant.ApiConstant;
 import com.qtd.muabannhadat.constant.AppConstant;
@@ -33,9 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlockNewsFragment extends Fragment implements ResultRequestCallback {
-    private RecyclerView recyclerView;
-    private ItemCategoryAdapter itemCategoryAdapter;
-    private ArrayList<ApartmentCategory> listApartmentCategory = new ArrayList<>();
+    private LinearLayout recyclerView;
     private RequestRepeatApi requestRepeatApi;
 
     ProgressBar progressBar;
@@ -61,12 +58,7 @@ public class BlockNewsFragment extends Fragment implements ResultRequestCallback
     }
 
     private void initView() {
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        itemCategoryAdapter = new ItemCategoryAdapter(listApartmentCategory);
-        recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity().getApplicationContext());
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(itemCategoryAdapter);
+        recyclerView = (LinearLayout) view.findViewById(R.id.recyclerView);
         progressBar = (ProgressBar) view.findViewById(R.id.progressbar_fragmentNews);
         progressBar.setIndeterminate(true);
         progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
@@ -91,8 +83,7 @@ public class BlockNewsFragment extends Fragment implements ResultRequestCallback
 
         }
         ApartmentCategory category = new ApartmentCategory(temp, apartments);
-        listApartmentCategory.add(category);
-        itemCategoryAdapter.notifyDataSetChanged();
+        recyclerView.addView(new ItemCategoryViewHolder(getContext(), category));
         progressBar.setEnabled(false);
         progressBar.setVisibility(View.INVISIBLE);
     }

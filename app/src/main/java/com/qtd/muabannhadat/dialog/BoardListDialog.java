@@ -70,7 +70,7 @@ public class BoardListDialog extends Dialog implements ResultRequestCallback {
         boardList.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         boardList.setAdapter(boardAdapter);
 
-        int id = SharedPrefUtils.getInt(AppConstant.ID, 3);
+        int id = SharedPrefUtils.getInt(AppConstant.ID, -1);
         if (id != -1) {
             JSONObject object = new JSONObject();
             try {
@@ -130,7 +130,7 @@ public class BoardListDialog extends Dialog implements ResultRequestCallback {
     private String toJson(int idBoard) {
         JSONObject object = new JSONObject();
         try {
-            object.put(AppConstant.USER_ID, SharedPrefUtils.getInt(AppConstant.ID, 3));
+            object.put(AppConstant.USER_ID, SharedPrefUtils.getInt(AppConstant.ID, -1));
             object.put(AppConstant.A_ID, idApartment);
             object.put("BoardID", idBoard);
         } catch (JSONException e) {

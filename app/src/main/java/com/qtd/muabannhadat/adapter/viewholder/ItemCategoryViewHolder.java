@@ -1,22 +1,28 @@
 package com.qtd.muabannhadat.adapter.viewholder;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.activity.AllApartmentsActivity;
 import com.qtd.muabannhadat.activity.ApartmentDetailActivity;
+import com.qtd.muabannhadat.activity.LoginActivity;
 import com.qtd.muabannhadat.callback.ResultRequestCallback;
+import com.qtd.muabannhadat.constant.AppConstant;
 import com.qtd.muabannhadat.dialog.BoardListDialog;
 import com.qtd.muabannhadat.model.Apartment;
 import com.qtd.muabannhadat.model.ApartmentCategory;
+import com.qtd.muabannhadat.util.SharedPrefUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,7 +34,7 @@ import butterknife.OnClick;
 /**
  * Created by Dell on 4/9/2016.
  */
-public class ItemCategoryViewHolder extends RecyclerView.ViewHolder {
+public class ItemCategoryViewHolder extends LinearLayout {
 
     @Bind(R.id.tv_title)
     public TextView tvTitle;
@@ -111,13 +117,15 @@ public class ItemCategoryViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.btnSeeAll)
     public Button btnSeeAll;
 
-    View view;
+    Context context;
     ApartmentCategory apartmentCategory;
 
-    public ItemCategoryViewHolder(View itemView) {
-        super(itemView);
-        this.view = itemView;
-        ButterKnife.bind(this, itemView);
+    public ItemCategoryViewHolder(Context context, ApartmentCategory a) {
+        super(context);
+        inflate(context, R.layout.item_category_home, this);
+        this.context = context;
+        ButterKnife.bind(this);
+        setupWith(a);
     }
 
     public void setupWith(ApartmentCategory a) {
@@ -143,26 +151,26 @@ public class ItemCategoryViewHolder extends RecyclerView.ViewHolder {
         tvCity3.setText(a.getApartments().get(2).getCity());
         tvCity4.setText(a.getApartments().get(3).getCity());
 
-        Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(4).getImageFirst())).into(ivHome);
-        Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(0).getImageFirst())).into(ivHome1);
-        Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(1).getImageFirst())).into(ivHome2);
-        Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(2).getImageFirst())).into(ivHome3);
-        Glide.with(view.getContext()).load(Uri.parse(a.getApartments().get(3).getImageFirst())).into(ivHome4);
+        Glide.with(context).load(Uri.parse(a.getApartments().get(4).getImageFirst())).into(ivHome);
+        Glide.with(context).load(Uri.parse(a.getApartments().get(0).getImageFirst())).into(ivHome1);
+        Glide.with(context).load(Uri.parse(a.getApartments().get(1).getImageFirst())).into(ivHome2);
+        Glide.with(context).load(Uri.parse(a.getApartments().get(2).getImageFirst())).into(ivHome3);
+        Glide.with(context).load(Uri.parse(a.getApartments().get(3).getImageFirst())).into(ivHome4);
 
         if (apartmentCategory.getApartments().get(0).isLiked)
-            imvFavorite1.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+            imvFavorite1.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_white_36dp));
 
         if (apartmentCategory.getApartments().get(1).isLiked)
-            imvFavorite2.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+            imvFavorite2.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_white_36dp));
 
         if (apartmentCategory.getApartments().get(2).isLiked)
-            imvFavorite3.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+            imvFavorite3.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_white_36dp));
 
         if (apartmentCategory.getApartments().get(3).isLiked)
-            imvFavorite4.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+            imvFavorite4.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_white_36dp));
 
         if (apartmentCategory.getApartments().get(4).isLiked)
-            imvFavorite5.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+            imvFavorite5.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_white_36dp));
     }
 
 
@@ -193,13 +201,15 @@ public class ItemCategoryViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.imv_favorite1)
     public void ImvFavorite1OnClick() {
+        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1)
+            startLogin();
         if (apartmentCategory.getApartments().get(0).isLiked)
             return;
         openDialog(0);
     }
     BoardListDialog dialog ;
     private void openDialog(final int i) {
-        dialog = new BoardListDialog(view.getContext(), apartmentCategory.getApartments().get(i).getId(), new ResultRequestCallback() {
+        dialog = new BoardListDialog(context, apartmentCategory.getApartments().get(i).getId(), new ResultRequestCallback() {
             @Override
             public void onSuccess(String result) {
                 try {
@@ -214,23 +224,23 @@ public class ItemCategoryViewHolder extends RecyclerView.ViewHolder {
                 }
                 switch (i) {
                     case 0:
-                        imvFavorite1.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+                        imvFavorite1.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_white_36dp));
                         apartmentCategory.getApartments().get(i).isLiked = true;
                         break;
                     case 1:
-                        imvFavorite2.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+                        imvFavorite2.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_white_36dp));
                         apartmentCategory.getApartments().get(i).isLiked = true;
                         break;
                     case 2:
-                        imvFavorite3.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+                        imvFavorite3.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_white_36dp));
                         apartmentCategory.getApartments().get(i).isLiked = true;
                         break;
                     case 3:
-                        imvFavorite4.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+                        imvFavorite4.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_white_36dp));
                         apartmentCategory.getApartments().get(i).isLiked = true;
                         break;
                     case 4:
-                        imvFavorite5.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+                        imvFavorite5.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_favorite_white_36dp));
                         apartmentCategory.getApartments().get(i).isLiked = true;
                         break;
                 }
@@ -247,8 +257,14 @@ public class ItemCategoryViewHolder extends RecyclerView.ViewHolder {
         dialog.show();
     }
 
+    private void startLogin() {
+        context.startActivity(new Intent(context, LoginActivity.class));
+    }
+
     @OnClick(R.id.imv_favorite2)
     public void ImvFavorite2OnClick() {
+        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1)
+            startLogin();
         if (apartmentCategory.getApartments().get(1).isLiked)
             return;
         openDialog(1);
@@ -256,6 +272,8 @@ public class ItemCategoryViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.imv_favorite3)
     public void ImvFavorite3OnClick() {
+        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1)
+            startLogin();
         if (apartmentCategory.getApartments().get(2).isLiked)
             return;
         openDialog(2);
@@ -263,6 +281,8 @@ public class ItemCategoryViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.imv_favorite4)
     public void ImvFavorite4OnClick() {
+        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1)
+            startLogin();
         if (apartmentCategory.getApartments().get(3).isLiked)
             return;
         openDialog(3);
@@ -270,6 +290,8 @@ public class ItemCategoryViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.imv_favorite5)
     public void ImvFavorite5OnClick() {
+        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1)
+            startLogin();
         if (apartmentCategory.getApartments().get(4).isLiked)
             return;
         openDialog(4);
@@ -277,14 +299,14 @@ public class ItemCategoryViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.btnSeeAll)
     public void BtnSeeAllOnClick() {
-        Intent intent = new Intent(view.getContext(), AllApartmentsActivity.class);
+        Intent intent = new Intent(context, AllApartmentsActivity.class);
         intent.putExtra("Kind", apartmentCategory.getName());
-        view.getContext().startActivity(intent);
+        context.startActivity(intent);
     }
 
     private void startApartmentDetailActivity(Apartment apartment) {
-        Intent intent = new Intent(view.getContext(), ApartmentDetailActivity.class);
+        Intent intent = new Intent(context, ApartmentDetailActivity.class);
         intent.putExtra(ApartmentDetailActivity.ID_APARTMENT, apartment.getId());
-        view.getContext().startActivity(intent);
+        context.startActivity(intent);
     }
 }

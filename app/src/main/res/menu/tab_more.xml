@@ -9,5 +9,5 @@
         android:title="Quản lý tài khoản" />
     <item
         android:id="@+id/settings"
-        android:title="Cài đặt"/>
+        android:title="Đăng tin"/>
 </menu>
