@@ -13,10 +13,16 @@ import com.bumptech.glide.Glide;
 import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.activity.AllApartmentsActivity;
 import com.qtd.muabannhadat.activity.ApartmentDetailActivity;
+import com.qtd.muabannhadat.activity.LoginActivity;
 import com.qtd.muabannhadat.callback.ResultRequestCallback;
+import com.qtd.muabannhadat.constant.AppConstant;
 import com.qtd.muabannhadat.dialog.BoardListDialog;
 import com.qtd.muabannhadat.model.Apartment;
 import com.qtd.muabannhadat.model.ApartmentCategory;
+import com.qtd.muabannhadat.util.SharedPrefUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -190,6 +196,8 @@ public class ItemCategoryViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.imv_favorite1)
     public void ImvFavorite1OnClick() {
+        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1)
+            startLogin();
         if (apartmentCategory.getApartments().get(0).isLiked)
             return;
         openDialog(0);
@@ -244,8 +252,14 @@ public class ItemCategoryViewHolder extends RecyclerView.ViewHolder {
         dialog.show();
     }
 
+    private void startLogin() {
+        view.getContext().startActivity(new Intent(view.getContext(), LoginActivity.class));
+    }
+
     @OnClick(R.id.imv_favorite2)
     public void ImvFavorite2OnClick() {
+        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1)
+            startLogin();
         if (apartmentCategory.getApartments().get(1).isLiked)
             return;
         openDialog(1);
@@ -253,6 +267,8 @@ public class ItemCategoryViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.imv_favorite3)
     public void ImvFavorite3OnClick() {
+        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1)
+            startLogin();
         if (apartmentCategory.getApartments().get(2).isLiked)
             return;
         openDialog(2);
@@ -260,6 +276,8 @@ public class ItemCategoryViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.imv_favorite4)
     public void ImvFavorite4OnClick() {
+        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1)
+            startLogin();
         if (apartmentCategory.getApartments().get(3).isLiked)
             return;
         openDialog(3);
@@ -267,6 +285,8 @@ public class ItemCategoryViewHolder extends RecyclerView.ViewHolder {
 
     @OnClick(R.id.imv_favorite5)
     public void ImvFavorite5OnClick() {
+        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1)
+            startLogin();
         if (apartmentCategory.getApartments().get(4).isLiked)
             return;
         openDialog(4);

@@ -106,7 +106,7 @@ public class ProfileActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initView();
         initDataOffline();
-        requestApi = new BaseRequestApi(this, String.format("{\"%s\":%d}", AppConstant.USER_ID, SharedPrefUtils.getInt(AppConstant.ID, 3)), ApiConstant.METHOD_GET_USER, new ResultRequestCallback() {
+        requestApi = new BaseRequestApi(this, String.format("{\"%s\":%d}", AppConstant.USER_ID, SharedPrefUtils.getInt(AppConstant.ID, -1)), ApiConstant.METHOD_GET_USER, new ResultRequestCallback() {
             @Override
             public void onSuccess(String result) {
                 handleResponse(result);

@@ -1,13 +1,15 @@
-package com.qtd.muabannhadat.activity;
+package com.qtd.muabannhadat.fragment;
+
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatRadioButton;
-import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
@@ -15,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.qtd.muabannhadat.R;
+import com.qtd.muabannhadat.activity.ResultSearchActivity;
 import com.qtd.muabannhadat.constant.AppConstant;
 import com.qtd.muabannhadat.database.MyDatabase;
 import com.qtd.muabannhadat.model.District;
@@ -28,9 +31,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by Dell on 4/18/2016.
+ * A simple {@link Fragment} subclass.
  */
-public class FilterActivity extends AppCompatActivity {
+public class FilterFragment extends Fragment {
 
     @Bind(R.id.rgb_status)
     RadioGroup group;
@@ -65,9 +68,6 @@ public class FilterActivity extends AppCompatActivity {
     @Bind(R.id.tv_room5)
     TextView tvRoom5;
 
-    @Bind(R.id.toolbar_filter)
-    Toolbar toolbar;
-
     @Bind(R.id.sp_price_low_range)
     Spinner spPriceLowRange;
 
@@ -98,28 +98,38 @@ public class FilterActivity extends AppCompatActivity {
 
     private ArrayAdapter<Street> streetAdapter;
 
+    public FilterFragment() {
+        // Required empty public constructor
+    }
+
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filter);
-        ButterKnife.bind(this);
-        myDatabase = new MyDatabase(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_filter, container, false);
+        ButterKnife.bind(this, view);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        myDatabase = new MyDatabase(getActivity());
         initComponent();
         initData();
     }
 
     private void initComponent() {
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Tìm kiếm nâng cao");
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp);
-        toolbar.setTitleTextColor(ContextCompat.getColor(this, android.R.color.white));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setTitle("Tìm kiếm nâng cao");
+//        toolbar.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp);
+//        toolbar.setTitleTextColor(ContextCompat.getColor(this, android.R.color.white));
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
         rbSale.setChecked(true);
 
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -128,7 +138,7 @@ public class FilterActivity extends AppCompatActivity {
                 switch (checkedId) {
                     case R.id.rbt_sale:
                         if (rbSale.isChecked()) {
-                            ArrayAdapter<CharSequence> adapterSale = ArrayAdapter.createFromResource(FilterActivity.this, R.array.price_range_for_sale, android.R.layout.simple_spinner_dropdown_item);
+                            ArrayAdapter<CharSequence> adapterSale = ArrayAdapter.createFromResource(getActivity(), R.array.price_range_for_sale, android.R.layout.simple_spinner_dropdown_item);
                             adapterSale.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spPriceLowRange.setAdapter(adapterSale);
                             spPriceHighRange.setAdapter(adapterSale);
@@ -136,7 +146,7 @@ public class FilterActivity extends AppCompatActivity {
                         break;
                     case R.id.rbt_rent:
                         if (rbRent.isChecked()) {
-                            ArrayAdapter<CharSequence> adapterRent = ArrayAdapter.createFromResource(FilterActivity.this, R.array.price_range_for_rent, android.R.layout.simple_spinner_dropdown_item);
+                            ArrayAdapter<CharSequence> adapterRent = ArrayAdapter.createFromResource(getActivity(), R.array.price_range_for_rent, android.R.layout.simple_spinner_dropdown_item);
                             adapterRent.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             spPriceLowRange.setAdapter(adapterRent);
                             spPriceHighRange.setAdapter(adapterRent);
@@ -183,7 +193,6 @@ public class FilterActivity extends AppCompatActivity {
         spPriceHighRange.setSelection(0);
         spAreaLowRange.setSelection(0);
         spAreaLowRange.setSelection(0);
-
     }
 
     @OnClick(R.id.tv_search)
@@ -198,7 +207,7 @@ public class FilterActivity extends AppCompatActivity {
         String street = spStreet.getSelectedItem().toString();
         String kind = spKind.getSelectedItem().toString();
 
-        Intent intent = new Intent(this, ResultSearchActivity.class);
+        Intent intent = new Intent(getActivity(), ResultSearchActivity.class);
         intent.putExtra(AppConstant.KIND, kind);
         intent.putExtra(AppConstant.STATUS, status);
         intent.putExtra(AppConstant.PRICE_LOW_RANGE, lowPrice);
@@ -209,17 +218,16 @@ public class FilterActivity extends AppCompatActivity {
         intent.putExtra(AppConstant.DISTRICT, district);
         intent.putExtra(AppConstant.STREET, street);
         startActivity(intent);
-
     }
 
     private void initData() {
         streetsByDistrict.clear();
         mDistrict = myDatabase.getListDisttrict();
         mStreet = myDatabase.getListStreet();
-        districtAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, mDistrict);
+        districtAdapter = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, mDistrict);
         spDistrict.setAdapter(districtAdapter);
         getStreetsByDistrict(0);
-        streetAdapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, streetsByDistrict);
+        streetAdapter = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, streetsByDistrict);
         spStreet.setAdapter(streetAdapter);
         spDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -247,7 +255,7 @@ public class FilterActivity extends AppCompatActivity {
 
     private void changeRoom(TextView tvRoom, int room) {
         this.room = room;
-        tvRoom.setTextColor(ContextCompat.getColor(this, android.R.color.white));
+        tvRoom.setTextColor(ContextCompat.getColor(getActivity(), android.R.color.white));
         tvRoom.setBackgroundResource(R.drawable.background_room_selected);
         switch (room) {
             case 1:
@@ -284,7 +292,7 @@ public class FilterActivity extends AppCompatActivity {
     }
 
     private void unselectedRoom(TextView tvRoom) {
-        tvRoom.setTextColor(ContextCompat.getColor(this, R.color.colorGrayDark));
+        tvRoom.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorGrayDark));
         tvRoom.setBackgroundResource(R.drawable.background_room);
     }
 }

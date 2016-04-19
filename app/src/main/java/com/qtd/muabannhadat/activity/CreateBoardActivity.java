@@ -97,7 +97,7 @@ public class CreateBoardActivity extends AppCompatActivity implements ResultRequ
             progressBar.setVisibility(View.VISIBLE);
             JSONObject obj = new JSONObject();
             try {
-                obj.put("UserID", SharedPrefUtils.getInt("ID", 3));
+                obj.put("UserID", SharedPrefUtils.getInt("ID", -1));
                 obj.put("BoardName", edtBoardName.getText().toString());
             } catch (JSONException e) {
                 e.printStackTrace();

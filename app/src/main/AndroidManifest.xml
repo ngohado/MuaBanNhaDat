@@ -72,10 +72,6 @@
 
         <activity android:name=".activity.CreateBoardActivity"></activity>
 
-        <activity android:name=".activity.FilterActivity">
-
-        </activity>
-
         <activity android:name=".activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

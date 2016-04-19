@@ -331,7 +331,11 @@ public class NewpaperActivity extends AppCompatActivity {
 
     private void sendDataToServer(double lat, double lng) throws JSONException {
         JSONObject dataRequest = new JSONObject();
-        int userId = SharedPrefUtils.getInt(AppConstant.ID, 3);
+        int userId = SharedPrefUtils.getInt(AppConstant.ID, -1);
+        if (userId == -1) {
+            Intent intent = new Intent(NewpaperActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
         dataRequest.put(AppConstant.USER_ID, userId);
         String address = edtAddress.getText().toString() + tvStreet.getText() + tvDistrict.getText() + ", Hà Nội, Việt Nam";
         dataRequest.put(AppConstant.ADDRESS, address);
