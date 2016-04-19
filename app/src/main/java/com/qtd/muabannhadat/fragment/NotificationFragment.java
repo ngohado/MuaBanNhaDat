@@ -18,6 +18,7 @@ import com.qtd.muabannhadat.constant.AppConstant;
 import com.qtd.muabannhadat.model.Notification;
 import com.qtd.muabannhadat.request.RequestRepeatApi;
 import com.qtd.muabannhadat.util.DebugLog;
+import com.qtd.muabannhadat.util.SharedPrefUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,7 +37,7 @@ public class NotificationFragment extends Fragment implements ResultRequestCallb
     RecyclerView recyclerView;
 
     @Bind(R.id.refreshLayout_notification)
-    private SwipeRefreshLayout refreshLayout;
+    SwipeRefreshLayout refreshLayout;
 
     private View view;
     private ItemNotificationAdapter adapter;
@@ -69,8 +70,7 @@ public class NotificationFragment extends Fragment implements ResultRequestCallb
     }
 
     public void refreshData() {
-//        int id = SharedPrefUtils.getInt("ID", -1);
-        int id = 3;
+        int id = SharedPrefUtils.getInt("ID", -1);
         if (id != -1) {
             JSONObject object = new JSONObject();
             try {
