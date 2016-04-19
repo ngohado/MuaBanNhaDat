@@ -58,7 +58,7 @@ public class NotificationViewHolder extends RecyclerView.ViewHolder {
         Glide.with(view.getContext()).load(notification.getImage()).into(imv);
         tvContent.setText(notification.getContent());
         tvPrice.setText(NumberFormat.getNumberInstance(Locale.GERMAN).format(notification.getPrice()) + "$");
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("M/d/yy h:mm:ss a");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy h:mm:ss a", Locale.US);
         try {
             DebugLog.d(StringUtil.getTimeAgo(simpleDateFormat.parse(notification.getTime()).getTime()));
             tvTime.setText(StringUtil.getTimeAgo(simpleDateFormat.parse(notification.getTime()).getTime()));

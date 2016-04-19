@@ -30,7 +30,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -98,6 +101,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     User beforeUser = new User();
     BaseRequestApi requestApi;
+    boolean isDefaultAvatar = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,6 +166,10 @@ public class ProfileActivity extends AppCompatActivity {
             swNotification.setChecked(true);
         }
         swNotification.setEnabled(false);
+        if (!user.getAvatar().equals("")) {
+            Glide.with(ProfileActivity.this).load(user.getAvatar()).into(ivAvatar);
+            isDefaultAvatar = false;
+        }
     }
 
     private void initDataOffline() {
@@ -242,10 +250,11 @@ public class ProfileActivity extends AppCompatActivity {
         try {
             o.put(AppConstant.USER_ID, u.getId());
             o.put(AppConstant.NAME, edtName.getText().toString());
-            o.put(AppConstant.DOB, edtDob.getText().toString());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = simpleDateFormat.parse(edtDob.getText().toString());
+            o.put(AppConstant.DOB, date.getTime());
             o.put(AppConstant.TELEPHONE, edtPhone.getText().toString());
             o.put(AppConstant.ADDRESS, edtAddress.getText().toString());
-            o.put(AppConstant.EMAIL, u.getEmail());
             o.put(AppConstant.GENDER, spGender.getSelectedItem().toString());
             if (swNotification.isSelected()) {
                 o.put(AppConstant.KIND, spKind.getSelectedItem().toString());
@@ -254,6 +263,8 @@ public class ProfileActivity extends AppCompatActivity {
             }
             o.put(AppConstant.AVATAR, NewpaperActivity.encodeToString(((BitmapDrawable) ivAvatar.getDrawable()).getBitmap()));
             return o.toString();
+        } catch (ParseException pe) {
+            pe.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -281,6 +292,7 @@ public class ProfileActivity extends AppCompatActivity {
             List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
             if (path.size() == 1) {
                 Glide.with(this).load(path.get(0)).asBitmap().into(ivAvatar);
+                isDefaultAvatar = false;
             }
         }
     }
