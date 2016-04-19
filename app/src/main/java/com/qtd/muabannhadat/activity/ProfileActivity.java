@@ -3,7 +3,6 @@ package com.qtd.muabannhadat.activity;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -29,7 +28,6 @@ import com.qtd.muabannhadat.util.StringUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -132,6 +130,7 @@ public class ProfileActivity extends AppCompatActivity {
         try {
             JSONObject object = new JSONObject(result);
             User user = new User();
+            user.setId(object.getInt(AppConstant.USER_ID));
             user.setName(object.getString(AppConstant.NAME));
             user.setDateOfBirth(object.getString(AppConstant.DOB));
             user.setPhone(object.getString(AppConstant.TELEPHONE));
@@ -139,7 +138,7 @@ public class ProfileActivity extends AppCompatActivity {
             user.setEmail(object.getString(AppConstant.EMAIL));
             user.setGender(object.getString(AppConstant.GENDER));
             user.setKind(object.getString("TargetKind"));
-            user.setKind(object.getString(AppConstant.AVATAR));
+            user.setAvatar(object.getString(AppConstant.AVATAR));
             beforeUser = user;
             fillData(user);
         } catch (JSONException e) {
@@ -221,13 +220,40 @@ public class ProfileActivity extends AppCompatActivity {
         BaseRequestApi requestUpdate = new BaseRequestApi(this, toJson(beforeUser), ApiConstant.METHOD_UPDATE_INFO_USER, new ResultRequestCallback() {
             @Override
             public void onSuccess(String result) {
-                DialogUtil.showDialog(ProfileActivity.this, "Thành công", "Update thông tin cá nhân thành công", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        requestApi.executeRequest();
-                        dialog.dismiss();
+                try {
+                    JSONObject object = new JSONObject(result);
+                    if (object.getString("Respond").equals("Success")) {
+                        DialogUtil.showDialog(ProfileActivity.this, "Thành công", "Cập nhật thông tin cá nhân thành công", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                requestApi = new BaseRequestApi(ProfileActivity.this, String.format("{\"%s\":%d}", AppConstant.USER_ID, SharedPrefUtils.getInt(AppConstant.ID, -1)), ApiConstant.METHOD_GET_USER, new ResultRequestCallback() {
+                                    @Override
+                                    public void onSuccess(String result) {
+                                        handleResponse(result);
+                                    }
+
+                                    @Override
+                                    public void onFailed(String error) {
+                                        DebugLog.e(error);
+                                    }
+                                });
+                                requestApi.executeRequest();
+                                dialog.dismiss();
+                            }
+                        });
+                    } else {
+                        DialogUtil.showDialog(ProfileActivity.this, "Thất bại", "Đã có lỗi xảy ra trong quát trình xử lý. Xin thử lại", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
                     }
-                });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
             }
 
             @Override
@@ -256,18 +282,17 @@ public class ProfileActivity extends AppCompatActivity {
             o.put(AppConstant.TELEPHONE, edtPhone.getText().toString());
             o.put(AppConstant.ADDRESS, edtAddress.getText().toString());
             o.put(AppConstant.GENDER, spGender.getSelectedItem().toString());
-            if (swNotification.isSelected()) {
+            if (swNotification.isChecked()) {
                 o.put(AppConstant.KIND, spKind.getSelectedItem().toString());
             } else {
                 o.put(AppConstant.KIND, "");
             }
-            o.put(AppConstant.AVATAR, NewpaperActivity.encodeToString(((BitmapDrawable) ivAvatar.getDrawable()).getBitmap()));
+            DebugLog.d(o);
+            //o.put(AppConstant.AVATAR, NewpaperActivity.encodeToString(((BitmapDrawable) ivAvatar.getDrawable()).getBitmap()));
             return o.toString();
         } catch (ParseException pe) {
             pe.printStackTrace();
         } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
         return "{}";
@@ -292,7 +317,6 @@ public class ProfileActivity extends AppCompatActivity {
             List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
             if (path.size() == 1) {
                 Glide.with(this).load(path.get(0)).asBitmap().into(ivAvatar);
-                isDefaultAvatar = false;
             }
         }
     }

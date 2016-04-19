@@ -71,7 +71,7 @@ public class Tab2Fragment extends Fragment {
     }
 
     class Tab2Adapter extends FragmentStatePagerAdapter {
-        private String[] tabs = {"Bản Đồ", "Lọc"};
+        private String[] tabs = {"Bản Đồ", "Tìm kiếm"};
 
         public Tab2Adapter(FragmentManager fm) {
             super(fm);
