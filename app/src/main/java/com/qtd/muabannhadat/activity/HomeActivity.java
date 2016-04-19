@@ -166,7 +166,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private Drawable changeColor(int id, int color) {
         Drawable a = ContextCompat.getDrawable(getApplicationContext(), id);
-        a.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        a.setColorFilter(color, PorterDuff.Mode.SRC_IN);
         return a;
     }
 
@@ -174,24 +174,24 @@ public class HomeActivity extends AppCompatActivity {
         tabLayout.getTabAt(index).setIcon(id);
         switch (index) {
             case 0:
-                tabLayout.getTabAt(1).setIcon(changeColor(R.drawable.ic_search_white_36dp, R.color.colorGray));
-                tabLayout.getTabAt(2).setIcon(changeColor(R.drawable.ic_favorite_white_36dp, R.color.colorGray));
-                tabLayout.getTabAt(3).setIcon(changeColor(R.drawable.ic_notifications_white_36dp, R.color.colorGray));
+                tabLayout.getTabAt(1).setIcon(changeColor(R.drawable.ic_search_white_36dp, R.color.colorPrimaryDark));
+                tabLayout.getTabAt(2).setIcon(changeColor(R.drawable.ic_favorite_white_36dp, R.color.colorPrimaryDark));
+                tabLayout.getTabAt(3).setIcon(changeColor(R.drawable.ic_notifications_white_36dp, R.color.colorPrimaryDark));
                 break;
             case 1:
-                tabLayout.getTabAt(0).setIcon(changeColor(R.drawable.ic_home_white_36dp, R.color.colorGray));
-                tabLayout.getTabAt(2).setIcon(changeColor(R.drawable.ic_favorite_white_36dp, R.color.colorGray));
-                tabLayout.getTabAt(3).setIcon(changeColor(R.drawable.ic_notifications_white_36dp, R.color.colorGray));
+                tabLayout.getTabAt(0).setIcon(changeColor(R.drawable.ic_home_white_36dp, R.color.colorPrimaryDark));
+                tabLayout.getTabAt(2).setIcon(changeColor(R.drawable.ic_favorite_white_36dp, R.color.colorPrimaryDark));
+                tabLayout.getTabAt(3).setIcon(changeColor(R.drawable.ic_notifications_white_36dp, R.color.colorPrimaryDark));
                 break;
             case 2:
-                tabLayout.getTabAt(1).setIcon(changeColor(R.drawable.ic_search_white_36dp, R.color.colorGray));
-                tabLayout.getTabAt(0).setIcon(changeColor(R.drawable.ic_home_white_36dp, R.color.colorGray));
-                tabLayout.getTabAt(3).setIcon(changeColor(R.drawable.ic_notifications_white_36dp, R.color.colorGray));
+                tabLayout.getTabAt(1).setIcon(changeColor(R.drawable.ic_search_white_36dp, R.color.colorPrimaryDark));
+                tabLayout.getTabAt(0).setIcon(changeColor(R.drawable.ic_home_white_36dp, R.color.colorPrimaryDark));
+                tabLayout.getTabAt(3).setIcon(changeColor(R.drawable.ic_notifications_white_36dp, R.color.colorPrimaryDark));
                 break;
             case 3:
-                tabLayout.getTabAt(1).setIcon(changeColor(R.drawable.ic_search_white_36dp, R.color.colorGray));
-                tabLayout.getTabAt(2).setIcon(changeColor(R.drawable.ic_favorite_white_36dp, R.color.colorGray));
-                tabLayout.getTabAt(0).setIcon(changeColor(R.drawable.ic_home_white_36dp, R.color.colorGray));
+                tabLayout.getTabAt(1).setIcon(changeColor(R.drawable.ic_search_white_36dp, R.color.colorPrimaryDark));
+                tabLayout.getTabAt(2).setIcon(changeColor(R.drawable.ic_favorite_white_36dp, R.color.colorPrimaryDark));
+                tabLayout.getTabAt(0).setIcon(changeColor(R.drawable.ic_home_white_36dp, R.color.colorPrimaryDark));
                 break;
         }
     }

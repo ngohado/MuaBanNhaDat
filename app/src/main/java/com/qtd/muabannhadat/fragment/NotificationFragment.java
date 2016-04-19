@@ -18,7 +18,6 @@ import com.qtd.muabannhadat.constant.AppConstant;
 import com.qtd.muabannhadat.model.Notification;
 import com.qtd.muabannhadat.request.RequestRepeatApi;
 import com.qtd.muabannhadat.util.DebugLog;
-import com.qtd.muabannhadat.util.SharedPrefUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,8 +66,8 @@ public class NotificationFragment extends Fragment implements ResultRequestCallb
     }
 
     public void refreshData() {
-        int id = SharedPrefUtils.getInt("ID", -1);
-//        int id = 3;
+//        int id = SharedPrefUtils.getInt("ID", -1);
+        int id = 3;
         if (id != -1) {
             JSONObject object = new JSONObject();
             try {
@@ -76,7 +75,7 @@ public class NotificationFragment extends Fragment implements ResultRequestCallb
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            requestRepeatApi = new RequestRepeatApi(view.getContext(), object.toString(), ApiConstant.METHOD_GET_BOARD_BY_ID, this, view);
+            requestRepeatApi = new RequestRepeatApi(view.getContext(), object.toString(), ApiConstant.METHOD_GET_NOTIFICATION, this, view);
             requestRepeatApi.executeRequest();
         }
     }
@@ -95,9 +94,9 @@ public class NotificationFragment extends Fragment implements ResultRequestCallb
         refreshLayout.setRefreshing(false);
         try {
             JSONArray array = new JSONArray(result);
-            for (int i = array.length(); i >= 0; i++) {
+            for (int i = array.length() - 1; i >= 0; i--) {
                 JSONObject object = array.getJSONObject(i);
-                Notification notification = new Notification(object.getInt(AppConstant.A_ID), object.getString("ImageFirst"), object.getString("Content"), object.getInt(AppConstant.PRICE));
+                Notification notification = new Notification(object.getInt(AppConstant.A_ID), object.getString("ImageFirst"), object.getString(AppConstant.KIND), object.getInt(AppConstant.PRICE), object.getString("Time"));
                 notifications.add(notification);
             }
 

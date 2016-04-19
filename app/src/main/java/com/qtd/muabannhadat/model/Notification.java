@@ -10,11 +10,13 @@ public class Notification {
     private String time;
     private int price;
 
-    public Notification(int idApartment, String image, String content, int price) {
+    public Notification(int idApartment, String image, String content, int price, String time) {
         this.idApartment = idApartment;
         this.image = image;
         this.content = "1 " + content + " đã được đăng lên";
         this.price = price;
+        this.time = time;
+        this.time = time;
     }
 
     public int getPrice() {

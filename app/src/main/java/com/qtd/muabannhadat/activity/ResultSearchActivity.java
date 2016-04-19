@@ -39,7 +39,7 @@ public class ResultSearchActivity extends AllApartmentsActivity {
         status = intent.getStringExtra(AppConstant.STATUS);
         lowPrice = intent.getStringExtra(AppConstant.PRICE_LOW_RANGE);
         int low = 0;
-        if (lowPrice != "Bất kỳ") {
+        if (!lowPrice.equals("Bất kỳ")) {
             if (lowPrice.contains("M")) {
                 lowPrice = lowPrice.substring(1, lowPrice.indexOf("M"));
                 low = (int) (Float.parseFloat(String.valueOf(lowPrice)) * 1000000);
@@ -56,7 +56,7 @@ public class ResultSearchActivity extends AllApartmentsActivity {
         }
         highPrice = intent.getStringExtra(AppConstant.PRICE_HIGH_RANGE);
         int high = 0;
-        if (highPrice != "Bất kỳ") {
+        if (!highPrice.equals("Bất kỳ")) {
             if (highPrice.contains("M")) {
                 highPrice = highPrice.substring(1, highPrice.indexOf("M"));
                 high = (int) (Float.parseFloat(String.valueOf(highPrice)) * 1000000);

@@ -56,7 +56,7 @@ public class MyGcmListenerService extends GcmListenerService {
         android.support.v4.app.NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_notifications_white_24dp)
                 .setContentTitle("Mua ban nha dat")
-                .setContentText("1 " + kind + " đã được đăng\n" + NumberFormat.getNumberInstance(Locale.GERMAN).format(price) + " VNĐ")
+                .setContentText("1 " + kind + " đã được đăng\n" + NumberFormat.getNumberInstance(Locale.GERMAN).format(price) + "$")
                 .setAutoCancel(true)
                 .setSound(soundURI)
                 .setContentIntent(pendingIntent);

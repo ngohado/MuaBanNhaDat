@@ -28,5 +28,6 @@ public class ApiConstant {
 
     public static final String METHOD_UPDATE_INFO_USER = "";
     public static final String METHOD_ADD_APARTMENT_TO_BOARD = "addFavorite";
+    public static final String METHOD_GET_NOTIFICATION = "getNotification";
 
 }
