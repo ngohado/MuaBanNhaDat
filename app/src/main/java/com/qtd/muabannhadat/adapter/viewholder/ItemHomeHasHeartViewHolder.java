@@ -2,6 +2,7 @@ package com.qtd.muabannhadat.adapter.viewholder;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -58,6 +59,10 @@ public class ItemHomeHasHeartViewHolder extends RecyclerView.ViewHolder {
         tvAddress.setText(apartment.getAddress());
         tvCity.setText(apartment.getCity());
         tvCost.setText(String.valueOf(apartment.getPrice()));
+        if (apartment.isLiked) {
+            imageViewHeart.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
+        }
+
     }
 
 }
