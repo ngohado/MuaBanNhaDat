@@ -68,7 +68,6 @@
             android:drawableLeft="@drawable/ic_account_box_white_36dp"
             android:drawablePadding="8dp"
             android:hint="Tên"
-            android:inputType="phone"
             android:textColor="@android:color/white"
             android:theme="@style/EditTextStyle" />
 

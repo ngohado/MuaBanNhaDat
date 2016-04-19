@@ -146,7 +146,7 @@ public class ProfileActivity extends AppCompatActivity {
     private void fillData(User user) {
         tvName.setText(user.getName());
         tvName2.setText(user.getName());
-        tvDob.setText(user.getDateOfBirth());
+        tvDob.setText(user.getDateOfBirth().substring(0, 10));
         tvPhone.setText(user.getPhone());
         tvAddress.setText(user.getAddress());
         tvEmail.setText(user.getEmail());
@@ -280,7 +280,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (requestCode == 14 && resultCode == Activity.RESULT_OK) {
             List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
             if (path.size() == 1) {
-                Glide.with(this).load(path.get(0)).into(ivAvatar);
+                Glide.with(this).load(path.get(0)).asBitmap().into(ivAvatar);
             }
         }
     }

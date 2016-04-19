@@ -105,7 +105,7 @@ public class AllApartmentsActivity extends AppCompatActivity implements ResultRe
             JSONArray array = new JSONArray(result);
             for (int i = 0; i < array.length(); i++) {
                 JSONObject object = array.getJSONObject(i);
-                apartments.add(new Apartment(object.getInt(AppConstant.A_ID), object.getString(AppConstant.CITY), object.getString(AppConstant.ADDRESS), object.getInt(AppConstant.PRICE), object.getString("URL"), object.getDouble(AppConstant.LATITUDE), object.getDouble(AppConstant.LONGITUDE)));
+                apartments.add(new Apartment(object.getInt(AppConstant.A_ID), object.getString(AppConstant.CITY), object.getString(AppConstant.ADDRESS), object.getInt(AppConstant.PRICE), object.getString("URL")));
                 
             }
         } catch (JSONException e) {

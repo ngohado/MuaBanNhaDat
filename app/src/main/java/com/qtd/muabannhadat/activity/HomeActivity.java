@@ -140,6 +140,7 @@ public class HomeActivity extends AppCompatActivity {
         if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1) {
             Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
             startActivity(intent);
+            return;
         }
         popupMenu = new PopupMenu(HomeActivity.this, HomeActivity.this.findViewById(R.id.anchor_view));
         popupMenu.getMenuInflater().inflate(R.menu.tab_more, popupMenu.getMenu());
@@ -155,7 +156,7 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
                         break;
                     case R.id.settings:
-
+                        startActivity(new Intent(HomeActivity.this, NewpaperActivity.class));
                         break;
                 }
 
