@@ -24,6 +24,9 @@ import com.qtd.muabannhadat.util.SharedPrefUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

@@ -6,7 +6,8 @@
     <RelativeLayout
         android:layout_width="180dp"
         android:layout_height="180dp"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        android:paddingLeft="5dp">
         <ImageView
             android:id="@+id/imv_board"
             android:layout_width="match_parent"

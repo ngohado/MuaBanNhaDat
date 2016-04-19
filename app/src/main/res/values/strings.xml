@@ -110,4 +110,10 @@
         <item>500 m2</item>
     </string-array>
     <!--[End resource area spinner]-->
+
+    <string name="country_prompt">Chọn Tỉnh/Thành Phố</string>
+    <string name="district_prompt">Chọn quận/huyện</string>
+    <string name="street_prompt">Chọn phố</string>
+    <string name="kind_prompt">Chọn loại bất động sản</string>
+    <string name="price_prompt">Chọn giá</string>
 </resources>

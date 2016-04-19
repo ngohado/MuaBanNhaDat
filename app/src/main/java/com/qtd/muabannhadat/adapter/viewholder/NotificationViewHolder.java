@@ -10,6 +10,13 @@ import com.bumptech.glide.Glide;
 import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.activity.ApartmentDetailActivity;
 import com.qtd.muabannhadat.model.Notification;
+import com.qtd.muabannhadat.util.DebugLog;
+import com.qtd.muabannhadat.util.StringUtil;
+
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,6 +34,9 @@ public class NotificationViewHolder extends RecyclerView.ViewHolder {
 
     @Bind(R.id.tv_time_noti)
     TextView tvTime;
+
+    @Bind(R.id.tv_price_noti)
+    TextView tvPrice;
 
     private View view;
     private int idApartment = 0;
@@ -47,7 +57,14 @@ public class NotificationViewHolder extends RecyclerView.ViewHolder {
     public void setupWith(Notification notification) {
         Glide.with(view.getContext()).load(notification.getImage()).into(imv);
         tvContent.setText(notification.getContent());
-        tvTime.setText(notification.getPrice());
+        tvPrice.setText(NumberFormat.getNumberInstance(Locale.GERMAN).format(notification.getPrice()) + "$");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("M/d/yy h:mm:ss a");
+        try {
+            DebugLog.d(StringUtil.getTimeAgo(simpleDateFormat.parse(notification.getTime()).getTime()));
+            tvTime.setText(StringUtil.getTimeAgo(simpleDateFormat.parse(notification.getTime()).getTime()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         idApartment = notification.getIdApartment();
     }
 }
