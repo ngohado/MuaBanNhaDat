@@ -19,8 +19,10 @@ import com.qtd.muabannhadat.callback.ResultRequestCallback;
 import com.qtd.muabannhadat.constant.ApiConstant;
 import com.qtd.muabannhadat.constant.AppConstant;
 import com.qtd.muabannhadat.model.Apartment;
+import com.qtd.muabannhadat.request.BaseRequestApi;
 import com.qtd.muabannhadat.request.RequestRepeatApi;
 import com.qtd.muabannhadat.util.DebugLog;
+import com.qtd.muabannhadat.util.SharedPrefUtils;
 import com.qtd.muabannhadat.util.Utility;
 
 import org.json.JSONArray;
@@ -28,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -106,7 +109,6 @@ public class AllApartmentsActivity extends AppCompatActivity implements ResultRe
             for (int i = 0; i < array.length(); i++) {
                 JSONObject object = array.getJSONObject(i);
                 apartments.add(new Apartment(object.getInt(AppConstant.A_ID), object.getString(AppConstant.CITY), object.getString(AppConstant.ADDRESS), object.getInt(AppConstant.PRICE), object.getString("URL")));
-                
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -114,6 +116,36 @@ public class AllApartmentsActivity extends AppCompatActivity implements ResultRe
         itemHomeAdapter.notifyDataSetChanged();
         progressBar.setEnabled(false);
         progressBar.setVisibility(View.INVISIBLE);
+
+        BaseRequestApi requestApi = new BaseRequestApi(AllApartmentsActivity.this, String.format("{\"%s\":%d}", AppConstant.USER_ID, SharedPrefUtils.getInt(AppConstant.ID, -1)), ApiConstant.METHOD_GET_FAVORITE_HOMES, new ResultRequestCallback() {
+            @Override
+            public void onSuccess(String result) {
+                try {
+                    JSONArray jsonArray = new JSONArray(result);
+                    List<Integer> arr = new ArrayList<>();
+                    for (int i = 0 ; i < jsonArray.length() ; i++) {
+                        arr.add(jsonArray.getJSONObject(i).getInt(AppConstant.A_ID));
+                    }
+
+                    for (Apartment a : apartments) {
+                        for (int i : arr)
+                            if (a.getId() == i)
+                                a.isLiked = true;
+                    }
+
+                    itemHomeAdapter.notifyDataSetChanged();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailed(String error) {
+
+            }
+        });
+        requestApi.executeRequest();
     }
 
     @Override
