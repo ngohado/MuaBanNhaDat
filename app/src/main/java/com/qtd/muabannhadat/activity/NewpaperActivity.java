@@ -378,12 +378,12 @@ public class NewpaperActivity extends AppCompatActivity {
             public void onSuccess(String result) {
                 dialog.dismiss();
                 DialogUtil.showDialog(NewpaperActivity.this, "Thành công", "Chúc mừng thông tin căn nhà của bạn đã được đăng thành công");
-//                layoutImages.removeViews(0, 5);
-//                edtCost.setText("");
-//                edtAddress.setText("");
-//                edtRoom.setText("");
-//                edtDescribe.setText("");
-//                edtSize.setText("");
+                layoutImages.removeViews(0, 5);
+                edtCost.setText("");
+                edtAddress.setText("");
+                edtRoom.setText("");
+                edtDescribe.setText("");
+                edtSize.setText("");
             }
 
             @Override

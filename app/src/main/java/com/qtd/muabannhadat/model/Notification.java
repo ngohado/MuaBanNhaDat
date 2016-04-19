@@ -16,7 +16,6 @@ public class Notification {
         this.content = "1 " + content + " đã được đăng lên";
         this.price = price;
         this.time = time;
-        this.time = time;
     }
 
     public int getPrice() {

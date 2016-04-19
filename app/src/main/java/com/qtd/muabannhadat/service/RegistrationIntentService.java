@@ -10,6 +10,7 @@ import com.google.android.gms.iid.InstanceID;
 import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.callback.ResultRequestCallback;
 import com.qtd.muabannhadat.constant.ApiConstant;
+import com.qtd.muabannhadat.constant.AppConstant;
 import com.qtd.muabannhadat.request.BaseRequestApi;
 import com.qtd.muabannhadat.util.DebugLog;
 import com.qtd.muabannhadat.util.SharedPrefUtils;
@@ -58,6 +59,7 @@ public class RegistrationIntentService extends IntentService {
     private void sendRegistrationToServer(String token) {
         JSONObject object = new JSONObject();
         try {
+            object.put(AppConstant.USER_ID, SharedPrefUtils.getInt("ID", -1));
             object.put("RegID", token);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -73,6 +75,6 @@ public class RegistrationIntentService extends IntentService {
                 DebugLog.d(error);
             }
         });
-
+        requestApi.executeRequest();
     }
 }

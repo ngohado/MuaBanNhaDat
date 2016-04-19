@@ -59,14 +59,14 @@ public class NotificationFragment extends Fragment implements ResultRequestCallb
         notifications = new ArrayList<>();
         adapter = new ItemNotificationAdapter(notifications);
         recyclerView.setAdapter(adapter);
-        refreshLayout = new SwipeRefreshLayout(view.getContext());
-        refreshLayout.setColorSchemeColors(R.color.colorPrimary, R.color.colorPrimaryDark);
+
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 refreshData();
             }
         });
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
     }
 
     public void refreshData() {
@@ -94,7 +94,6 @@ public class NotificationFragment extends Fragment implements ResultRequestCallb
     public void onSuccess(String result) {
         notifications.clear();
         adapter.notifyDataSetChanged();
-        refreshLayout.setRefreshing(false);
         try {
             JSONArray array = new JSONArray(result);
             for (int i = array.length() - 1; i >= 0; i--) {
@@ -107,6 +106,7 @@ public class NotificationFragment extends Fragment implements ResultRequestCallb
             e.printStackTrace();
         }
         adapter.notifyDataSetChanged();
+        refreshLayout.setRefreshing(false);
     }
 
     @Override

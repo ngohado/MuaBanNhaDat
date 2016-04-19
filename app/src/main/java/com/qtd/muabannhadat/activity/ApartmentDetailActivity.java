@@ -25,6 +25,7 @@ import com.qtd.muabannhadat.subview.DescriptionView;
 import com.qtd.muabannhadat.subview.UserContactView;
 import com.qtd.muabannhadat.util.DebugLog;
 import com.qtd.muabannhadat.util.NetworkUtil;
+import com.qtd.muabannhadat.util.SharedPrefUtils;
 import com.qtd.muabannhadat.util.StringUtil;
 
 import org.json.JSONException;
@@ -68,7 +69,11 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
     @Bind(R.id.iv_apartment)
     ImageView ivApartment;
 
+    @Bind(R.id.iv_love)
+    ImageView ivLove;
+
     DescriptionView descriptionView;
+
 
     UserContactView primaryUser;
     UserContactView user1;
@@ -126,8 +131,8 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
     }
 
     private void addDefaultUser() {
-        User u1 = new User("Trần Hồng Quân", "01675141995", "http://www.textbookrecycling.com/images/female.png");
-        User u2 = new User("Hoa Anh Tú", "0942899531", "https://cdn1.iconfinder.com/data/icons/user-pictures/100/male3-512.png");
+        User u1 = new User("Nguyễn Thị Kim Dung", "01682624619", "http://www.textbookrecycling.com/images/female.png");
+        User u2 = new User("Lê Thùy Dung", "0168686868", "https://cdn1.iconfinder.com/data/icons/user-pictures/100/female.png");
         user1 = new UserContactView(this, u1);
         user2 = new UserContactView(this, u2);
         layoutMore.addView(user1);
@@ -147,7 +152,15 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
             Toast.makeText(this, "Kiểm tra lại kết nối mạng...", Toast.LENGTH_SHORT).show();
             return;
         }
-        request = new BaseRequestApi(this, String.format("{\"ID\":%d}", idApartment), ApiConstant.METHOD_APARTMENT, this);
+        JSONObject object = new JSONObject();
+        try {
+            object.put(AppConstant.USER_ID, SharedPrefUtils.getInt("ID", -1));
+            object.put("ID", idApartment);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        request = new BaseRequestApi(this, object.toString(), ApiConstant.METHOD_APARTMENT, this);
         request.executeRequest();
         dialog.show();
     }
@@ -242,6 +255,10 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
     private void handleResponse(String s) {
         try {
             JSONObject object = new JSONObject(s);
+
+            if (object.getString("Like").equals("yes")) {
+                ivLove.setImageResource(R.drawable.ic_favorite_white_36dp);
+            }
 
             urls[0] = object.getString(AppConstant.IMAGE1);
             urls[1] = object.getString(AppConstant.IMAGE2);

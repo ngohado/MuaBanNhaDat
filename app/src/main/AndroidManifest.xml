@@ -92,7 +92,9 @@
 
         <activity
             android:name=".activity.ProfileActivity"
-            android:theme="@style/ProfileActivity" />
+            android:theme="@style/ProfileActivity">
+
+        </activity>
 
         <activity android:name=".activity.RegisterActivity" >
 

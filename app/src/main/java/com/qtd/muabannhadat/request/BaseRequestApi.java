@@ -48,6 +48,7 @@ public class BaseRequestApi {
                 } catch (UnknownHostException u) {
                     return null;
                 } catch (Exception e) {
+                    DebugLog.d(e);
                     return null;
                 }
             }
