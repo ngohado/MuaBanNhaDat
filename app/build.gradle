@@ -37,7 +37,6 @@ buildscript {
 repositories {
     // ...
     maven { url "https://jitpack.io" }
-    maven { url 'http://ksoap2-android.googlecode.com/svn/m2-repo' }
     mavenCentral()
     maven { url 'https://maven.fabric.io/public' }
     maven { url "http://dl.bintray.com/populov/maven" }
@@ -57,7 +56,6 @@ dependencies {
     compile 'com.android.support:design:23.2.1'
     compile 'com.android.support:support-v13:23.2.1'
     compile 'com.github.yesidlazaro:GmailBackground:1.1'
-    compile 'com.google.code.ksoap2-android:ksoap2-android:3.1.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.android.support:support-v4:23.2.1'
