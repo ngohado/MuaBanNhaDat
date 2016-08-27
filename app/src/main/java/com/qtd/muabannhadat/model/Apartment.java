@@ -1,5 +1,6 @@
 package com.qtd.muabannhadat.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +24,7 @@ public class Apartment {
     private List<String> images;
     private String imageFirst;
     public boolean isLiked = false;
+    public List<ApartmentRecommend> apartmentRecommends = new ArrayList<>();
 
     public Apartment() {
 

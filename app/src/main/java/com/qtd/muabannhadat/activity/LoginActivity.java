@@ -18,6 +18,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.qtd.muabannhadat.R;
@@ -87,31 +88,65 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Profile profile = Profile.getCurrentProfile();
-                info[2] = profile.getFirstName() + " " + profile.getMiddleName() + " " + profile.getLastName();
-                info[3] = profile.getProfilePictureUri(72, 72).toString();
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(JSONObject object, GraphResponse response) {
-                                try {
-                                    info[0] = object.getString("id");
-                                    info[1] = object.getString("email");
-                                    requestLogin = new BaseRequestApi(getApplicationContext(), toJson(info, 2), ApiConstant.METHOD_LOGIN, LoginActivity.this);
-                                    requestLogin.executeRequest();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+            private ProfileTracker mProfileTracker;
 
+            @Override
+            public void onSuccess(final LoginResult loginResult) {
+                Profile profile = Profile.getCurrentProfile();
+                if (profile == null) {
+                    mProfileTracker = new ProfileTracker() {
+                        @Override
+                        protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+                            if (currentProfile != null) {
+                                info[2] = currentProfile.getFirstName() + " " + currentProfile.getMiddleName() + " " + currentProfile.getLastName();
+                                info[3] = currentProfile.getProfilePictureUri(72, 72).toString();
+                                GraphRequest request = GraphRequest.newMeRequest(
+                                        loginResult.getAccessToken(),
+                                        new GraphRequest.GraphJSONObjectCallback() {
+                                            @Override
+                                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                                try {
+                                                    info[0] = object.getString("id");
+                                                    info[1] = object.getString("email");
+                                                    requestLogin = new BaseRequestApi(getApplicationContext(), toJson(info, 2), ApiConstant.METHOD_LOGIN, LoginActivity.this);
+                                                    requestLogin.executeRequest();
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+
+                                            }
+                                        });
+                                Bundle parameters = new Bundle();
+                                parameters.putString("fields", "id,email");
+                                request.setParameters(parameters);
+                                request.executeAsync();
                             }
-                        });
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,email");
-                request.setParameters(parameters);
-                request.executeAsync();
+                        }
+                    };
+                } else {
+                    info[2] = profile.getFirstName() + " " + profile.getMiddleName() + " " + profile.getLastName();
+                    info[3] = profile.getProfilePictureUri(72, 72).toString();
+                    GraphRequest request = GraphRequest.newMeRequest(
+                            loginResult.getAccessToken(),
+                            new GraphRequest.GraphJSONObjectCallback() {
+                                @Override
+                                public void onCompleted(JSONObject object, GraphResponse response) {
+                                    try {
+                                        info[0] = object.getString("id");
+                                        info[1] = object.getString("email");
+                                        requestLogin = new BaseRequestApi(getApplicationContext(), toJson(info, 2), ApiConstant.METHOD_LOGIN, LoginActivity.this);
+                                        requestLogin.executeRequest();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            });
+                    Bundle parameters = new Bundle();
+                    parameters.putString("fields", "id,email");
+                    request.setParameters(parameters);
+                    request.executeAsync();
+                }
             }
 
             @Override

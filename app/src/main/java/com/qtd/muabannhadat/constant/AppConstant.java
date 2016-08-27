@@ -29,9 +29,11 @@ public class AppConstant {
     public static final String LATITUDE = "Latitude";
     public static final String LONGITUDE = "Longitude";
     public static final String SIZE = "Size";
+    public static final String APARTMENT_RECOMMEND = "arrCommend";
 
     public static final String MAP_TYPE = "MAP_TYPE";
 
+    public static final String IMAGE = "Image";
     public static final String IMAGE1 = "Image1";
     public static final String IMAGE2 = "Image2";
     public static final String IMAGE3 = "Image3";
