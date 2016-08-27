@@ -19,15 +19,18 @@ import com.qtd.muabannhadat.callback.ResultRequestCallback;
 import com.qtd.muabannhadat.constant.ApiConstant;
 import com.qtd.muabannhadat.constant.AppConstant;
 import com.qtd.muabannhadat.model.Apartment;
+import com.qtd.muabannhadat.model.ApartmentRecommend;
 import com.qtd.muabannhadat.model.User;
 import com.qtd.muabannhadat.request.BaseRequestApi;
 import com.qtd.muabannhadat.subview.DescriptionView;
+import com.qtd.muabannhadat.subview.SuggestView;
 import com.qtd.muabannhadat.subview.UserContactView;
 import com.qtd.muabannhadat.util.DebugLog;
 import com.qtd.muabannhadat.util.NetworkUtil;
 import com.qtd.muabannhadat.util.SharedPrefUtils;
 import com.qtd.muabannhadat.util.StringUtil;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,7 +38,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ApartmentDetailActivity extends AppCompatActivity implements ResultRequestCallback {
+public class ApartmentDetailActivity extends AppCompatActivity implements ResultRequestCallback, View.OnClickListener {
     @Bind(R.id.toolbar_apartment_detail)
     Toolbar toolbar;
 
@@ -71,6 +74,9 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
 
     @Bind(R.id.iv_love)
     ImageView ivLove;
+
+    @Bind(R.id.layout_suggest)
+    LinearLayout layoutSuggest;
 
     DescriptionView descriptionView;
 
@@ -239,6 +245,14 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
         StringUtil.displayText(result.getDescribe(), tvIntro);
         descriptionView.setupWith(result);
         primaryUser.setupWith(result.getUser());
+        int i = 0;
+        for (ApartmentRecommend a : result.apartmentRecommends) {
+            View view = new SuggestView(this, a.imageUrl, String.valueOf(a.price));
+            view.setTag(i);
+            view.setOnClickListener(this);
+            layoutSuggest.addView(view);
+            i++;
+        }
     }
 
     @Override
@@ -284,6 +298,15 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
             response.getUser().setName(object.getString(AppConstant.NAME));
             response.getUser().setPhone(object.getString(AppConstant.TELEPHONE));
             response.getUser().setAvatar(object.getString(AppConstant.AVATAR));
+
+            JSONArray jsonArrayRecommend = object.getJSONArray(AppConstant.APARTMENT_RECOMMEND);
+            if (jsonArrayRecommend != null && jsonArrayRecommend.length() > 0) {
+                for (int i = 0; i < jsonArrayRecommend.length(); i++) {
+                    JSONObject apartment = jsonArrayRecommend.getJSONObject(i);
+                    response.apartmentRecommends.add(new ApartmentRecommend(apartment.getString(AppConstant.IMAGE), apartment.getInt(AppConstant.PRICE), apartment.getInt(AppConstant.A_ID)));
+                }
+            }
+
             Glide.with(this).load(object.getString(AppConstant.IMAGE1)).into(ivApartment);
             fillData(response);
             openMapActivity.putExtra(AppConstant.PRICE, response.getPrice());
@@ -299,5 +322,16 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
     protected void onDestroy() {
         request.close();
         super.onDestroy();
+    }
+
+    @Override
+    public void onClick(View v) {
+        try {
+            Intent intent = new Intent(this, ApartmentDetailActivity.class);
+            intent.putExtra(ApartmentDetailActivity.ID_APARTMENT, response.apartmentRecommends.get((int) v.getTag()).id);
+            startActivity(intent);
+        } catch (IndexOutOfBoundsException e) {
+
+        }
     }
 }

@@ -33,7 +33,7 @@ public class SuggestView extends RelativeLayout {
 
     public void setupWith(String url, String price) {
         Glide.with(context).load(url).into(imageView);
-        tvPrice.setText(price);
+        tvPrice.setText("$" + price);
     }
 
 }
