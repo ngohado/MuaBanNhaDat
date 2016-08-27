@@ -28,6 +28,7 @@ import java.util.List;
  */
 public class NormalMapFragment extends BaseMapFragment {
     List<Apartment> apartments;
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -48,7 +49,7 @@ public class NormalMapFragment extends BaseMapFragment {
         } else {
             apartments = new ArrayList<>();
             Apartment a = new Apartment();
-            a.setPrice(getArguments().getInt(AppConstant.PRICE,0));
+            a.setPrice(getArguments().getInt(AppConstant.PRICE, 0));
             a.setLatitude(getArguments().getDouble(AppConstant.LATITUDE, 0));
             a.setLongitude(getArguments().getDouble(AppConstant.LONGITUDE, 0));
             apartments.add(a);
@@ -61,7 +62,7 @@ public class NormalMapFragment extends BaseMapFragment {
             JSONArray array = new JSONArray(result);
             apartments = new ArrayList<>();
             Apartment apartment;
-            for (int i = 0 ; i < array.length() ; i++) {
+            for (int i = 0; i < array.length(); i++) {
                 apartment = new Apartment();
                 apartment.setId(array.getJSONObject(i).getInt(AppConstant.A_ID));
                 apartment.setLatitude(array.getJSONObject(i).getDouble(AppConstant.LATITUDE));
@@ -103,7 +104,7 @@ public class NormalMapFragment extends BaseMapFragment {
 
     @Override
     public void addMarkers() {
-        if (apartments == null || apartments.get(0).getLatitude() == 0)
+        if (apartments == null || apartments.size() < 1)
             return;
         for (Apartment a : apartments) {
             DebugLog.i("Lat: " + a.getLatitude() + ", Lng: " + a.getLongitude());

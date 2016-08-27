@@ -33,7 +33,6 @@ import java.util.List;
 
 public class BlockNewsFragment extends Fragment implements ResultRequestCallback {
     private LinearLayout recyclerView;
-    private RequestRepeatApi requestRepeatApi;
 
     ProgressBar progressBar;
     View view;
@@ -52,9 +51,8 @@ public class BlockNewsFragment extends Fragment implements ResultRequestCallback
     }
 
     private void initData() {
-        Utility.isNetworkAvailable(view.getContext(), view, true);
-        requestRepeatApi = new RequestRepeatApi(view.getContext(), "{}", ApiConstant.METHOD_FIRST_VIEW, this, view);
-        requestRepeatApi.executeRequest();
+        if (Utility.isNetworkAvailable(view.getContext(), view, true))
+            new RequestRepeatApi(view.getContext(), "{}", ApiConstant.METHOD_FIRST_VIEW, this, view).executeRequest();
     }
 
     private void initView() {
@@ -96,7 +94,7 @@ public class BlockNewsFragment extends Fragment implements ResultRequestCallback
                 try {
                     JSONArray jsonArray = new JSONArray(result);
                     List<Integer> arr = new ArrayList<>();
-                    for (int i = 0 ; i < jsonArray.length() ; i++) {
+                    for (int i = 0; i < jsonArray.length(); i++) {
                         arr.add(jsonArray.getJSONObject(i).getInt(AppConstant.A_ID));
                     }
                     handleMainResponse(mainResult, arr);
@@ -117,11 +115,12 @@ public class BlockNewsFragment extends Fragment implements ResultRequestCallback
         JSONArray array;
         try {
             array = new JSONArray(mainResult);
-            for (int i = 0 ; i < array.length() ; i++) {
+            for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
                 String temp = obj.getString("title");
                 JSONArray list = obj.getJSONArray("home");
-                displayHomes(temp, list, arr);
+                if (list != null && list.length() >= 5)
+                    displayHomes(temp, list, arr);
             }
         } catch (JSONException e) {
             e.printStackTrace();
