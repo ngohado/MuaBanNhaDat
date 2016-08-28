@@ -55,7 +55,7 @@ public class ItemHomeViewHolder extends RecyclerView.ViewHolder {
         Glide.with(view.getContext()).load(Uri.parse(apartment.getImageFirst())).into(imageView);
         tvAddress.setText(apartment.getAddress());
         tvCity.setText(apartment.getCity());
-        tvCost.setText(String.valueOf(apartment.getPrice()));
+        tvCost.setText("$" + apartment.getPrice());
     }
 
 }

@@ -73,13 +73,6 @@ public class HomesFavoriteFragment extends Fragment implements ResultRequestCall
             recyclerView.setVisibility(View.VISIBLE);
             layoutNoHouses.setVisibility(View.INVISIBLE);
         }
-
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshData();
-            }
-        });
         refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
     }
 
@@ -100,6 +93,7 @@ public class HomesFavoriteFragment extends Fragment implements ResultRequestCall
     @Override
     public void onSuccess(String result) {
         apartments.clear();
+        tileHomeAdapter.notifyDataSetChanged();
         try {
             JSONArray array = new JSONArray(result);
             for (int i = 0; i < array.length(); i++) {
@@ -110,7 +104,7 @@ public class HomesFavoriteFragment extends Fragment implements ResultRequestCall
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        tileHomeAdapter.notifyItemRangeInserted(0, apartments.size());
+        tileHomeAdapter.notifyDataSetChanged();
         refreshLayout.setRefreshing(false);
 
         if (apartments.size() == 0) {

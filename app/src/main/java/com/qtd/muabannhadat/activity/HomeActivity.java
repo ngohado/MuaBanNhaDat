@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -149,6 +150,14 @@ public class HomeActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.sign:
+                        Fragment f = getSupportFragmentManager().findFragmentById(R.id.layout_container_home);
+                        if (f instanceof BlockNewsFragment) {
+                            getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, new BlockNewsFragment()).commit();
+                        } else if (f instanceof FavoriteFragment) {
+                            getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, new FavoriteFragment()).commit();
+                        } else if (f instanceof NotificationFragment) {
+                            getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, new NotificationFragment()).commit();
+                        }
 
                         SharedPrefUtils.putInt(AppConstant.ID, -1);
                         break;

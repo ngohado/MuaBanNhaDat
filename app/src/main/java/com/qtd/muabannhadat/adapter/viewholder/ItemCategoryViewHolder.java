@@ -24,9 +24,6 @@ import com.qtd.muabannhadat.util.SharedPrefUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -201,13 +198,17 @@ public class ItemCategoryViewHolder extends LinearLayout {
 
     @OnClick(R.id.imv_favorite1)
     public void ImvFavorite1OnClick() {
-        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1)
+        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1) {
             startLogin();
-        if (apartmentCategory.getApartments().get(0).isLiked)
-            return;
-        openDialog(0);
+        } else {
+            if (apartmentCategory.getApartments().get(0).isLiked)
+                return;
+            openDialog(0);
+        }
     }
-    BoardListDialog dialog ;
+
+    BoardListDialog dialog;
+
     private void openDialog(final int i) {
         dialog = new BoardListDialog(context, apartmentCategory.getApartments().get(i).getId(), new ResultRequestCallback() {
             @Override
@@ -263,38 +264,46 @@ public class ItemCategoryViewHolder extends LinearLayout {
 
     @OnClick(R.id.imv_favorite2)
     public void ImvFavorite2OnClick() {
-        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1)
+        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1) {
             startLogin();
-        if (apartmentCategory.getApartments().get(1).isLiked)
-            return;
-        openDialog(1);
+        } else {
+            if (apartmentCategory.getApartments().get(1).isLiked)
+                return;
+            openDialog(1);
+        }
     }
 
     @OnClick(R.id.imv_favorite3)
     public void ImvFavorite3OnClick() {
-        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1)
+        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1) {
             startLogin();
-        if (apartmentCategory.getApartments().get(2).isLiked)
-            return;
-        openDialog(2);
+        } else {
+            if (apartmentCategory.getApartments().get(2).isLiked)
+                return;
+            openDialog(2);
+        }
     }
 
     @OnClick(R.id.imv_favorite4)
     public void ImvFavorite4OnClick() {
-        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1)
+        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1) {
             startLogin();
-        if (apartmentCategory.getApartments().get(3).isLiked)
-            return;
-        openDialog(3);
+        } else {
+            if (apartmentCategory.getApartments().get(3).isLiked)
+                return;
+            openDialog(3);
+        }
     }
 
     @OnClick(R.id.imv_favorite5)
     public void ImvFavorite5OnClick() {
-        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1)
+        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1) {
             startLogin();
-        if (apartmentCategory.getApartments().get(4).isLiked)
-            return;
-        openDialog(4);
+        } else {
+            if (apartmentCategory.getApartments().get(4).isLiked)
+                return;
+            openDialog(4);
+        }
     }
 
     @OnClick(R.id.btnSeeAll)
