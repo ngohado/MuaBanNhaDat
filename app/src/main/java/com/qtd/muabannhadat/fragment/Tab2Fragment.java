@@ -70,6 +70,13 @@ public class Tab2Fragment extends Fragment {
 
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (hidden) {
+            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+        }
+    }
+
     class Tab2Adapter extends FragmentStatePagerAdapter {
         private String[] tabs = {"Bản Đồ", "Tìm kiếm"};
 

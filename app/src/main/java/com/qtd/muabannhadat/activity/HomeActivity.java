@@ -11,7 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -31,12 +31,14 @@ import butterknife.ButterKnife;
 
 public class HomeActivity extends AppCompatActivity {
     private TabLayout tabLayout;
-    private PopupMenu popupMenu;
     private BroadcastReceiver broadcastReceiver;
     private boolean isReceiverRegistered;
 
     public static final String NOTIFICATION_IS_VISIBLE = "notification_is_visible";
 
+    private BlockNewsFragment blockNewsFragment;
+    private FavoriteFragment favoriteFragment;
+    private NotificationFragment notificationFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,45 +72,7 @@ public class HomeActivity extends AppCompatActivity {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
-                    case 0:
-                        popEntireFragmentBackStack();
-                        SharedPrefUtils.putBoolean(NOTIFICATION_IS_VISIBLE, false);
-                        changeColorTabItem(R.drawable.ic_home_white_36dp, 0);
-                        tabLayout.setElevation(5f);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, new BlockNewsFragment()).commit();
-                        break;
-                    case 1:
-                        popEntireFragmentBackStack();
-                        SharedPrefUtils.putBoolean(NOTIFICATION_IS_VISIBLE, false);
-                        changeColorTabItem(R.drawable.ic_search_white_36dp, 1);
-                        tabLayout.setElevation(0f);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, new Tab2Fragment()).commit();
-                        break;
-                    case 2:
-                        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1) {
-                            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-                        }
-                        popEntireFragmentBackStack();
-                        SharedPrefUtils.putBoolean(NOTIFICATION_IS_VISIBLE, false);
-                        tabLayout.setElevation(0f);
-                        changeColorTabItem(R.drawable.ic_favorite_white_36dp, 2);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, new FavoriteFragment()).commit();
-                        break;
-                    case 3:
-                        if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1) {
-                            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-                        }
-                        changeColorTabItem(R.drawable.ic_notifications_white_36dp, 3);
-                        SharedPrefUtils.putBoolean(NOTIFICATION_IS_VISIBLE, true);
-                        tabLayout.setElevation(5f);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.layout_container_home, new NotificationFragment()).commit();
-                        break;
-                    case 4:
-                        showPopupMenu();
-                        break;
-                }
-
+                changeFragment(tab);
             }
 
             @Override
@@ -125,15 +89,75 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void popEntireFragmentBackStack() {
-        try {
-            final FragmentManager fm = getSupportFragmentManager();
-            final int backStackCount = fm.getBackStackEntryCount();
-            for (int i = 0; i < backStackCount; i++) {
-                fm.popBackStack();
-            }
-        } catch (Exception ignored) {
+    private void changeFragment(TabLayout.Tab tab) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            if (fragment != null) {
+                transaction.hide(fragment);
+            }
+        }
+
+        switch (tab.getPosition()) {
+            case 0:
+                SharedPrefUtils.putBoolean(NOTIFICATION_IS_VISIBLE, false);
+                changeColorTabItem(R.drawable.ic_home_white_36dp, 0);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    tabLayout.setElevation(5f);
+                }
+                if (blockNewsFragment == null) {
+                    blockNewsFragment = new BlockNewsFragment();
+                    transaction.add(R.id.layout_container_home, blockNewsFragment);
+                }
+                transaction.show(blockNewsFragment);
+                transaction.commit();
+                break;
+            case 1:
+                SharedPrefUtils.putBoolean(NOTIFICATION_IS_VISIBLE, false);
+                changeColorTabItem(R.drawable.ic_search_white_36dp, 1);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    tabLayout.setElevation(0f);
+                }
+                Tab2Fragment tab2Fragment = new Tab2Fragment();
+                transaction.add(R.id.layout_container_home, tab2Fragment);
+                transaction.show(tab2Fragment);
+                transaction.commit();
+                break;
+            case 2:
+                if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1) {
+                    startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                }
+                SharedPrefUtils.putBoolean(NOTIFICATION_IS_VISIBLE, false);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    tabLayout.setElevation(0f);
+                }
+                changeColorTabItem(R.drawable.ic_favorite_white_36dp, 2);
+                if (favoriteFragment == null) {
+                    favoriteFragment = new FavoriteFragment();
+                    transaction.add(R.id.layout_container_home, favoriteFragment);
+                }
+                transaction.show(favoriteFragment);
+                transaction.commit();
+                break;
+            case 3:
+                if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1) {
+                    startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                }
+                changeColorTabItem(R.drawable.ic_notifications_white_36dp, 3);
+                SharedPrefUtils.putBoolean(NOTIFICATION_IS_VISIBLE, true);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    tabLayout.setElevation(5f);
+                }
+                if (notificationFragment == null) {
+                    notificationFragment = new NotificationFragment();
+                    transaction.add(R.id.layout_container_home, notificationFragment);
+                }
+                transaction.show(notificationFragment);
+                transaction.commit();
+                break;
+            case 4:
+                showPopupMenu();
+                break;
         }
     }
 
@@ -143,7 +167,8 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
             return;
         }
-        popupMenu = new PopupMenu(HomeActivity.this, HomeActivity.this.findViewById(R.id.anchor_view));
+
+        PopupMenu popupMenu = new PopupMenu(HomeActivity.this, HomeActivity.this.findViewById(R.id.anchor_view));
         popupMenu.getMenuInflater().inflate(R.menu.tab_more, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
