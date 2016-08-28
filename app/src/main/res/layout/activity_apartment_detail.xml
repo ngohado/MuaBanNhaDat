@@ -132,13 +132,13 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
+            <HorizontalScrollView
                 android:id="@+id/suggest"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:scrollbars="none"
                 android:layout_below="@+id/layout_map_view"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                android:scrollbars="none">
 
                 <LinearLayout
                     android:id="@+id/layout_suggest"
@@ -148,7 +148,7 @@
 
                 </LinearLayout>
 
-            </android.support.v7.widget.RecyclerView>
+            </HorizontalScrollView>
 
             <TextView
                 android:id="@+id/tv_intro"
