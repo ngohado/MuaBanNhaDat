@@ -26,7 +26,7 @@ import com.qtd.muabannhadat.subview.DescriptionView;
 import com.qtd.muabannhadat.subview.SuggestView;
 import com.qtd.muabannhadat.subview.UserContactView;
 import com.qtd.muabannhadat.util.DebugLog;
-import com.qtd.muabannhadat.util.NetworkUtil;
+import com.qtd.muabannhadat.util.ServiceUtils;
 import com.qtd.muabannhadat.util.SharedPrefUtils;
 import com.qtd.muabannhadat.util.StringUtil;
 
@@ -154,7 +154,7 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
     }
 
     public void requestGetData() {
-        if (!NetworkUtil.getInstance(this).isNetworkConnected()) {
+        if (!ServiceUtils.getInstance(this).isNetworkConnected()) {
             Toast.makeText(this, "Kiểm tra lại kết nối mạng...", Toast.LENGTH_SHORT).show();
             return;
         }

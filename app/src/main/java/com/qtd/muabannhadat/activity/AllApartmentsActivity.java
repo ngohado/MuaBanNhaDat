@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -63,11 +64,11 @@ public class AllApartmentsActivity extends AppCompatActivity implements ResultRe
 
     protected void initComponent() {
         Intent intent = getIntent();
-        kind = intent.getStringExtra("Kind");
+        kind = intent.getStringExtra(AppConstant.KIND);
         String json = "";
         try {
             JSONObject object = new JSONObject();
-            object.put("Kind", kind);
+            object.put(AppConstant.KIND, kind);
             json = object.toString();
         } catch (JSONException e) {
             DebugLog.d(e.toString());
@@ -85,13 +86,17 @@ public class AllApartmentsActivity extends AppCompatActivity implements ResultRe
 
         progressBar.setIndeterminate(true);
         progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
-        progressBar.setEnabled(true);
 
         apartments = new ArrayList<>();
         itemHomeAdapter = new ItemHomeHasHeartAdapter(apartments);
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(manager);
+
         recyclerView.setAdapter(itemHomeAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setAddDuration(1000);
+        itemAnimator.setRemoveDuration(1000);
+        recyclerView.setItemAnimator(itemAnimator);
 
         Utility.isNetworkAvailable(this, findViewById(R.id.relativeLayout_allApartments), true);
         requestApartment = new RequestRepeatApi(this, json, ApiConstant.METHOD_GET_ALL_APARTMENT_BY_KIND, this, findViewById(R.id.relativeLayout_allApartments));
@@ -113,7 +118,8 @@ public class AllApartmentsActivity extends AppCompatActivity implements ResultRe
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        itemHomeAdapter.notifyDataSetChanged();
+        itemHomeAdapter.notifyItemRangeInserted(0, apartments.size());
+
         progressBar.setEnabled(false);
         progressBar.setVisibility(View.INVISIBLE);
 

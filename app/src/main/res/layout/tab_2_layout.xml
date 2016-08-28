@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
     <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout_favorite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        app:tabTextColor="@color/colorLightGreen"
-        app:tabSelectedTextColor="@android:color/white"
-        app:tabMode="fixed"
-        android:id="@+id/tabLayout_favorite"
+        android:elevation="5dp"
+        app:tabGravity="center"
         app:tabIndicatorColor="@android:color/white"
         app:tabIndicatorHeight="2dp"
-        android:elevation="5dp"
-        >
-    </android.support.design.widget.TabLayout>
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@android:color/white"
+        app:tabTextColor="@color/colorLightGreen"></android.support.design.widget.TabLayout>
+
     <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager_favorite"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@android:color/white"
-        android:id="@+id/viewPager_favorite">
-    </android.support.v4.view.ViewPager>
+        android:background="@android:color/white"></android.support.v4.view.ViewPager>
 </LinearLayout>

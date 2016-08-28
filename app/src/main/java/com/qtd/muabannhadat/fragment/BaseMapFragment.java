@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -33,6 +34,9 @@ public abstract class BaseMapFragment extends SupportMapFragment implements Goog
 
     public final int MAP_TYPE_NORMAL = GoogleMap.MAP_TYPE_NORMAL;
     public final int MAP_TYPE_HYBRID = GoogleMap.MAP_TYPE_HYBRID;
+
+    private View locationButton;
+    private FloatingActionButton btnLocation;
 
     public abstract int setMapType();
 
@@ -71,7 +75,6 @@ public abstract class BaseMapFragment extends SupportMapFragment implements Goog
         getMap().setMapType(setMapType());
         getMap().setTrafficEnabled(true);
         getMap().setMyLocationEnabled(true);
-        getMap().getUiSettings().setZoomControlsEnabled(true);
     }
 
     public abstract View setViewMarker(String title);

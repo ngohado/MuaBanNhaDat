@@ -6,6 +6,18 @@
     android:background="@color/colorPrimary">
 
     <TextView
+        android:id="@+id/tv_close1"
+        style="?attr/selectableItemBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:padding="@dimen/activity_vertical_margin"
+        android:text="Đóng"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+
+    <TextView
         android:id="@+id/tv_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

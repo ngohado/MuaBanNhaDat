@@ -18,6 +18,7 @@ import com.qtd.muabannhadat.constant.AppConstant;
 import com.qtd.muabannhadat.model.Notification;
 import com.qtd.muabannhadat.request.RequestRepeatApi;
 import com.qtd.muabannhadat.util.DebugLog;
+import com.qtd.muabannhadat.util.ServiceUtils;
 import com.qtd.muabannhadat.util.SharedPrefUtils;
 
 import org.json.JSONArray;
@@ -42,8 +43,6 @@ public class NotificationFragment extends Fragment implements ResultRequestCallb
     private View view;
     private ItemNotificationAdapter adapter;
     private ArrayList<Notification> notifications;
-
-    private RequestRepeatApi requestRepeatApi;
 
     @Nullable
     @Override
@@ -70,6 +69,11 @@ public class NotificationFragment extends Fragment implements ResultRequestCallb
     }
 
     public void refreshData() {
+        if (!ServiceUtils.getInstance(view.getContext()).isNetworkConnected()) {
+            refreshLayout.setRefreshing(false);
+            return;
+        }
+
         int id = SharedPrefUtils.getInt("ID", -1);
         if (id != -1) {
             JSONObject object = new JSONObject();
@@ -78,14 +82,14 @@ public class NotificationFragment extends Fragment implements ResultRequestCallb
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            requestRepeatApi = new RequestRepeatApi(view.getContext(), object.toString(), ApiConstant.METHOD_GET_NOTIFICATION, this, view);
+            RequestRepeatApi requestRepeatApi = new RequestRepeatApi(view.getContext(), object.toString(), ApiConstant.METHOD_GET_NOTIFICATION, this, view);
             requestRepeatApi.executeRequest();
         }
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         refreshLayout.setRefreshing(true);
         refreshData();
     }

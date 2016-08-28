@@ -57,10 +57,10 @@ public class BlockNewsFragment extends Fragment implements ResultRequestCallback
 
     private void initView() {
         recyclerView = (LinearLayout) view.findViewById(R.id.recyclerView);
+
         progressBar = (ProgressBar) view.findViewById(R.id.progressbar_fragmentNews);
         progressBar.setIndeterminate(true);
         progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(view.getContext(), R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
-        progressBar.setEnabled(true);
     }
 
     private void displayHomes(String temp, JSONArray list, List<Integer> arr) {
@@ -82,6 +82,7 @@ public class BlockNewsFragment extends Fragment implements ResultRequestCallback
         }
         ApartmentCategory category = new ApartmentCategory(temp, apartments);
         recyclerView.addView(new ItemCategoryViewHolder(getContext(), category));
+
         progressBar.setEnabled(false);
         progressBar.setVisibility(View.INVISIBLE);
     }

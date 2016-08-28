@@ -116,4 +116,12 @@
     <string name="street_prompt">Chọn phố</string>
     <string name="kind_prompt">Chọn loại bất động sản</string>
     <string name="price_prompt">Chọn giá</string>
+    <string name="getOnBoard">Tạo lập các nhóm</string>
+    <string name="contentNoBoards">Phân nhóm những ngôi nhà bạn thích vào các nhóm để có thể dễ dàng theo dõi chúng</string>
+    <string name="startedByCreatingABoard">Hãy bắt đầu với việc tạo một nhóm</string>
+    <string name="searchForHomes">Danh sách nhà quan tâm</string>
+    <string name="contentNoHouses">Bạn chưa thêm một ngôi nhà nào vào danh sách yêu thích. Bắt đầu tìm kiếm ngay!</string>
+    <string name="search">Tìm kiếm</string>
+    <string name="pleaseEnableLocationService">Hãy kích hoạt dịch vụ vị trí</string>
+
 </resources>

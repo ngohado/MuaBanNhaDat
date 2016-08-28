@@ -35,6 +35,7 @@ import org.ksoap2.transport.HttpTransportSE;
 import java.util.Random;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener, ResultRequestCallback {
     public static final String EMAIL = "email";
@@ -50,10 +51,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private Button btnRegister;
 
     private ProgressDialog loading;
-    Boolean hasSentEmail;
+    private boolean hasSentEmail;
     private int confirmCode = 0;
-
-    BaseRequestApi requestApi;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -143,6 +142,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         hasSentEmail = false;
     }
 
+    @OnClick(R.id.tv_close1)
+    void onClickClose() {
+        finish();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -189,7 +193,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 }
             } else {
                 if (etCode.getText().toString().equals(String.valueOf(confirmCode))) {
-                    requestApi = new BaseRequestApi(this, toJson(etEmail.getText().toString(), etPassword.getText().toString(),
+                    BaseRequestApi requestApi = new BaseRequestApi(this, toJson(etEmail.getText().toString(), etPassword.getText().toString(),
                             etName.getText().toString(), etTelephone.getText().toString()), ApiConstant.METHOD_REGISTER, this);
                     requestApi.executeRequest();
                 } else {
