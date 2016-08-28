@@ -9,8 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
-import android.widget.TextView;
 
 import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.adapter.ItemHomeAdapter;
@@ -37,16 +37,15 @@ import butterknife.OnClick;
 public class BoardDetailActivity extends AppCompatActivity implements ResultRequestCallback {
     @Bind(R.id.toolbar_create_board)
     Toolbar toolbar;
+
     @Bind(R.id.recyclerView_board_detail)
     RecyclerView recyclerView;
-    @Bind(R.id.tv_name_board)
-    TextView tvNameBoard;
+
     @Bind(R.id.refreshLayout_board_detail)
     SwipeRefreshLayout refreshLayout;
 
     private ItemHomeAdapter adapter;
     private ArrayList<Apartment> apartments;
-    private RequestRepeatApi requestApi;
     private int boardID;
 
     @Override
@@ -60,23 +59,24 @@ public class BoardDetailActivity extends AppCompatActivity implements ResultRequ
     private void initComponent() {
         Intent intent = getIntent();
         boardID = intent.getIntExtra("BoardID", -1);
-        tvNameBoard.setText(intent.getStringExtra("BoardName"));
+
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp);
-        getSupportActionBar().setTitle("Tạo bảng");
+        getSupportActionBar().setTitle(intent.getStringExtra("BoardName"));
         toolbar.setTitleTextColor(ContextCompat.getColor(this, android.R.color.white));
+
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+
         apartments = new ArrayList<>();
         adapter = new ItemHomeAdapter(apartments);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        refreshLayout.setRefreshing(true);
-        refreshData();
+
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -90,6 +90,13 @@ public class BoardDetailActivity extends AppCompatActivity implements ResultRequ
     void btnCheckBoardOnClick() {
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_board_detail, menu);
+        return true;
+    }
+
 
     @Override
     public void onSuccess(String result) {
@@ -123,13 +130,13 @@ public class BoardDetailActivity extends AppCompatActivity implements ResultRequ
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        requestApi = new RequestRepeatApi(this, object.toString(), ApiConstant.METHOD_GET_FAVORITE_HOMES_BY_BOARD, this, findViewById(R.id.linearLayout_board_detail));
+        RequestRepeatApi requestApi = new RequestRepeatApi(this, object.toString(), ApiConstant.METHOD_GET_FAVORITE_HOMES_BY_BOARD, this, findViewById(R.id.linearLayout_board_detail));
         requestApi.executeRequest();
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         refreshLayout.setRefreshing(true);
         refreshData();
     }

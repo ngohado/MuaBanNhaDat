@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.adapter.ItemHomeAdapter;
@@ -38,9 +39,11 @@ public class HomesFavoriteFragment extends Fragment implements ResultRequestCall
     @Bind(R.id.layout_fragment_board)
     SwipeRefreshLayout refreshLayout;
 
+    @Bind(R.id.layoutNoHouses)
+    RelativeLayout layoutNoHouses;
+
     private ItemHomeAdapter tileHomeAdapter;
     private ArrayList<Apartment> apartments;
-    private RequestRepeatApi requestRepeatApi;
 
     View view;
 
@@ -63,8 +66,14 @@ public class HomesFavoriteFragment extends Fragment implements ResultRequestCall
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         recyclerView.setAdapter(tileHomeAdapter);
 
-        refreshLayout.setRefreshing(true);
-        refreshData();
+        if (apartments.size() == 0) {
+            recyclerView.setVisibility(View.INVISIBLE);
+            layoutNoHouses.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            layoutNoHouses.setVisibility(View.INVISIBLE);
+        }
+
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -83,7 +92,7 @@ public class HomesFavoriteFragment extends Fragment implements ResultRequestCall
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            requestRepeatApi = new RequestRepeatApi(view.getContext(), object.toString(), ApiConstant.METHOD_GET_FAVORITE_HOMES, this, view);
+            RequestRepeatApi requestRepeatApi = new RequestRepeatApi(view.getContext(), object.toString(), ApiConstant.METHOD_GET_FAVORITE_HOMES, this, view);
             requestRepeatApi.executeRequest();
         }
     }
@@ -91,7 +100,6 @@ public class HomesFavoriteFragment extends Fragment implements ResultRequestCall
     @Override
     public void onSuccess(String result) {
         apartments.clear();
-        tileHomeAdapter.notifyDataSetChanged();
         try {
             JSONArray array = new JSONArray(result);
             for (int i = 0; i < array.length(); i++) {
@@ -102,8 +110,16 @@ public class HomesFavoriteFragment extends Fragment implements ResultRequestCall
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        tileHomeAdapter.notifyDataSetChanged();
+        tileHomeAdapter.notifyItemRangeInserted(0, apartments.size());
         refreshLayout.setRefreshing(false);
+
+        if (apartments.size() == 0) {
+            recyclerView.setVisibility(View.INVISIBLE);
+            layoutNoHouses.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            layoutNoHouses.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -113,8 +129,8 @@ public class HomesFavoriteFragment extends Fragment implements ResultRequestCall
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         refreshLayout.setRefreshing(true);
         refreshData();
     }

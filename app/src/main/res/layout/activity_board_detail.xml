@@ -9,34 +9,7 @@
         android:id="@+id/toolbar_create_board"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent">
-
-            <TextView
-                android:id="@+id/tv_name_board"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:layout_centerVertical="true" />
-
-            <ImageButton
-                android:id="@+id/btn_check_board"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/colorPrimary"
-                android:clickable="true"
-                android:src="@drawable/ic_settings_white_24dp" />
-        </RelativeLayout>
-
-    </android.support.v7.widget.Toolbar>
+        android:background="@color/colorPrimary"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout_board_detail"

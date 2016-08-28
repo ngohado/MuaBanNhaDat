@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button btnLogin;
     private TextView btnRegister;
     private ProgressDialog dialog;
+
     private BaseRequestApi requestLogin;
     private CallbackManager callbackManager;
     private TwitterAuthClient twitterAuthClient;
@@ -267,6 +268,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 startActivityForResult(intentRegister, 1);
                 break;
         }
+    }
+
+    @OnClick(R.id.tv_close)
+    void onClickClose(){
+        finish();
     }
 
     @Override

@@ -6,12 +6,17 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.qtd.muabannhadat.R;
 import com.qtd.muabannhadat.activity.CreateBoardActivity;
 import com.qtd.muabannhadat.activity.LoginActivity;
@@ -46,32 +51,46 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
     @Bind(R.id.layout_fragment_board)
     SwipeRefreshLayout refreshLayout;
 
+    @Bind(R.id.layoutNoBoard)
+    RelativeLayout layoutNoBoard;
+
+    @Bind(R.id.imvNoBoard)
+    ImageView imvNoBoard;
+
     private ItemBoardAdapter boardAdapter;
     private ArrayList<Board> boards;
     private View view;
-    private GridLayoutManager layoutManager;
-    private RequestRepeatApi requestRepeatApi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_board_favorite, container, false);
-        ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
         initComponent();
     }
 
     private void initComponent() {
+        Glide.with(view.getContext())
+                .load(R.drawable.house_paint)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .override(324, 324)
+                .into(imvNoBoard);
+
         boards = new ArrayList<>();
         boardAdapter = new ItemBoardAdapter(boards);
-        recyclerView.setAdapter(boardAdapter);
 
-        layoutManager = new GridLayoutManager(view.getContext(), 2);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(boardAdapter);
+        recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
+
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setAddDuration(1000);
+        itemAnimator.setRemoveDuration(1000);
+        recyclerView.setItemAnimator(itemAnimator);
+
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -79,6 +98,14 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
             }
         });
         refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
+
+        if (boards.size() == 0) {
+            recyclerView.setVisibility(View.INVISIBLE);
+            layoutNoBoard.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            layoutNoBoard.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void refreshData() {
@@ -90,7 +117,7 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            requestRepeatApi = new RequestRepeatApi(view.getContext(), object.toString(), ApiConstant.METHOD_GET_BOARD_BY_ID, this, view);
+            RequestRepeatApi requestRepeatApi = new RequestRepeatApi(view.getContext(), object.toString(), ApiConstant.METHOD_GET_BOARD_BY_ID, this, view);
             requestRepeatApi.executeRequest();
         }
     }
@@ -98,7 +125,6 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
     @Override
     public void onSuccess(String result) {
         boards.clear();
-        boardAdapter.notifyDataSetChanged();
         try {
             JSONArray array = new JSONArray(result);
             for (int i = 0; i < array.length(); i++) {
@@ -114,8 +140,16 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        boardAdapter.notifyDataSetChanged();
+        boardAdapter.notifyItemRangeInserted(0, boards.size());
         refreshLayout.setRefreshing(false);
+
+        if (boards.size() == 0) {
+            recyclerView.setVisibility(View.INVISIBLE);
+            layoutNoBoard.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            layoutNoBoard.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -143,8 +177,8 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         refreshLayout.setRefreshing(true);
         refreshData();
     }

@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="15dp"
-            android:paddingBottom="100dp"
-            android:layout_marginTop="20dp">
+            android:layout_height="wrap_content"
+            android:padding="@dimen/activity_horizontal_margin"
+            android:paddingBottom="100dp">
 
             <TextView
                 android:id="@+id/tv_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="10dp"
                 android:text="Địa chỉ"
                 android:textColor="@android:color/black"
                 android:textSize="16sp" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/layout_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,68 +32,64 @@
 
                 <Spinner
                     android:id="@+id/sp_street"
-                    android:layout_width="160dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_weight="3"
                     android:entries="@array/area_range"
                     android:prompt="@string/district_prompt" />
 
                 <TextView
                     android:id="@+id/tv_score_area1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="15dp"
-                    android:layout_toRightOf="@id/sp_street"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
                     android:text="-"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/colorGrayDark"
                     android:textSize="20sp" />
 
                 <Spinner
                     android:id="@+id/sp_district"
-                    android:layout_width="160dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_toRightOf="@id/tv_score_area1"
-                    android:entries="@array/area_range"
-                    android:foregroundTint="@color/colorGrayDark" />
-            </RelativeLayout>
+                    android:layout_weight="3"
+                    android:entries="@array/area_range" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_below="@+id/layout_address"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:text="Hình thức"
                 android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:layout_marginTop="10dp"
-                android:layout_below="@+id/layout_address" />
+                android:textSize="16sp" />
 
             <RadioGroup
-                android:layout_marginTop="5dp"
-                android:layout_below="@+id/tv_status"
                 android:id="@+id/rgb_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_status"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.AppCompatRadioButton
                     android:id="@+id/rbt_sale"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Bán"
-                    android:textSize="15sp" />
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="Bán" />
 
                 <android.support.v7.widget.AppCompatRadioButton
                     android:id="@+id/rbt_rent"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="60dp"
-                    android:layout_toRightOf="@id/rbt_sale"
-                    android:text="Cho thuê"
-                    android:textSize="15sp" />
+                    android:layout_weight="1"
+                    android:text="Cho thuê" />
             </RadioGroup>
 
             <TextView
@@ -101,13 +97,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rgb_status"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:text="Tầm giá"
                 android:textColor="@android:color/black"
                 android:textSize="16sp" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/layout_price_range"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -115,41 +111,37 @@
 
                 <Spinner
                     android:id="@+id/sp_price_low_range"
-                    android:layout_width="160dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:entries="@array/price_range_for_sale"
-                    android:foregroundTint="@color/colorGrayDark" />
+                    android:layout_weight="3"
+                    android:entries="@array/price_range_for_sale" />
 
                 <TextView
                     android:id="@+id/tv_score"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="15dp"
-                    android:layout_toRightOf="@id/sp_price_low_range"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
                     android:text="-"
                     android:textColor="@color/colorGrayDark"
                     android:textSize="20sp" />
 
                 <Spinner
                     android:id="@+id/sp_price_high_range"
-                    android:layout_width="160dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_toRightOf="@id/tv_score"
-                    android:entries="@array/price_range_for_sale"
-                    android:foregroundTint="@color/colorGrayDark" />
-            </RelativeLayout>
+                    android:layout_weight="3"
+                    android:entries="@array/price_range_for_sale" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_kind"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/layout_price_range"
-                android:layout_margin="5dp"
-
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:text="Loaị nhà"
                 android:textColor="@android:color/black"
                 android:textSize="16sp" />
@@ -158,9 +150,7 @@
                 android:id="@+id/sp_kind"
                 android:layout_width="230dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
                 android:layout_below="@id/tv_kind"
-                android:layout_marginTop="5dp"
                 android:entries="@array/item_kind"
                 android:textColor="@color/colorGrayDark" />
 
@@ -169,84 +159,82 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/sp_kind"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:text="Số phòng"
                 android:textColor="@android:color/black"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/tv_room1"
-                android:layout_width="65dp"
+            <LinearLayout
+                android:id="@+id/layout_room"
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_below="@id/tv_room"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/background_room_selected"
-                android:gravity="center"
-                android:text="Bất kỳ"
-                android:textColor="@android:color/white" />
+                android:layout_below="@id/tv_room">
 
-            <TextView
-                android:id="@+id/tv_room2"
-                android:layout_width="65dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/tv_room"
-                android:layout_marginTop="10dp"
-                android:layout_toRightOf="@+id/tv_room1"
-                android:background="@drawable/background_room"
-                android:gravity="center"
-                android:text="1+"
-                android:textColor="@color/colorGrayDark" />
+                <TextView
+                    android:id="@+id/tv_room1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_room_selected"
+                    android:gravity="center"
+                    android:text="Bất kỳ"
+                    android:textColor="@android:color/white" />
 
-            <TextView
-                android:id="@+id/tv_room3"
-                android:layout_width="65dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/tv_room"
-                android:layout_marginTop="10dp"
-                android:layout_toRightOf="@id/tv_room2"
-                android:background="@drawable/background_room"
-                android:gravity="center"
-                android:text="2+"
-                android:textColor="@color/colorGrayDark" />
+                <TextView
+                    android:id="@+id/tv_room2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_room"
+                    android:gravity="center"
+                    android:text="1+"
+                    android:textColor="@color/colorGrayDark" />
 
-            <TextView
-                android:id="@+id/tv_room4"
-                android:layout_width="65dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/tv_room"
-                android:layout_marginTop="10dp"
-                android:layout_toRightOf="@id/tv_room3"
-                android:background="@drawable/background_room"
-                android:gravity="center"
-                android:text="3+"
-                android:textColor="@color/colorGrayDark" />
+                <TextView
+                    android:id="@+id/tv_room3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_room"
+                    android:gravity="center"
+                    android:text="2+"
+                    android:textColor="@color/colorGrayDark" />
 
-            <TextView
-                android:id="@+id/tv_room5"
-                android:layout_width="65dp"
-                android:layout_height="40dp"
-                android:layout_below="@id/tv_room"
-                android:layout_marginTop="10dp"
-                android:layout_toRightOf="@id/tv_room4"
-                android:background="@drawable/background_room"
-                android:gravity="center"
-                android:text="4+"
-                android:textColor="@color/colorGrayDark" />
+                <TextView
+                    android:id="@+id/tv_room4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_room"
+                    android:gravity="center"
+                    android:text="3+"
+                    android:textColor="@color/colorGrayDark" />
+
+                <TextView
+                    android:id="@+id/tv_room5"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_room"
+                    android:gravity="center"
+                    android:text="4+"
+                    android:textColor="@color/colorGrayDark" />
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/tv_area"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_room1"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="25dp"
+                android:layout_below="@+id/layout_room"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:text="Diện tích"
                 android:textColor="@android:color/black"
                 android:textSize="16sp" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/layout_area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -254,63 +242,76 @@
 
                 <Spinner
                     android:id="@+id/sp_area_low_range"
-                    android:layout_width="160dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp"
-                    android:entries="@array/area_range"
-                    android:foregroundTint="@color/colorGrayDark" />
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:entries="@array/area_range" />
 
                 <TextView
                     android:id="@+id/tv_score_area"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="15dp"
-                    android:layout_toRightOf="@id/sp_area_low_range"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.5"
                     android:text="-"
                     android:textColor="@color/colorGrayDark"
                     android:textSize="20sp" />
 
                 <Spinner
                     android:id="@+id/sp_area_high_range"
-                    android:layout_width="160dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_toRightOf="@id/tv_score_area"
-                    android:entries="@array/area_range"
-                    android:foregroundTint="@color/colorGrayDark" />
-            </RelativeLayout>
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:entries="@array/area_range" />
+            </LinearLayout>
 
         </RelativeLayout>
     </ScrollView>
 
-    <LinearLayout
+    <View
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="0.5dp"
+        android:layout_above="@+id/layout"
+        android:background="@color/colorGrayDark" />
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:background="@android:color/white"
-        android:orientation="horizontal"
-        android:elevation="2dp">
+        android:orientation="horizontal">
 
 
         <TextView
             android:id="@+id/tv_reset"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:gravity="center"
+            style="?attr/selectableItemBackground"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:text="Xóa"
-            android:textSize="16sp" />
+            android:layout_weight="1"
+            android:clickable="true"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="Đặt lại"
+            android:textAllCaps="true"
+            android:textColor="@color/colorGrayDark"
+            android:textStyle="bold"
+            tools:targetApi="jelly_bean" />
 
         <TextView
             android:id="@+id/tv_search"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
+            style="?attr/selectableItemBackground"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:clickable="true"
+            android:fontFamily="sans-serif-light"
             android:gravity="center"
             android:text="Tìm kiếm"
-            android:textSize="16sp" />
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            tools:targetApi="jelly_bean" />
     </LinearLayout>
 </RelativeLayout>
