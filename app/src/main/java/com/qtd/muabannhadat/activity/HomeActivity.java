@@ -1,6 +1,5 @@
 package com.qtd.muabannhadat.activity;
 
-import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -69,7 +68,6 @@ public class HomeActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setIcon(changeColor(R.drawable.ic_notifications_white_36dp, R.color.colorPrimaryDark)));
         tabLayout.addTab(tabLayout.newTab().setIcon(changeColor(R.drawable.ic_more_vert_white_36dp, R.color.colorPrimaryDark)));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {

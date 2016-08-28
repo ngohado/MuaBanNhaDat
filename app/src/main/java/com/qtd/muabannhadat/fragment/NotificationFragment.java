@@ -84,6 +84,8 @@ public class NotificationFragment extends Fragment implements ResultRequestCallb
             }
             RequestRepeatApi requestRepeatApi = new RequestRepeatApi(view.getContext(), object.toString(), ApiConstant.METHOD_GET_NOTIFICATION, this, view);
             requestRepeatApi.executeRequest();
+        }  else {
+            refreshLayout.setRefreshing(false);
         }
     }
 

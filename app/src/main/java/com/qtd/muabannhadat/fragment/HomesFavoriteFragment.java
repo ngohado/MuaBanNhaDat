@@ -87,6 +87,8 @@ public class HomesFavoriteFragment extends Fragment implements ResultRequestCall
             }
             RequestRepeatApi requestRepeatApi = new RequestRepeatApi(view.getContext(), object.toString(), ApiConstant.METHOD_GET_FAVORITE_HOMES, this, view);
             requestRepeatApi.executeRequest();
+        }  else {
+            refreshLayout.setRefreshing(false);
         }
     }
 

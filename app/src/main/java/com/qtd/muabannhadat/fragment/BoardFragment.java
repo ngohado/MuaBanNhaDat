@@ -112,6 +112,8 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
             }
             RequestRepeatApi requestRepeatApi = new RequestRepeatApi(view.getContext(), object.toString(), ApiConstant.METHOD_GET_BOARD_BY_ID, this, view);
             requestRepeatApi.executeRequest();
+        } else {
+            refreshLayout.setRefreshing(false);
         }
     }
 
