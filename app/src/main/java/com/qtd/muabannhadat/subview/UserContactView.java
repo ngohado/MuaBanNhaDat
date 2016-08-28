@@ -51,7 +51,7 @@ public class UserContactView extends RelativeLayout {
         this.user = user;
         StringUtil.displayText(user.getName(), tvName);
         StringUtil.displayText(user.getPhone(), tvPhone);
-        Glide.with(getContext()).load(user.getAvatar()).into(ivAvatar);
+        Glide.with(getContext()).load(user.getAvatar()).error(R.drawable.user).placeholder(R.drawable.user).into(ivAvatar);
     }
 
     @OnClick(R.id.btn_call)
