@@ -29,7 +29,6 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by Dell on 4/17/2016.
@@ -86,10 +85,10 @@ public class BoardDetailActivity extends AppCompatActivity implements ResultRequ
         refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
     }
 
-    @OnClick(R.id.btn_check_board)
-    void btnCheckBoardOnClick() {
-
-    }
+//    @OnClick(R.id.btn_check_board)
+//    void btnCheckBoardOnClick() {
+//
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -58,7 +58,7 @@ public class ItemHomeHasHeartViewHolder extends RecyclerView.ViewHolder {
         Glide.with(view.getContext()).load(Uri.parse(apartment.getImageFirst())).into(imageView);
         tvAddress.setText(apartment.getAddress());
         tvCity.setText(apartment.getCity());
-        tvCost.setText(String.valueOf(apartment.getPrice()));
+        tvCost.setText("$" + apartment.getPrice());
         if (apartment.isLiked) {
             imageViewHeart.setImageDrawable(ContextCompat.getDrawable(view.getContext(), R.drawable.ic_favorite_white_36dp));
         }

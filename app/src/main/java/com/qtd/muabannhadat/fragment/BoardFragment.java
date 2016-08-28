@@ -90,13 +90,6 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
         itemAnimator.setAddDuration(1000);
         itemAnimator.setRemoveDuration(1000);
         recyclerView.setItemAnimator(itemAnimator);
-
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshData();
-            }
-        });
         refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark);
 
         if (boards.size() == 0) {
@@ -125,6 +118,7 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
     @Override
     public void onSuccess(String result) {
         boards.clear();
+        boardAdapter.notifyDataSetChanged();
         try {
             JSONArray array = new JSONArray(result);
             for (int i = 0; i < array.length(); i++) {
@@ -140,7 +134,7 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        boardAdapter.notifyItemRangeInserted(0, boards.size());
+        boardAdapter.notifyDataSetChanged();
         refreshLayout.setRefreshing(false);
 
         if (boards.size() == 0) {
@@ -177,8 +171,8 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         refreshLayout.setRefreshing(true);
         refreshData();
     }
