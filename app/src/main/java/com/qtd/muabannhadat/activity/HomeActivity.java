@@ -72,7 +72,16 @@ public class HomeActivity extends AppCompatActivity {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                changeFragment(tab);
+                switch (tab.getPosition()) {
+                    case 4: {
+                        showPopupMenu();
+                        break;
+                    }
+                    default: {
+                        changeFragment(tab);
+                        break;
+                    }
+                }
             }
 
             @Override
@@ -110,7 +119,6 @@ public class HomeActivity extends AppCompatActivity {
                     transaction.add(R.id.layout_container_home, blockNewsFragment);
                 }
                 transaction.show(blockNewsFragment);
-                transaction.commit();
                 break;
             case 1:
                 SharedPrefUtils.putBoolean(NOTIFICATION_IS_VISIBLE, false);
@@ -121,7 +129,6 @@ public class HomeActivity extends AppCompatActivity {
                 Tab2Fragment tab2Fragment = new Tab2Fragment();
                 transaction.add(R.id.layout_container_home, tab2Fragment);
                 transaction.show(tab2Fragment);
-                transaction.commit();
                 break;
             case 2:
                 if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1) {
@@ -137,7 +144,6 @@ public class HomeActivity extends AppCompatActivity {
                     transaction.add(R.id.layout_container_home, favoriteFragment);
                 }
                 transaction.show(favoriteFragment);
-                transaction.commit();
                 break;
             case 3:
                 if (SharedPrefUtils.getInt(AppConstant.ID, -1) == -1) {
@@ -153,12 +159,9 @@ public class HomeActivity extends AppCompatActivity {
                     transaction.add(R.id.layout_container_home, notificationFragment);
                 }
                 transaction.show(notificationFragment);
-                transaction.commit();
-                break;
-            case 4:
-                showPopupMenu();
                 break;
         }
+        transaction.commit();
     }
 
     private void showPopupMenu() {
