@@ -138,7 +138,7 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
 
     private void addDefaultUser() {
         User u1 = new User("Nguyễn Thị Kim Dung", "01682624619", "http://www.textbookrecycling.com/images/female.png");
-        User u2 = new User("Lê Thùy Dung", "0168686868", "https://cdn1.iconfinder.com/data/icons/user-pictures/100/female.png");
+        User u2 = new User("Lê Thùy Dung", "0168686868", "https://cdn1.iconfinder.com/data/icons/IconsLandVistaPeopleIconsDemo/256/TechnicalSupportRepresentative_Female_Light.png");
         user1 = new UserContactView(this, u1);
         user2 = new UserContactView(this, u2);
         layoutMore.addView(user1);
