@@ -14,6 +14,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -30,13 +31,14 @@ public abstract class BaseMapFragment extends SupportMapFragment implements Goog
         GoogleMap.OnInfoWindowClickListener,
         GoogleMap.OnMapLongClickListener,
         GoogleMap.OnMapClickListener,
-        GoogleMap.OnMarkerClickListener {
+        GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
 
     public final int MAP_TYPE_NORMAL = GoogleMap.MAP_TYPE_NORMAL;
     public final int MAP_TYPE_HYBRID = GoogleMap.MAP_TYPE_HYBRID;
 
     private View locationButton;
     private FloatingActionButton btnLocation;
+    private GoogleMap map;
 
     public abstract int setMapType();
 
@@ -47,15 +49,16 @@ public abstract class BaseMapFragment extends SupportMapFragment implements Goog
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getMapAsync(this);
         initListeners();
         initCamera(setInitLocation());
     }
 
     private final void initListeners() {
-        getMap().setOnMarkerClickListener(this);
-        getMap().setOnMapLongClickListener(this);
-        getMap().setOnInfoWindowClickListener(this);
-        getMap().setOnMapClickListener(this);
+        map.setOnMarkerClickListener(this);
+        map.setOnMapLongClickListener(this);
+        map.setOnInfoWindowClickListener(this);
+        map.setOnMapClickListener(this);
     }
 
     private final void initCamera(LatLng location) {
@@ -69,12 +72,12 @@ public abstract class BaseMapFragment extends SupportMapFragment implements Goog
                 .tilt(0.0f)
                 .build();
 
-        getMap().animateCamera(CameraUpdateFactory
+        map.animateCamera(CameraUpdateFactory
                 .newCameraPosition(position), null);
 
-        getMap().setMapType(setMapType());
-        getMap().setTrafficEnabled(true);
-        getMap().setMyLocationEnabled(true);
+        map.setMapType(setMapType());
+        map.setTrafficEnabled(true);
+        map.setMyLocationEnabled(true);
     }
 
     public abstract View setViewMarker(String title);
@@ -103,7 +106,7 @@ public abstract class BaseMapFragment extends SupportMapFragment implements Goog
     public final void drawMarker(LatLng latLng, Bitmap bm) {
         MarkerOptions options = new MarkerOptions().position(latLng);
         options.icon(BitmapDescriptorFactory.fromBitmap(bm));
-        getMap().addMarker(options);
+        map.addMarker(options);
     }
 
     @Override
@@ -139,5 +142,10 @@ public abstract class BaseMapFragment extends SupportMapFragment implements Goog
     @Override
     public boolean onMarkerClick(Marker marker) {
         return false;
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
     }
 }

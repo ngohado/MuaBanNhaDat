@@ -28,10 +28,14 @@ import java.util.Locale;
 public class MyGcmListenerService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
-        String message = data.getString("message");
-        String collapse = data.getString("collapse_key");
+        Bundle notification = data.getBundle("notification");
+        String message;
+        if (notification != null) {
+            message = notification.getString("body");
+        } else {
+            message = data.getString("body");
+        }
         sendNotification(message);
-
     }
 
     private void sendNotification(String message) {

@@ -1,56 +1,42 @@
 {
   "project_info": {
-    "project_id": "muabannhadattdqh",
-    "project_number": "140763371639",
-    "name": "MuaBanNhaDatTDQH"
+    "project_number": "927795970566",
+    "firebase_url": "https://muabannhadattqd.firebaseio.com",
+    "project_id": "muabannhadattqd",
+    "storage_bucket": "muabannhadattqd.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:140763371639:android:83241f18f259b291",
-        "client_id": "android:com.qtd.muabannhadat",
-        "client_type": 1,
+        "mobilesdk_app_id": "1:927795970566:android:83241f18f259b291",
         "android_client_info": {
-          "package_name": "com.qtd.muabannhadat",
-          "certificate_hash": []
+          "package_name": "com.qtd.muabannhadat"
         }
       },
       "oauth_client": [
         {
-          "client_id": "140763371639-n69q9qeb4u1si4h07sdjbjuligg185je.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.qtd.muabannhadat",
-            "certificate_hash": "D441FA6C373016C1F1C27361B5D78BE503CA9B40"
-          }
-        },
-        {
-          "client_id": "140763371639-ahhc7t9r1027ip4m7nfc98h90o27mbtn.apps.googleusercontent.com",
+          "client_id": "927795970566-43oa1pk056ertbgpp2mssj4dk0g9pufc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
-      "api_key": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoq6Tv4ax8ZTVDptxiHJd5pbL8uX1H8hU"
+        }
+      ],
       "services": {
         "analytics_service": {
           "status": 1
-        },
-        "cloud_messaging_service": {
-          "status": 1,
-          "apns_config": []
         },
         "appinvite_service": {
           "status": 1,
           "other_platform_oauth_client": []
         },
-        "google_signin_service": {
-          "status": 2
-        },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
   ],
-  "client_info": [],
-  "ARTIFACT_VERSION": "1"
+  "configuration_version": "1"
 }

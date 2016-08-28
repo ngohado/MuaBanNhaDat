@@ -8,4 +8,6 @@
     <string name="photo_unit">Shot</string>
     <string name="tip_take_photo">Take photo</string>
     <string name="google_api_key">AIzaSyDvoWZCzeN3n0pXzWOnZgfZw5j6qUVOeu0</string>
+    <!--<string name="google_api_key">AIzaSyDoq6Tv4ax8ZTVDptxiHJd5pbL8uX1H8hU</string>-->
+
 </resources>

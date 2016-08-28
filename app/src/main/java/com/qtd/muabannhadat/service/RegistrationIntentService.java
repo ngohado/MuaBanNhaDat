@@ -31,8 +31,6 @@ public class RegistrationIntentService extends IntentService {
     public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
     public static final String REGISTRATION_COMPLETE = "registrationComplete";
 
-    private BaseRequestApi requestApi;
-
     public RegistrationIntentService() {
         super(TAG);
     }
@@ -40,7 +38,7 @@ public class RegistrationIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         InstanceID instanceID = InstanceID.getInstance(this);
-        String token = "";
+        String token;
         try {
             token = instanceID.getToken(getString(R.string.gcm_defaultSenderId), GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
             DebugLog.d(token);
@@ -64,7 +62,7 @@ public class RegistrationIntentService extends IntentService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        requestApi = new BaseRequestApi(getApplicationContext(), object.toString(), ApiConstant.METHOD_ADD_REG_ID, new ResultRequestCallback() {
+        BaseRequestApi requestApi = new BaseRequestApi(getApplicationContext(), object.toString(), ApiConstant.METHOD_ADD_REG_ID, new ResultRequestCallback() {
             @Override
             public void onSuccess(String result) {
                 Log.d("result", result);
