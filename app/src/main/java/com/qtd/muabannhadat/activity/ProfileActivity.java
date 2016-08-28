@@ -3,6 +3,7 @@ package com.qtd.muabannhadat.activity;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.qtd.muabannhadat.util.StringUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -287,12 +289,14 @@ public class ProfileActivity extends AppCompatActivity {
             } else {
                 o.put(AppConstant.KIND, "");
             }
+            o.put(AppConstant.AVATAR, NewpaperActivity.encodeToString(((BitmapDrawable) ivAvatar.getDrawable()).getBitmap()));
             DebugLog.d(o);
-            //o.put(AppConstant.AVATAR, NewpaperActivity.encodeToString(((BitmapDrawable) ivAvatar.getDrawable()).getBitmap()));
             return o.toString();
         } catch (ParseException pe) {
             pe.printStackTrace();
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return "{}";

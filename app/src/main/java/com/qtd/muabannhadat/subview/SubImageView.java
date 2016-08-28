@@ -22,6 +22,7 @@ public class SubImageView extends RelativeLayout {
     @Bind(R.id.iv_home)
     ImageView ivHome;
     Context context;
+
     public SubImageView(Context context) {
         super(context);
         this.context = context;
@@ -34,7 +35,7 @@ public class SubImageView extends RelativeLayout {
     }
 
     public Bitmap getBitmap() {
-        return ((BitmapDrawable)ivHome.getDrawable()).getBitmap();
+        return ((BitmapDrawable) ivHome.getDrawable()).getBitmap();
     }
 
     @OnClick(R.id.iv_delete)
