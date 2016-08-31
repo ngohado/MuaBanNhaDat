@@ -168,7 +168,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
         swNotification.setEnabled(false);
         if (!user.getAvatar().equals("")) {
-            Glide.with(ProfileActivity.this).load(user.getAvatar()).into(ivAvatar);
+            Glide.with(ProfileActivity.this).load(user.getAvatar()).asBitmap().into(ivAvatar);
             isDefaultAvatar = false;
         }
     }

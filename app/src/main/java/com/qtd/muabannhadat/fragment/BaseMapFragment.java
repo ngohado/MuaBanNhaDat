@@ -4,8 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -30,14 +28,11 @@ public abstract class BaseMapFragment extends SupportMapFragment implements Goog
         GoogleApiClient.OnConnectionFailedListener,
         GoogleMap.OnInfoWindowClickListener,
         GoogleMap.OnMapLongClickListener,
-        GoogleMap.OnMapClickListener,
-        GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
+        GoogleMap.OnMapClickListener, GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
 
     public final int MAP_TYPE_NORMAL = GoogleMap.MAP_TYPE_NORMAL;
     public final int MAP_TYPE_HYBRID = GoogleMap.MAP_TYPE_HYBRID;
 
-    private View locationButton;
-    private FloatingActionButton btnLocation;
     private GoogleMap map;
 
     public abstract int setMapType();
@@ -47,11 +42,9 @@ public abstract class BaseMapFragment extends SupportMapFragment implements Goog
     public abstract LatLng setInitLocation();
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
         getMapAsync(this);
-        initListeners();
-        initCamera(setInitLocation());
     }
 
     private final void initListeners() {
@@ -147,5 +140,7 @@ public abstract class BaseMapFragment extends SupportMapFragment implements Goog
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+        initListeners();
+        initCamera(setInitLocation());
     }
 }
