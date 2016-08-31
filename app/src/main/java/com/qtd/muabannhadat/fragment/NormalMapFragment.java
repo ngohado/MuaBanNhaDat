@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.qtd.muabannhadat.activity.ApartmentDetailActivity;
@@ -53,8 +54,13 @@ public class NormalMapFragment extends BaseMapFragment {
             a.setLatitude(getArguments().getDouble(AppConstant.LATITUDE, 0));
             a.setLongitude(getArguments().getDouble(AppConstant.LONGITUDE, 0));
             apartments.add(a);
-            addMarkers();
         }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        super.onMapReady(googleMap);
+        addMarkers();
     }
 
     private void handleResponse(String result) {

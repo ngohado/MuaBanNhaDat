@@ -132,5 +132,11 @@ public class BlockNewsFragment extends Fragment implements ResultRequestCallback
     public void onFailed(String error) {
         DebugLog.d(error);
     }
+
+    @Override
+    public void onDestroyView() {
+
+        super.onDestroyView();
+    }
 }
 

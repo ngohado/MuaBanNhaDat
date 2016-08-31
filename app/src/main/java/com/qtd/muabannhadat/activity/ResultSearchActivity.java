@@ -112,8 +112,7 @@ public class ResultSearchActivity extends AllApartmentsActivity {
 
         apartments = new ArrayList<>();
         itemHomeAdapter = new ItemHomeHasHeartAdapter(apartments);
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(manager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(itemHomeAdapter);
 
         Utility.isNetworkAvailable(this, findViewById(R.id.relativeLayout_allApartments), true);
