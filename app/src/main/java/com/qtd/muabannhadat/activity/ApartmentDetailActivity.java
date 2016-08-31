@@ -320,7 +320,9 @@ public class ApartmentDetailActivity extends AppCompatActivity implements Result
 
     @Override
     protected void onDestroy() {
-        request.close();
+        if (request != null) {
+            request.close();
+        }
         super.onDestroy();
     }
 

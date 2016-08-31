@@ -36,6 +36,8 @@ public class BlockNewsFragment extends Fragment implements ResultRequestCallback
 
     ProgressBar progressBar;
     View view;
+    private BaseRequestApi requestApi;
+    private RequestRepeatApi requestRepeatApi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,8 +53,10 @@ public class BlockNewsFragment extends Fragment implements ResultRequestCallback
     }
 
     private void initData() {
-        if (Utility.isNetworkAvailable(view.getContext(), view, true))
-            new RequestRepeatApi(view.getContext(), "{}", ApiConstant.METHOD_FIRST_VIEW, this, view).executeRequest();
+        if (Utility.isNetworkAvailable(view.getContext(), view, true)) {
+            requestRepeatApi = new RequestRepeatApi(view.getContext(), "{}", ApiConstant.METHOD_FIRST_VIEW, this, view);
+            requestRepeatApi.executeRequest();
+        }
     }
 
     private void initView() {
@@ -89,7 +93,7 @@ public class BlockNewsFragment extends Fragment implements ResultRequestCallback
 
     @Override
     public void onSuccess(final String mainResult) {
-        BaseRequestApi requestApi = new BaseRequestApi(getContext(), String.format("{\"%s\":%d}", AppConstant.USER_ID, SharedPrefUtils.getInt(AppConstant.ID, 3)), ApiConstant.METHOD_GET_FAVORITE_HOMES, new ResultRequestCallback() {
+        requestApi = new BaseRequestApi(getContext(), String.format("{\"%s\":%d}", AppConstant.USER_ID, SharedPrefUtils.getInt(AppConstant.ID, 3)), ApiConstant.METHOD_GET_FAVORITE_HOMES, new ResultRequestCallback() {
             @Override
             public void onSuccess(String result) {
                 try {
@@ -135,7 +139,12 @@ public class BlockNewsFragment extends Fragment implements ResultRequestCallback
 
     @Override
     public void onDestroyView() {
-
+        if (requestRepeatApi != null) {
+            requestRepeatApi.close();
+        }
+        if (requestApi != null) {
+            requestApi.close();
+        }
         super.onDestroyView();
     }
 }

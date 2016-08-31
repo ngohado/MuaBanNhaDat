@@ -46,6 +46,7 @@ public class HomesFavoriteFragment extends Fragment implements ResultRequestCall
     private ArrayList<Apartment> apartments;
 
     View view;
+    private RequestRepeatApi requestRepeatApi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -85,7 +86,7 @@ public class HomesFavoriteFragment extends Fragment implements ResultRequestCall
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            RequestRepeatApi requestRepeatApi = new RequestRepeatApi(view.getContext(), object.toString(), ApiConstant.METHOD_GET_FAVORITE_HOMES, this, view);
+            requestRepeatApi = new RequestRepeatApi(view.getContext(), object.toString(), ApiConstant.METHOD_GET_FAVORITE_HOMES, this, view);
             requestRepeatApi.executeRequest();
         }
     }
@@ -127,5 +128,13 @@ public class HomesFavoriteFragment extends Fragment implements ResultRequestCall
         super.onStart();
         refreshLayout.setRefreshing(true);
         refreshData();
+    }
+
+    @Override
+    public void onDestroyView() {
+        if (requestRepeatApi != null) {
+            requestRepeatApi.close();
+        }
+        super.onDestroyView();
     }
 }

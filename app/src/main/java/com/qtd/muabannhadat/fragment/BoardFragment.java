@@ -60,6 +60,7 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
     private ItemBoardAdapter boardAdapter;
     private ArrayList<Board> boards;
     private View view;
+    private RequestRepeatApi requestRepeatApi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -110,7 +111,7 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            RequestRepeatApi requestRepeatApi = new RequestRepeatApi(view.getContext(), object.toString(), ApiConstant.METHOD_GET_BOARD_BY_ID, this, view);
+            requestRepeatApi = new RequestRepeatApi(view.getContext(), object.toString(), ApiConstant.METHOD_GET_BOARD_BY_ID, this, view);
             requestRepeatApi.executeRequest();
         }
     }
@@ -175,6 +176,14 @@ public class BoardFragment extends Fragment implements ResultRequestCallback {
         super.onResume();
         refreshLayout.setRefreshing(true);
         refreshData();
+    }
+
+    @Override
+    public void onDestroyView() {
+        if (requestRepeatApi != null) {
+            requestRepeatApi.close();
+        }
+        super.onDestroyView();
     }
 }
 

@@ -43,6 +43,7 @@ public class NotificationFragment extends Fragment implements ResultRequestCallb
     private View view;
     private ItemNotificationAdapter adapter;
     private ArrayList<Notification> notifications;
+    private RequestRepeatApi requestRepeatApi;
 
     @Nullable
     @Override
@@ -82,7 +83,7 @@ public class NotificationFragment extends Fragment implements ResultRequestCallb
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            RequestRepeatApi requestRepeatApi = new RequestRepeatApi(view.getContext(), object.toString(), ApiConstant.METHOD_GET_NOTIFICATION, this, view);
+            requestRepeatApi = new RequestRepeatApi(view.getContext(), object.toString(), ApiConstant.METHOD_GET_NOTIFICATION, this, view);
             requestRepeatApi.executeRequest();
         }
     }
@@ -117,5 +118,13 @@ public class NotificationFragment extends Fragment implements ResultRequestCallb
     public void onFailed(String error) {
         refreshLayout.setRefreshing(false);
         DebugLog.d(error);
+    }
+
+    @Override
+    public void onDestroyView() {
+        if (requestRepeatApi != null) {
+            requestRepeatApi.close();
+        }
+        super.onDestroyView();
     }
 }
